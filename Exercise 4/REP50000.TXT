@@ -1,0 +1,118 @@
+OBJECT Report 50000 Batch Post Examples
+{
+  OBJECT-PROPERTIES
+  {
+    Date=27-05-15;
+    Time=16:43:15;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    CaptionML=ENU=Batch Post Examples;
+    ProcessingOnly=Yes;
+  }
+  DATASET
+  {
+    { 6640;    ;DataItem;                    ;
+               DataItemTable=Table50003;
+               ReqFilterHeadingML=ENU=Example Document;
+               OnPreDataItem=BEGIN
+                               WITH Arguments DO
+                                 ThrowErrorIfNoPostingDateAndReplaceIsSelected;
+
+                               CounterTotal := COUNT;
+                               Window.OPEN(PostExamples);
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  Counter := Counter + 1;
+                                  Window.UPDATE(1,"No.");
+                                  Window.UPDATE(2,ROUND(Counter / CounterTotal * 10000,1));
+                                  One := SongReq;
+                                  Two := DanceReq;
+                                  CLEAR(ExPost);
+                                  ExPost.SetArguments(Arguments);
+                                  IF ExPost.RUN("Example Document Header") THEN BEGIN
+                                    CounterOK := CounterOK + 1;
+                                    IF MARKEDONLY THEN
+                                      MARK(FALSE);
+                                  END;
+                                END;
+
+               OnPostDataItem=BEGIN
+                                Window.CLOSE;
+                                MESSAGE(ExamplesHaveBeenPosted, CounterOK, CounterTotal);
+                              END;
+
+               ReqFilterFields=No. }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+      OnOpenPage=BEGIN
+                   Arguments.INIT;
+                 END;
+
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=ENU=Options }
+
+      { 1   ;2   ;Field     ;
+                  Name=Song;
+                  CaptionML=ENU=Song;
+                  SourceExpr=SongReq }
+
+      { 2   ;2   ;Field     ;
+                  Name=Dance;
+                  CaptionML=ENU=Dance;
+                  SourceExpr=DanceReq }
+
+      { 3   ;2   ;Field     ;
+                  Name=PostingDate;
+                  CaptionML=ENU=Posting Date;
+                  SourceExpr=Arguments."Posting Date" }
+
+      { 4   ;2   ;Field     ;
+                  CaptionML=ENU=Replace Posting Date;
+                  SourceExpr=Arguments."Replace Posting Date" }
+
+      { 5   ;2   ;Field     ;
+                  CaptionML=ENU=Replace Document Date;
+                  SourceExpr=Arguments."Replace Document Date" }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      PostExamples@1001 : TextConst 'ENU=Posting examples  #1########## @2@@@@@@@@@@@@@';
+      ExamplesHaveBeenPosted@1002 : TextConst 'ENU=%1 examples out of a total of %2 have now been posted.';
+      Arguments@1003 : Record 50002;
+      ExPost@1008 : Codeunit 50000;
+      Window@1009 : Dialog;
+      SongReq@1010 : Boolean;
+      DanceReq@1011 : Boolean;
+      CounterTotal@1013 : Integer;
+      Counter@1014 : Integer;
+      CounterOK@1015 : Integer;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

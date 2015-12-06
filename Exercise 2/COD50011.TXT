@@ -1,0 +1,39 @@
+OBJECT Codeunit 50011 Example Enabled iFace
+{
+  OBJECT-PROPERTIES
+  {
+    Date=04-11-15;
+    Time=19:51:56;
+    Modified=Yes;
+    Version List=Exercise 1;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    PROCEDURE CheckEnabled@2() : Boolean;
+    VAR
+      UserSetup@1000 : Record 91;
+      ExampleSetup@1001 : Record 50000;
+    BEGIN
+      IF USERID <> '' THEN
+        IF UserSetup.GET(USERID) THEN
+          IF UserSetup."Example Enabled" THEN
+            EXIT(TRUE);
+
+      WITH ExampleSetup DO BEGIN
+        GET;
+        EXIT("Example Enabled");
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

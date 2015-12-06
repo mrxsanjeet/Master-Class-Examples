@@ -1,0 +1,53 @@
+OBJECT Page 50021 Example Product List
+{
+  OBJECT-PROPERTIES
+  {
+    Date=14-03-15;
+    Time=16:35:55;
+    Modified=Yes;
+    Version List=Exercise 2;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    SourceTable=Table50020;
+    PageType=List;
+    CardPageID=Example Product Card;
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="No." }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr=Description }
+
+    { 7   ;0   ;Container ;
+                ContainerType=FactBoxArea }
+
+    { 6   ;1   ;Part      ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 5   ;1   ;Part      ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

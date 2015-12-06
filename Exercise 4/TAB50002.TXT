@@ -1,0 +1,41 @@
+OBJECT Table 50002 Example Posting Arguments
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-03-14;
+    Time=12:12:33;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Replace Posting Date;Boolean        }
+    { 2   ;   ;Replace Document Date;Boolean       }
+    { 3   ;   ;Posting Date        ;Date           }
+  }
+  KEYS
+  {
+    {    ;Replace Posting Date                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE ThrowErrorIfNoPostingDateAndReplaceIsSelected@1();
+    VAR
+      PleaseEnterPostingDate@1000 : TextConst 'ENU=Please enter the posting date.';
+    BEGIN
+      IF "Replace Posting Date" AND ("Posting Date" = 0D) THEN
+        ERROR(PleaseEnterPostingDate);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

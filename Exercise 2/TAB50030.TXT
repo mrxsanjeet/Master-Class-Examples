@@ -1,0 +1,33 @@
+OBJECT Table 50030 Example Product Price
+{
+  OBJECT-PROPERTIES
+  {
+    Date=26-05-15;
+    Time=15:48:49;
+    Modified=Yes;
+    Version List=Exercise 2;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Product No.         ;Code20        ;TableRelation="Example Product" }
+    { 2   ;   ;Person No.          ;Code20        ;TableRelation="Example Person" }
+    { 3   ;   ;Sales Price         ;Decimal        }
+  }
+  KEYS
+  {
+    {    ;Product No.,Person No.                  ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

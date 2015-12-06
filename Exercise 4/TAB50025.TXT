@@ -1,0 +1,34 @@
+OBJECT Table 50025 Example Scale
+{
+  OBJECT-PROPERTIES
+  {
+    Date=19-11-15;
+    Time=18:34:27;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    LookupPageID=Page50025;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10         }
+    { 2   ;   ;Description         ;Text30         }
+    { 3   ;   ;Codeunit ID         ;Integer        }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

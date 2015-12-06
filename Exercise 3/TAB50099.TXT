@@ -1,0 +1,56 @@
+OBJECT Table 50099 Address Agruments
+{
+  OBJECT-PROPERTIES
+  {
+    Date=04-11-15;
+    Time=20:06:36;
+    Modified=Yes;
+    Version List=Exercise 2;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 2   ;   ;Name                ;Text50        ;CaptionML=ENU=Name }
+    { 4   ;   ;Name 2              ;Text50        ;CaptionML=ENU=Name 2 }
+    { 5   ;   ;Address             ;Text50        ;CaptionML=ENU=Address }
+    { 6   ;   ;Address 2           ;Text50        ;CaptionML=ENU=Address 2 }
+    { 7   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
+                                                                 ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=ENU=City }
+    { 8   ;   ;Contact             ;Text50        ;CaptionML=ENU=Contact }
+    { 35  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
+                                                   CaptionML=ENU=Country/Region Code }
+    { 91  ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
+                                                                 ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=ENU=Post Code }
+    { 92  ;   ;County              ;Text30        ;CaptionML=ENU=County }
+  }
+  KEYS
+  {
+    {    ;Name                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE FormAddress@2(VAR AddrArray@1000 : ARRAY [8] OF Text[80]);
+    VAR
+      FormatAddress@1001 : Codeunit 365;
+    BEGIN
+      WITH FormatAddress DO
+        FormatAddr(AddrArray,Name,"Name 2",Contact,Address,"Address 2",City,"Post Code",County,"Country/Region Code")
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

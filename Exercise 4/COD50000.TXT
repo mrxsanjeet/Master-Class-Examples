@@ -1,0 +1,152 @@
+OBJECT Codeunit 50000 Example-Post
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28-11-15;
+    Time=06:27:34;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    TableNo=50003;
+    OnRun=BEGIN
+            ThrowErrorIfNoSelection(Rec);
+            TestNear(Rec);
+            TestFar(Rec);
+            ReplaceDatesIfAttrExists(Rec);
+            PostExampleOne(Rec);
+            PostExampleTwo(Rec);
+            PostExJnlLine(Rec);
+            DeleteExampeDocument(Rec);
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Arguments@1000 : Record 50002;
+      ExamplePostHook@1001 : Codeunit 50030;
+
+    LOCAL PROCEDURE ThrowErrorIfNoSelection@1(VAR ExDoc@1001 : Record 50003);
+    VAR
+      NoSelectionError@1000 : TextConst 'ENU=Please enter "Yes" in %1 and/or %2.';
+    BEGIN
+      WITH ExDoc DO
+        IF NOT (One OR Two) THEN
+          ERROR(
+            NoSelectionError,
+            FIELDCAPTION(One), FIELDCAPTION(Two));
+    END;
+
+    LOCAL PROCEDURE TestNear@8(VAR ExDoc@1000 : Record 50003);
+    BEGIN
+      ExamplePostHook.OnBeforeTestNear(ExDoc);
+      WITH ExDoc DO BEGIN
+        TESTFIELD("Example Person No.");
+        TESTFIELD("Posting Date");
+      END;
+    END;
+
+    LOCAL PROCEDURE TestFar@9(VAR ExDoc@1000 : Record 50003);
+    VAR
+      GenJnlCheckLine@1001 : Codeunit 11;
+      DateNotAllowed@1002 : TextConst 'ENU=is not within your range of allowed posting dates.';
+    BEGIN
+      IF GenJnlCheckLine.DateNotAllowed(ExDoc."Posting Date") THEN
+        ExDoc.FIELDERROR("Posting Date", DateNotAllowed);
+    END;
+
+    LOCAL PROCEDURE ReplaceDatesIfAttrExists@6(VAR ExDoc@1000 : Record 50003);
+    BEGIN
+      WITH Arguments DO BEGIN
+        IF (NOT "Replace Posting Date") AND (NOT "Replace Document Date") THEN
+          EXIT;
+
+        ThrowErrorIfNoPostingDateAndReplaceIsSelected;
+      END;
+
+      WITH ExDoc DO BEGIN
+        IF Arguments."Replace Posting Date" THEN
+          "Posting Date" := Arguments."Posting Date";
+        IF Arguments."Replace Document Date" THEN
+          "Document Date" := Arguments."Posting Date";
+      END;
+    END;
+
+    LOCAL PROCEDURE PostExampleOne@2(VAR ExDoc@1000 : Record 50003);
+    VAR
+      ExampleDocumentLine@1003 : Record 50004;
+      ExampleHistoryOne@1001 : Record 50008;
+      ExampleHistoryOneLine@1002 : Record 50009;
+    BEGIN
+      WITH ExampleHistoryOne DO BEGIN
+        TRANSFERFIELDS(ExDoc);
+        INSERT;
+      END;
+      WITH ExampleDocumentLine DO BEGIN
+        SETRANGE("Document No.", ExDoc."No.");
+        IF FINDSET THEN REPEAT
+          ExampleHistoryOneLine.TRANSFERFIELDS(ExampleDocumentLine);
+          ExampleHistoryOneLine.INSERT;
+        UNTIL NEXT = 0;
+      END;
+    END;
+
+    LOCAL PROCEDURE PostExampleTwo@3(VAR ExDoc@1000 : Record 50003);
+    VAR
+      ExampleHistoryTwo@1001 : Record 50018;
+      ExampleHistoryTwoLine@1002 : Record 50019;
+      ExampleDocumentLine@1003 : Record 50004;
+    BEGIN
+      WITH ExampleHistoryTwo DO BEGIN
+        TRANSFERFIELDS(ExDoc);
+        INSERT;
+      END;
+
+      WITH ExampleDocumentLine DO BEGIN
+        SETRANGE("Document No.", ExDoc."No.");
+        IF FINDSET THEN REPEAT
+          ExampleHistoryTwoLine.TRANSFERFIELDS(ExampleDocumentLine);
+          ExampleHistoryTwoLine.INSERT;
+        UNTIL NEXT = 0;
+      END;
+    END;
+
+    LOCAL PROCEDURE DeleteExampeDocument@5(VAR ExDoc@1000 : Record 50003);
+    BEGIN
+      WITH ExDoc DO
+        DELETE;
+    END;
+
+    PROCEDURE SetArguments@4(VAR ArgumentsIn@1003 : Record 50002);
+    BEGIN
+      Arguments := ArgumentsIn;
+    END;
+
+    LOCAL PROCEDURE PostExJnlLine@7(ExDoc@1000 : Record 50003);
+    VAR
+      ExampleDocumentLine@1002 : Record 50004;
+      ExJnlLine@1013 : Record 50013;
+      ExJnlPostLine@1001 : Codeunit 50003;
+    BEGIN
+      WITH ExDoc DO BEGIN
+        ExampleDocumentLine.SETRANGE("Document No.", "No.");
+        IF ExampleDocumentLine.FINDSET THEN REPEAT
+          ExJnlLine.INIT;
+          ExJnlLine."Posting Date" := "Posting Date";
+          ExJnlLine."Document Date" := "Document Date";
+          ExJnlLine."Example Person No." := "Example Person No.";
+          ExJnlLine."Example Product No." := ExampleDocumentLine."Example Product No.";
+          ExJnlLine.Description := ExampleDocumentLine.Description;
+          ExJnlLine.Quantity := 1;
+          ExJnlPostLine.RunWithCheck(ExJnlLine);
+        UNTIL ExampleDocumentLine.NEXT = 0;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

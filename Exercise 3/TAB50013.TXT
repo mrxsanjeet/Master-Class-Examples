@@ -1,0 +1,260 @@
+OBJECT Table 50013 Ex. Journal Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-10-15;
+    Time=19:23:16;
+    Modified=Yes;
+    Version List=Exercise 3;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               LOCKTABLE;
+               ExJnlTemplate.GET("Journal Template Name");
+               ExJnlBatch.GET("Journal Template Name","Journal Batch Name");
+
+               ValidateShortcutDimCode(1,"Shortcut Dimension 1 Code");
+               ValidateShortcutDimCode(2,"Shortcut Dimension 2 Code");
+             END;
+
+    CaptionML=[ENU=Ex. Journal Line;
+               ESM=L°n. diario recurso;
+               FRC=Ligne journal ressource;
+               ENC=Ex. Journal Line];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Journal Template Name;Code10       ;TableRelation="Ex. Journal Template";
+                                                   CaptionML=[ENU=Journal Template Name;
+                                                              ESM=Nombre libro diario;
+                                                              FRC=Nom modäle journal;
+                                                              ENC=Journal Template Name] }
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESM=Nß l°nea;
+                                                              FRC=N¯ ligne;
+                                                              ENC=Line No.] }
+    { 3   ;   ;Entry Type          ;Option        ;CaptionML=[ENU=Entry Type;
+                                                              ESM=Tipo movimiento;
+                                                              FRC=Type d'Çcriture;
+                                                              ENC=Entry Type];
+                                                   OptionCaptionML=[ENU=Usage,Sale;
+                                                                    ESM=Consumo,Venta;
+                                                                    FRC=Utilisation,Vente;
+                                                                    ENC=Usage,Sale];
+                                                   OptionString=Usage,Sale }
+    { 4   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESM=Nß documento;
+                                                              FRC=N¯ de document;
+                                                              ENC=Document No.] }
+    { 5   ;   ;Posting Date        ;Date          ;OnValidate=BEGIN
+                                                                VALIDATE("Document Date","Posting Date");
+                                                              END;
+
+                                                   CaptionML=[ENU=Posting Date;
+                                                              ESM=Fecha registro;
+                                                              FRC=Date de report;
+                                                              ENC=Posting Date] }
+    { 6   ;   ;Example Person No.  ;Code20        ;TableRelation="Example Person";
+                                                   CaptionML=ENU=Example Person No. }
+    { 7   ;   ;Example Product No. ;Code20        ;TableRelation="Example Product";
+                                                   CaptionML=ENU=Example Product No. }
+    { 8   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESM=Descripci¢n;
+                                                              FRC=Description;
+                                                              ENC=Description] }
+    { 12  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESM=Cantidad;
+                                                              FRC=QuantitÇ;
+                                                              ENC=Quantity];
+                                                   DecimalPlaces=0:5 }
+    { 18  ;   ;Shortcut Dimension 1 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   OnValidate=BEGIN
+                                                                ValidateShortcutDimCode(1,"Shortcut Dimension 1 Code");
+                                                              END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 1 Code;
+                                                              ESM=C¢d. dim. acceso dir. 1;
+                                                              FRC=Code raccourci de dimension 1;
+                                                              ENC=Shortcut Dimension 1 Code];
+                                                   CaptionClass='1,2,1' }
+    { 19  ;   ;Shortcut Dimension 2 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   OnValidate=BEGIN
+                                                                ValidateShortcutDimCode(2,"Shortcut Dimension 2 Code");
+                                                              END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 2 Code;
+                                                              ESM=C¢d. dim. acceso dir. 2;
+                                                              FRC=Code raccourci de dimension 2;
+                                                              ENC=Shortcut Dimension 2 Code];
+                                                   CaptionClass='1,2,2' }
+    { 21  ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Source Code;
+                                                              ESM=C¢d. origen;
+                                                              FRC=Code d'origine;
+                                                              ENC=Source Code];
+                                                   Editable=No }
+    { 23  ;   ;Journal Batch Name  ;Code10        ;TableRelation="Ex. Journal Batch".Name WHERE (Journal Template Name=FIELD(Journal Template Name));
+                                                   CaptionML=[ENU=Journal Batch Name;
+                                                              ESM=Nombre secci¢n diario;
+                                                              FRC=Nom lot de journal;
+                                                              ENC=Journal Batch Name] }
+    { 24  ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
+                                                   CaptionML=[ENU=Reason Code;
+                                                              ESM=C¢d. auditor°a;
+                                                              FRC=Code motif;
+                                                              ENC=Reason Code] }
+    { 25  ;   ;Recurring Method    ;Option        ;CaptionML=[ENU=Recurring Method;
+                                                              ESM=Periodicidad;
+                                                              FRC=MÇthode rÇcurrente;
+                                                              ENC=Recurring Method];
+                                                   OptionCaptionML=[ENU=,Fixed,Variable;
+                                                                    ESM=,Fija,Variable;
+                                                                    FRC=,Fixe,Variable;
+                                                                    ENC=,Fixed,Variable];
+                                                   OptionString=,Fixed,Variable;
+                                                   BlankZero=Yes }
+    { 26  ;   ;Expiration Date     ;Date          ;CaptionML=[ENU=Expiration Date;
+                                                              ESM=Fecha caducidad;
+                                                              FRC=Date d'expiration;
+                                                              ENC=Expiration Date] }
+    { 27  ;   ;Recurring Frequency ;DateFormula   ;CaptionML=[ENU=Recurring Frequency;
+                                                              ESM=Frecuencia repetici¢n;
+                                                              FRC=FrÇquence de rÇcurrence;
+                                                              ENC=Recurring Frequency] }
+    { 28  ;   ;Gen. Bus. Posting Group;Code10     ;TableRelation="Gen. Business Posting Group";
+                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
+                                                              ESM=Grupo contable negocio;
+                                                              FRC=Groupe de report de marchÇ;
+                                                              ENC=Gen. Bus. Posting Group] }
+    { 29  ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
+                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
+                                                              ESM=Grupo contable producto;
+                                                              FRC=Groupe de report de produit;
+                                                              ENC=Gen. Prod. Posting Group] }
+    { 30  ;   ;Document Date       ;Date          ;CaptionML=[ENU=Document Date;
+                                                              ESM=Fecha emisi¢n documento;
+                                                              FRC=Date document;
+                                                              ENC=Document Date] }
+    { 31  ;   ;External Document No.;Code35       ;CaptionML=[ENU=External Document No.;
+                                                              ESM=Nß documento externo;
+                                                              FRC=N¯ document externe;
+                                                              ENC=External Document No.] }
+    { 32  ;   ;Posting No. Series  ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posting No. Series;
+                                                              ESM=Nß serie registro;
+                                                              FRC=SÇries de n¯ report;
+                                                              ENC=Posting No. Series] }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   OnLookup=BEGIN
+                                                              ShowDimensions;
+                                                            END;
+
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESM=Id. grupo dimensiones;
+                                                              FRC=Code ensemble de dimensions;
+                                                              ENC=Dimension Set ID];
+                                                   Editable=No }
+    { 959 ;   ;System-Created Entry;Boolean       ;CaptionML=[ENU=System-Created Entry;
+                                                              ESM=Asiento autom†tico;
+                                                              FRC=êcriture systäme;
+                                                              ENC=System-Created Entry];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Journal Template Name,Journal Batch Name,Line No.;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      ExJnlTemplate@1000 : Record 50012;
+      ExJnlBatch@1001 : Record 50014;
+      ExJnlLine@1002 : Record 50013;
+      ExamplePerson@1003 : Record 50010;
+      GLSetup@1012 : Record 98;
+      NoSeriesMgt@1009 : Codeunit 396;
+      DimMgt@1010 : Codeunit 408;
+      GLSetupRead@1011 : Boolean;
+
+    PROCEDURE EmptyLine@5() : Boolean;
+    BEGIN
+      EXIT(("Example Person No." = '') AND ("Example Product No." = '') AND (Quantity = 0));
+    END;
+
+    PROCEDURE SetUpNewLine@8(LastExJnlLine@1000 : Record 50013);
+    BEGIN
+      ExJnlTemplate.GET("Journal Template Name");
+      ExJnlBatch.GET("Journal Template Name","Journal Batch Name");
+      ExJnlLine.SETRANGE("Journal Template Name","Journal Template Name");
+      ExJnlLine.SETRANGE("Journal Batch Name","Journal Batch Name");
+      IF ExJnlLine.FINDFIRST THEN BEGIN
+        "Posting Date" := LastExJnlLine."Posting Date";
+        "Document Date" := LastExJnlLine."Posting Date";
+        "Document No." := LastExJnlLine."Document No.";
+      END ELSE BEGIN
+        "Posting Date" := WORKDATE;
+        "Document Date" := WORKDATE;
+        IF ExJnlBatch."No. Series" <> '' THEN BEGIN
+          CLEAR(NoSeriesMgt);
+          "Document No." := NoSeriesMgt.TryGetNextNo(ExJnlBatch."No. Series","Posting Date");
+        END;
+      END;
+      "Recurring Method" := LastExJnlLine."Recurring Method";
+      "Source Code" := ExJnlTemplate."Source Code";
+      "Reason Code" := ExJnlBatch."Reason Code";
+      "Posting No. Series" := ExJnlBatch."Posting No. Series";
+    END;
+
+    PROCEDURE CreateDim@13(Type1@1000 : Integer;No1@1001 : Code[20]);
+    VAR
+      TableID@1006 : ARRAY [10] OF Integer;
+      No@1007 : ARRAY [10] OF Code[20];
+    BEGIN
+      TableID[1] := Type1;
+      No[1] := No1;
+      "Shortcut Dimension 1 Code" := '';
+      "Shortcut Dimension 2 Code" := '';
+      "Dimension Set ID" :=
+        DimMgt.GetDefaultDimID(TableID,No,"Source Code","Shortcut Dimension 1 Code","Shortcut Dimension 2 Code",0,0);
+    END;
+
+    PROCEDURE ValidateShortcutDimCode@14(FieldNumber@1000 : Integer;VAR ShortcutDimCode@1001 : Code[20]);
+    BEGIN
+      DimMgt.ValidateShortcutDimValues(FieldNumber,ShortcutDimCode,"Dimension Set ID");
+    END;
+
+    PROCEDURE LookupShortcutDimCode@18(FieldNumber@1000 : Integer;VAR ShortcutDimCode@1001 : Code[20]);
+    BEGIN
+      DimMgt.LookupDimValueCode(FieldNumber,ShortcutDimCode);
+      DimMgt.ValidateShortcutDimValues(FieldNumber,ShortcutDimCode,"Dimension Set ID");
+    END;
+
+    PROCEDURE ShowShortcutDimCode@15(VAR ShortcutDimCode@1000 : ARRAY [8] OF Code[20]);
+    BEGIN
+      DimMgt.GetShortcutDimensions("Dimension Set ID",ShortcutDimCode);
+    END;
+
+    LOCAL PROCEDURE GetGLSetup@3();
+    BEGIN
+      IF NOT GLSetupRead THEN
+        GLSetup.GET;
+      GLSetupRead := TRUE;
+    END;
+
+    PROCEDURE ShowDimensions@4();
+    BEGIN
+      "Dimension Set ID" :=
+        DimMgt.EditDimensionSet("Dimension Set ID",STRSUBSTNO('%1 %2 %3',"Journal Template Name","Journal Batch Name","Line No."));
+      DimMgt.UpdateGlobalDimFromDimSetID("Dimension Set ID","Shortcut Dimension 1 Code","Shortcut Dimension 2 Code");
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

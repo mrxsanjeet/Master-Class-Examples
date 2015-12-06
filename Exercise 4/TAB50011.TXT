@@ -1,0 +1,149 @@
+OBJECT Table 50011 Example Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=20-03-15;
+    Time=18:44:40;
+    Modified=Yes;
+    Version List=Exercise 3;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Ex. Ledger Entry;
+               ESM=Mov. recurso;
+               FRC=D‚tails ‚critures ressources;
+               ENC=Ex. Ledger Entry];
+    LookupPageID=Page50014;
+    DrillDownPageID=Page50014;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESM=N§ mov.;
+                                                              FRC=Nø ‚criture;
+                                                              ENC=Entry No.] }
+    { 2   ;   ;Entry Type          ;Option        ;CaptionML=[ENU=Entry Type;
+                                                              ESM=Tipo movimiento;
+                                                              FRC=Type d'‚criture;
+                                                              ENC=Entry Type];
+                                                   OptionCaptionML=[ENU=Usage,Sale;
+                                                                    ESM=Consumo,Venta;
+                                                                    FRC=Utilisation,Vente;
+                                                                    ENC=Usage,Sale];
+                                                   OptionString=Usage,Sale }
+    { 3   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESM=N§ documento;
+                                                              FRC=Nø de document;
+                                                              ENC=Document No.] }
+    { 4   ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              ESM=Fecha registro;
+                                                              FRC=Date de report;
+                                                              ENC=Posting Date] }
+    { 5   ;   ;Example Person No.  ;Code20        ;TableRelation="Example Person";
+                                                   CaptionML=ENU=Example Person No. }
+    { 6   ;   ;Example Product No. ;Code20        ;TableRelation="Example Product";
+                                                   CaptionML=ENU=Example Product No. }
+    { 7   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESM=Descripci¢n;
+                                                              FRC=Description;
+                                                              ENC=Description] }
+    { 11  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESM=Cantidad;
+                                                              FRC=Quantit‚;
+                                                              ENC=Quantity];
+                                                   DecimalPlaces=0:5 }
+    { 17  ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   CaptionML=[ENU=Global Dimension 1 Code;
+                                                              ESM=C¢d. dimensi¢n global 1;
+                                                              FRC=Code de dimension principal 1;
+                                                              ENC=Global Dimension 1 Code];
+                                                   CaptionClass='1,1,1' }
+    { 18  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   CaptionML=[ENU=Global Dimension 2 Code;
+                                                              ESM=C¢d. dimensi¢n global 2;
+                                                              FRC=Code de dimension principal 2;
+                                                              ENC=Global Dimension 2 Code];
+                                                   CaptionClass='1,1,2' }
+    { 20  ;   ;User ID             ;Code50        ;TableRelation=User."User Name";
+                                                   OnLookup=VAR
+                                                              UserMgt@1000 : Codeunit 418;
+                                                            BEGIN
+                                                              UserMgt.LookupUserID("User ID");
+                                                            END;
+
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=User ID;
+                                                              ESM=Id. usuario;
+                                                              FRC=Code utilisateur;
+                                                              ENC=User ID] }
+    { 21  ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Source Code;
+                                                              ESM=C¢d. origen;
+                                                              FRC=Code d'origine;
+                                                              ENC=Source Code] }
+    { 23  ;   ;Journal Batch Name  ;Code10        ;CaptionML=[ENU=Journal Batch Name;
+                                                              ESM=Nombre secci¢n diario;
+                                                              FRC=Nom lot de journal;
+                                                              ENC=Journal Batch Name] }
+    { 24  ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
+                                                   CaptionML=[ENU=Reason Code;
+                                                              ESM=C¢d. auditor¡a;
+                                                              FRC=Code motif;
+                                                              ENC=Reason Code] }
+    { 25  ;   ;Gen. Bus. Posting Group;Code10     ;TableRelation="Gen. Business Posting Group";
+                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
+                                                              ESM=Grupo contable negocio;
+                                                              FRC=Groupe de report de march‚;
+                                                              ENC=Gen. Bus. Posting Group] }
+    { 26  ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
+                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
+                                                              ESM=Grupo contable producto;
+                                                              FRC=Groupe de report de produit;
+                                                              ENC=Gen. Prod. Posting Group] }
+    { 27  ;   ;Document Date       ;Date          ;CaptionML=[ENU=Document Date;
+                                                              ESM=Fecha emisi¢n documento;
+                                                              FRC=Date document;
+                                                              ENC=Document Date] }
+    { 29  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=No. Series;
+                                                              ESM=Nos. serie;
+                                                              FRC=S‚ries de nø;
+                                                              ENC=No. Series] }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   OnLookup=BEGIN
+                                                              ShowDimensions;
+                                                            END;
+
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESM=Id. grupo dimensiones;
+                                                              FRC=Code ensemble de dimensions;
+                                                              ENC=Dimension Set ID];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Example Person No.,Posting Date          }
+    {    ;Entry Type,Example Person No.,Posting Date;
+                                                   SumIndexFields=Quantity }
+    {    ;Document No.,Posting Date                }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Entry No.,Description,Entry Type,Document No.,Posting Date }
+  }
+  CODE
+  {
+    VAR
+      DimMgt@1000 : Codeunit 408;
+
+    PROCEDURE ShowDimensions@1();
+    BEGIN
+      DimMgt.ShowDimensionSet("Dimension Set ID",STRSUBSTNO('%1 %2',TABLECAPTION,"Entry No."));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

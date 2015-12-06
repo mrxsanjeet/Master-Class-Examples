@@ -1,0 +1,39 @@
+OBJECT Codeunit 50020 Example Product Price Mgt.
+{
+  OBJECT-PROPERTIES
+  {
+    Date=26-11-15;
+    Time=17:26:38;
+    Modified=Yes;
+    Version List=Exercise 2;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    PROCEDURE GetSalesPrice@2(ExampleProduct@1001 : Record 50020;PersonNo@1000 : Code[20]) : Decimal;
+    VAR
+      ExampleProductPrice@1002 : Record 50030;
+    BEGIN
+      WITH ExampleProductPrice DO BEGIN
+        IF GET(ExampleProduct."No.", PersonNo) THEN
+          EXIT("Sales Price");
+
+        IF GET(ExampleProduct."No.") THEN
+          EXIT("Sales Price");
+      END;
+
+      WITH ExampleProduct DO
+        EXIT("Sales Price");
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

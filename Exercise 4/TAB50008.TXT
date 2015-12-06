@@ -1,0 +1,39 @@
+OBJECT Table 50008 Example History One Header
+{
+  OBJECT-PROPERTIES
+  {
+    Date=20-03-15;
+    Time=19:29:35;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20         }
+    { 5   ;   ;Example Person No.  ;Code20        ;TableRelation="Sales per Customer" }
+    { 6   ;   ;Name                ;Text50         }
+    { 11  ;   ;Document Date       ;Date           }
+    { 12  ;   ;Posting Date        ;Date           }
+    { 97  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=ENU=No. Series;
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,33 @@
+OBJECT Table 50006 Example Cue
+{
+  OBJECT-PROPERTIES
+  {
+    Date=23-04-14;
+    Time=11:34:14;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10         }
+    { 2   ;   ;Example Documents   ;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Example Document Header") }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

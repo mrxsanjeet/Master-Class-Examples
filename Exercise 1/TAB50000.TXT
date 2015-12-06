@@ -1,0 +1,40 @@
+OBJECT Table 50000 Example Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=26-11-15;
+    Time=14:10:19;
+    Modified=Yes;
+    Version List=Exercise 1;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=ENU=Primary Key }
+    { 2   ;   ;Example Enabled     ;Boolean       ;CaptionML=ENU=Example Enabled }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE InitSetupRecord@50000();
+    BEGIN
+      IF GET THEN BEGIN
+        INIT;
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

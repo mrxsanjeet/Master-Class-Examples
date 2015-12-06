@@ -1,0 +1,82 @@
+OBJECT Table 50020 Example Product
+{
+  OBJECT-PROPERTIES
+  {
+    Date=26-05-15;
+    Time=15:42:29;
+    Modified=Yes;
+    Version List=Exercise 2;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               IF "No." = '' THEN BEGIN
+                 ExampleSetup.GET;
+                 ExampleSetup.TESTFIELD("Example Product Nos.");
+                 NoSeriesMgt.InitSeries(ExampleSetup."Example Product Nos.",xRec."No. Series",0D,"No.","No. Series");
+               END;
+             END;
+
+    CaptionML=ENU=Example Person;
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20        ;OnValidate=BEGIN
+                                                                IF "No." <> xRec."No." THEN BEGIN
+                                                                  ExampleSetup.GET;
+                                                                  NoSeriesMgt.TestManual(ExampleSetup."Example Product Nos.");
+                                                                  "No. Series" := '';
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=ENU=No. }
+    { 3   ;   ;Description         ;Text50        ;OnValidate=BEGIN
+                                                                IF ("Search Description" = UPPERCASE(xRec.Description)) OR ("Search Description" = '') THEN
+                                                                  "Search Description" := Description;
+                                                              END;
+
+                                                   CaptionML=ENU=Description }
+    { 4   ;   ;Search Description  ;Code50        ;CaptionML=ENU=Search Description }
+    { 5   ;   ;Description 2       ;Text50        ;CaptionML=ENU=Description 2 }
+    { 8   ;   ;Sales Price         ;Decimal        }
+    { 54  ;   ;Blocked             ;Boolean       ;CaptionML=ENU=Blocked }
+    { 97  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=ENU=No. Series;
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      ExampleSetup@1001 : Record 50000;
+      NoSeriesMgt@1000 : Codeunit 396;
+
+    PROCEDURE AssistEdit@2() : Boolean;
+    BEGIN
+      ExampleSetup.GET;
+      ExampleSetup.TESTFIELD("Example Product Nos.");
+      IF NoSeriesMgt.SelectSeries(ExampleSetup."Example Product Nos.",xRec."No. Series","No. Series") THEN BEGIN
+        NoSeriesMgt.SetSeries("No.");
+        EXIT(TRUE);
+      END;
+    END;
+
+    PROCEDURE GetSalesPrice@1(PersonNo@1000 : Code[20]) : Decimal;
+    VAR
+      ExampleProductPriceMgt@1001 : Codeunit 50020;
+    BEGIN
+      WITH ExampleProductPriceMgt DO
+        EXIT(GetSalesPrice(Rec, PersonNo));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

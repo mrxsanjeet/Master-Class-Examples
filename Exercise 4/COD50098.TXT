@@ -1,0 +1,28 @@
+OBJECT Codeunit 50098 Example Testrunner
+{
+  OBJECT-PROPERTIES
+  {
+    Date=04-11-15;
+    Time=19:54:13;
+    Modified=Yes;
+    Version List=Exercise 1;
+  }
+  PROPERTIES
+  {
+    Subtype=TestRunner;
+    TestIsolation=Codeunit;
+    OnRun=VAR
+            ExampleTest@50000 : Codeunit 50099;
+          BEGIN
+            ExampleTest.RUN;
+          END;
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

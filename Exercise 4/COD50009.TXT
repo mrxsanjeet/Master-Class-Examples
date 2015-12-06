@@ -1,0 +1,28 @@
+OBJECT Codeunit 50009 Ex. Reg.-Show Ledger
+{
+  OBJECT-PROPERTIES
+  {
+    Date=12-03-14;
+    Time=19:58:58;
+    Modified=Yes;
+    Version List=Exercise 3;
+  }
+  PROPERTIES
+  {
+    TableNo=50015;
+    OnRun=BEGIN
+            ExLedgEntry.SETRANGE("Entry No.","From Entry No.","To Entry No.");
+            PAGE.RUN(PAGE::"Example Ledger Entries",ExLedgEntry);
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      ExLedgEntry@1000 : Record 50011;
+
+    BEGIN
+    END.
+  }
+}
+

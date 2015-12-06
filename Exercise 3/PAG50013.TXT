@@ -1,0 +1,362 @@
+OBJECT Page 50013 Example Journal
+{
+  OBJECT-PROPERTIES
+  {
+    Date=20-03-15;
+    Time=18:54:19;
+    Modified=Yes;
+    Version List=Exercise 3;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Example Journal;
+               ESM=Diario recursos;
+               FRC=Journal des ressources;
+               ENC=Example Journal];
+    SaveValues=Yes;
+    SourceTable=Table50013;
+    DelayedInsert=Yes;
+    DataCaptionFields=Journal Batch Name;
+    PageType=Worksheet;
+    AutoSplitKey=Yes;
+    OnOpenPage=VAR
+                 JnlSelected@1000 : Boolean;
+               BEGIN
+                 OpenedFromBatch := ("Journal Batch Name" <> '') AND ("Journal Template Name" = '');
+                 IF OpenedFromBatch THEN BEGIN
+                   CurrentJnlBatchName := "Journal Batch Name";
+                   ExJnlManagement.OpenJnl(CurrentJnlBatchName,Rec);
+                   EXIT;
+                 END;
+                 ExJnlManagement.TemplateSelection(PAGE::"Example Journal",FALSE,Rec,JnlSelected);
+                 IF NOT JnlSelected THEN
+                   ERROR('');
+                 ExJnlManagement.OpenJnl(CurrentJnlBatchName,Rec);
+               END;
+
+    OnAfterGetRecord=BEGIN
+                       ShowShortcutDimCode(ShortcutDimCode);
+                     END;
+
+    OnNewRecord=BEGIN
+                  SetUpNewLine(xRec);
+                  CLEAR(ShortcutDimCode);
+                END;
+
+    OnAfterGetCurrRecord=BEGIN
+                           ExJnlManagement.GetEx("Example Person No.",ExName);
+                         END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 61      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Line;
+                                 ESM=&L°nea;
+                                 FRC=&Ligne;
+                                 ENC=&Line];
+                      Image=Line }
+      { 62      ;2   ;Action    ;
+                      ShortCutKey=Shift+Ctrl+D;
+                      CaptionML=[ENU=Dimensions;
+                                 ESM=Dimensiones;
+                                 FRC=Dimensions;
+                                 ENC=Dimensions];
+                      Image=Dimensions;
+                      OnAction=BEGIN
+                                 ShowDimensions;
+                                 CurrPage.SAVERECORD;
+                               END;
+                                }
+      { 37      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Resource;
+                                 ESM=Re&curso;
+                                 FRC=&Ressource;
+                                 ENC=&Resource];
+                      Image=Resource }
+      { 42      ;2   ;Action    ;
+                      ShortCutKey=Shift+F7;
+                      CaptionML=[ENU=Card;
+                                 ESM=Ficha;
+                                 FRC=Fiche;
+                                 ENC=Card];
+                      RunObject=Page 76;
+                      RunPageLink=No.=FIELD(Example Person No.);
+                      Image=EditLines }
+      { 45      ;2   ;Action    ;
+                      ShortCutKey=Ctrl+F7;
+                      CaptionML=[ENU=Ledger E&ntries;
+                                 ESM=&Movimientos;
+                                 FRC=ê&critures comptables;
+                                 ENC=Ledger E&ntries];
+                      RunObject=Page 50014;
+                      RunPageView=SORTING(Example Person No.);
+                      RunPageLink=Example Person No.=FIELD(Example Person No.);
+                      Promoted=No;
+                      Image=ResourceLedger;
+                      PromotedCategory=Process }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 36      ;1   ;ActionGroup;
+                      CaptionML=[ENU=P&osting;
+                                 ESM=&Registro;
+                                 FRC=Rep&ort;
+                                 ENC=P&osting];
+                      Image=Post }
+      { 47      ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Test Report;
+                                 ESM=Informe prueba;
+                                 FRC=Tester le report;
+                                 ENC=Test Report];
+                      Image=TestReport;
+                      OnAction=BEGIN
+                                 //ReportPrint.PrintResJnlLine(Rec);
+                               END;
+                                }
+      { 48      ;2   ;Action    ;
+                      Name=Post;
+                      ShortCutKey=F9;
+                      CaptionML=[ENU=P&ost;
+                                 ESM=&Registrar;
+                                 FRC=Rep&orter;
+                                 ENC=P&ost];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=PostOrder;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 CODEUNIT.RUN(CODEUNIT::"Ex. Jnl.-Post",Rec);
+                                 CurrentJnlBatchName := GETRANGEMAX("Journal Batch Name");
+                                 CurrPage.UPDATE(FALSE);
+                               END;
+                                }
+      { 49      ;2   ;Action    ;
+                      ShortCutKey=Shift+F9;
+                      CaptionML=[ENU=Post and &Print;
+                                 ESM=Registrar e &imprimir;
+                                 FRC=Reporter et im&primer;
+                                 ENC=Post and &Print];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=PostPrint;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 CODEUNIT.RUN(CODEUNIT::"Ex. Jnl.-Post+Print",Rec);
+                                 CurrentJnlBatchName := GETRANGEMAX("Journal Batch Name");
+                                 CurrPage.UPDATE(FALSE);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 39  ;1   ;Field     ;
+                Lookup=Yes;
+                CaptionML=[ENU=Batch Name;
+                           ESM=Nombre secci¢n;
+                           FRC=Nom de lot;
+                           ENC=Batch Name];
+                SourceExpr=CurrentJnlBatchName;
+                OnValidate=BEGIN
+                             ExJnlManagement.CheckName(CurrentJnlBatchName,Rec);
+                             CurrentJnlBatchNameOnAfterVali;
+                           END;
+
+                OnLookup=BEGIN
+                           CurrPage.SAVERECORD;
+                           ExJnlManagement.LookupName(CurrentJnlBatchName,Rec);
+                           CurrPage.UPDATE(FALSE);
+                         END;
+                          }
+
+    { 1   ;1   ;Group     ;
+                GroupType=Repeater }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr="Posting Date" }
+
+    { 53  ;2   ;Field     ;
+                SourceExpr="Document Date";
+                Visible=FALSE }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr="Entry Type" }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr="Document No." }
+
+    { 59  ;2   ;Field     ;
+                SourceExpr="External Document No.";
+                Visible=FALSE }
+
+    { 10  ;2   ;Field     ;
+                SourceExpr="Example Person No.";
+                OnValidate=BEGIN
+                             ExJnlManagement.GetEx("Example Person No.",ExName);
+                             ShowShortcutDimCode(ShortcutDimCode);
+                           END;
+                            }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="Example Product No." }
+
+    { 12  ;2   ;Field     ;
+                SourceExpr=Description }
+
+    { 30  ;2   ;Field     ;
+                SourceExpr="Shortcut Dimension 1 Code";
+                Visible=FALSE }
+
+    { 32  ;2   ;Field     ;
+                SourceExpr="Shortcut Dimension 2 Code";
+                Visible=FALSE }
+
+    { 300 ;2   ;Field     ;
+                SourceExpr=ShortcutDimCode[3];
+                CaptionClass='1,2,3';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(3,ShortcutDimCode[3]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(3,ShortcutDimCode[3]);
+                         END;
+                          }
+
+    { 302 ;2   ;Field     ;
+                SourceExpr=ShortcutDimCode[4];
+                CaptionClass='1,2,4';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(4,ShortcutDimCode[4]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(4,ShortcutDimCode[4]);
+                         END;
+                          }
+
+    { 304 ;2   ;Field     ;
+                SourceExpr=ShortcutDimCode[5];
+                CaptionClass='1,2,5';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(5,ShortcutDimCode[5]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(5,ShortcutDimCode[5]);
+                         END;
+                          }
+
+    { 306 ;2   ;Field     ;
+                SourceExpr=ShortcutDimCode[6];
+                CaptionClass='1,2,6';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(6,ShortcutDimCode[6]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(6,ShortcutDimCode[6]);
+                         END;
+                          }
+
+    { 308 ;2   ;Field     ;
+                SourceExpr=ShortcutDimCode[7];
+                CaptionClass='1,2,7';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(7,ShortcutDimCode[7]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(7,ShortcutDimCode[7]);
+                         END;
+                          }
+
+    { 310 ;2   ;Field     ;
+                SourceExpr=ShortcutDimCode[8];
+                CaptionClass='1,2,8';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(8,ShortcutDimCode[8]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(8,ShortcutDimCode[8]);
+                         END;
+                          }
+
+    { 55  ;2   ;Field     ;
+                SourceExpr="Gen. Bus. Posting Group";
+                Visible=FALSE }
+
+    { 57  ;2   ;Field     ;
+                SourceExpr="Gen. Prod. Posting Group";
+                Visible=FALSE }
+
+    { 20  ;2   ;Field     ;
+                SourceExpr=Quantity }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr="Reason Code";
+                Visible=FALSE }
+
+    { 41  ;1   ;Group      }
+
+    { 1903222401;2;Group  ;
+                GroupType=FixedLayout }
+
+    { 1901652401;3;Group  ;
+                CaptionML=[ENU=Resource Name;
+                           ESM=Nombre recurso;
+                           FRC=Nom de ressource;
+                           ENC=Resource Name] }
+
+    { 43  ;4   ;Field     ;
+                SourceExpr=ExName;
+                Editable=FALSE }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1900383207;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 1905767507;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+    VAR
+      ExJnlManagement@1000 : Codeunit 50010;
+      ReportPrint@1001 : Codeunit 228;
+      CurrentJnlBatchName@1002 : Code[10];
+      ExName@1003 : Text[50];
+      ShortcutDimCode@1004 : ARRAY [8] OF Code[20];
+      OpenedFromBatch@1005 : Boolean;
+
+    LOCAL PROCEDURE CurrentJnlBatchNameOnAfterVali@19002411();
+    BEGIN
+      CurrPage.SAVERECORD;
+      ExJnlManagement.SetName(CurrentJnlBatchName,Rec);
+      CurrPage.UPDATE(FALSE);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

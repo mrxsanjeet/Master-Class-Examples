@@ -1,0 +1,39 @@
+OBJECT Page 50005 Example Document Subpage
+{
+  OBJECT-PROPERTIES
+  {
+    Date=22-03-15;
+    Time=19:11:12;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    SourceTable=Table50004;
+    PageType=ListPart;
+    AutoSplitKey=Yes;
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr="Example Product No." }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr=Description }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

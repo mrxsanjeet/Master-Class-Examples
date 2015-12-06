@@ -1,0 +1,66 @@
+OBJECT Page 50011 Example Person List
+{
+  OBJECT-PROPERTIES
+  {
+    Date=14-03-15;
+    Time=16:34:03;
+    Modified=Yes;
+    Version List=Exercise 2;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=ENU=Example Master Data List;
+    SourceTable=Table50010;
+    PageType=List;
+    CardPageID=Example Person Card;
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="No." }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr=Name }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr=Address }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr=City }
+
+    { 7   ;2   ;Field     ;
+                SourceExpr="Country/Region Code" }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr="Phone No." }
+
+    { 11  ;0   ;Container ;
+                ContainerType=FactBoxArea }
+
+    { 10  ;1   ;Part      ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 9   ;1   ;Part      ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

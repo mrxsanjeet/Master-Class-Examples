@@ -1,0 +1,72 @@
+OBJECT Page 119 User Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=04-11-15;
+    Time=19:49:27;
+    Modified=Yes;
+    Version List=NAVW17.00,Exercise 1;
+  }
+  PROPERTIES
+  {
+    CaptionML=ENU=User Setup;
+    SourceTable=Table91;
+    PageType=List;
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                GroupType=Repeater }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr="User ID" }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr="Allow Posting From" }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr="Allow Posting To" }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr="Register Time" }
+
+    { 15  ;2   ;Field     ;
+                SourceExpr="Sales Resp. Ctr. Filter" }
+
+    { 17  ;2   ;Field     ;
+                SourceExpr="Purchase Resp. Ctr. Filter" }
+
+    { 21  ;2   ;Field     ;
+                SourceExpr="Service Resp. Ctr. Filter" }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="Time Sheet Admin." }
+
+    { 50000;2  ;Field     ;
+                SourceExpr="Example Enabled" }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1900383207;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 1905767507;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

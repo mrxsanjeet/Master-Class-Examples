@@ -1,0 +1,130 @@
+OBJECT Page 50014 Example Ledger Entries
+{
+  OBJECT-PROPERTIES
+  {
+    Date=12-03-14;
+    Time=19:33:04;
+    Modified=Yes;
+    Version List=Exercise 3;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Example Ledger Entries;
+               ESM=Movs. recursos;
+               FRC=êcritures ressource;
+               ENC=Example Ledger Entries];
+    SourceTable=Table50011;
+    DataCaptionFields=Example Person No.;
+    PageType=List;
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 50      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Ent&ry;
+                                 ESM=&Movimiento;
+                                 FRC=ê&criture;
+                                 ENC=Ent&ry];
+                      Image=Entry }
+      { 51      ;2   ;Action    ;
+                      ShortCutKey=Shift+Ctrl+D;
+                      CaptionML=[ENU=Dimensions;
+                                 ESM=Dimensiones;
+                                 FRC=Dimensions;
+                                 ENC=Dimensions];
+                      Image=Dimensions;
+                      OnAction=BEGIN
+                                 ShowDimensions;
+                               END;
+                                }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 49      ;1   ;Action    ;
+                      CaptionML=[ENU=&Navigate;
+                                 ESM=&Navegar;
+                                 FRC=&Naviguer;
+                                 ENC=&Navigate];
+                      Promoted=Yes;
+                      Image=Navigate;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 Navigate.SetDoc("Posting Date","Document No.");
+                                 Navigate.RUN;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                GroupType=Repeater }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr="Posting Date" }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr="Entry Type" }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr="Document No." }
+
+    { 10  ;2   ;Field     ;
+                SourceExpr="Example Person No." }
+
+    { 14  ;2   ;Field     ;
+                SourceExpr=Description }
+
+    { 26  ;2   ;Field     ;
+                SourceExpr="Global Dimension 1 Code";
+                Visible=FALSE }
+
+    { 28  ;2   ;Field     ;
+                SourceExpr="Global Dimension 2 Code";
+                Visible=FALSE }
+
+    { 20  ;2   ;Field     ;
+                SourceExpr=Quantity }
+
+    { 39  ;2   ;Field     ;
+                SourceExpr="User ID";
+                Visible=FALSE }
+
+    { 35  ;2   ;Field     ;
+                SourceExpr="Source Code";
+                Visible=FALSE }
+
+    { 37  ;2   ;Field     ;
+                SourceExpr="Reason Code";
+                Visible=FALSE }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr="Entry No." }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1900383207;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 1905767507;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+    VAR
+      Navigate@1000 : Page 344;
+
+    BEGIN
+    END.
+  }
+}
+

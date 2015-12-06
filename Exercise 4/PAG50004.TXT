@@ -1,0 +1,100 @@
+OBJECT Page 50004 Example Document
+{
+  OBJECT-PROPERTIES
+  {
+    Date=27-11-15;
+    Time=13:36:31;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    SourceTable=Table50003;
+    PageType=Document;
+    ActionList=ACTIONS
+    {
+      { 34      ;0   ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 10      ;1   ;ActionGroup;
+                      CaptionML=ENU=P&osting;
+                      Image=Post }
+      { 9       ;2   ;Action    ;
+                      Name=Post;
+                      ShortCutKey=F9;
+                      Ellipsis=Yes;
+                      CaptionML=ENU=P&ost;
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=PostOrder;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 Post(FALSE);
+                                 CurrPage.UPDATE(FALSE);
+                               END;
+                                }
+      { 6       ;2   ;Action    ;
+                      Name=BatchPost;
+                      Ellipsis=Yes;
+                      CaptionML=ENU=Post &Batch;
+                      Image=PostBatch;
+                      OnAction=BEGIN
+                                 PostBatch;
+                                 CurrPage.UPDATE(FALSE)
+                               END;
+                                }
+      { 12      ;1   ;Action    ;
+                      Name=GetWeight;
+                      CaptionML=ENU=GetWeight;
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Giro;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 GetWeightFromScale;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=General;
+                GroupType=Group }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="No.";
+                OnAssistEdit=BEGIN
+                               IF AssistEdit THEN
+                                 CurrPage.UPDATE;
+                             END;
+                              }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr="Example Person No." }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr=Name }
+
+    { 7   ;2   ;Field     ;
+                SourceExpr="Document Date" }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr="Posting Date" }
+
+    { 11  ;1   ;Part      ;
+                SubPageLink=Document No.=FIELD(No.);
+                PagePartID=Page50005;
+                PartType=Page }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

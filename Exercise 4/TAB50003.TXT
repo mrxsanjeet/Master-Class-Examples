@@ -1,0 +1,113 @@
+OBJECT Table 50003 Example Document Header
+{
+  OBJECT-PROPERTIES
+  {
+    Date=25-11-15;
+    Time=20:23:57;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    OnInsert=BEGIN
+               IF "No." = '' THEN BEGIN
+                 ExampleSetup.GET;
+                 ExampleSetup.TESTFIELD("Example Document Nos.");
+                 NoSeriesMgt.InitSeries(ExampleSetup."Example Document Nos.",xRec."No. Series",0D,"No.","No. Series");
+               END;
+             END;
+
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20        ;OnValidate=BEGIN
+                                                                IF "No." <> xRec."No." THEN BEGIN
+                                                                  ExampleSetup.GET;
+                                                                  NoSeriesMgt.TestManual(ExampleSetup."Example Document Nos.");
+                                                                  "No. Series" := '';
+                                                                END;
+                                                              END;
+                                                               }
+    { 5   ;   ;Example Person No.  ;Code20        ;TableRelation="Example Person";
+                                                   OnValidate=BEGIN
+                                                                OnValidateExampleNo;
+                                                              END;
+                                                               }
+    { 6   ;   ;Name                ;Text50        ;CaptionML=ENU=Name }
+    { 11  ;   ;Document Date       ;Date           }
+    { 12  ;   ;Posting Date        ;Date           }
+    { 57  ;   ;One                 ;Boolean        }
+    { 58  ;   ;Two                 ;Boolean        }
+    { 97  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=ENU=No. Series;
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      ExampleSetup@1000 : Record 50000;
+      NoSeriesMgt@1001 : Codeunit 396;
+
+    PROCEDURE AssistEdit@1() : Boolean;
+    BEGIN
+      ExampleSetup.GET;
+      ExampleSetup.TESTFIELD("Example Document Nos.");
+      IF NoSeriesMgt.SelectSeries(ExampleSetup."Example Document Nos.",xRec."No. Series","No. Series") THEN BEGIN
+        NoSeriesMgt.SetSeries("No.");
+        EXIT(TRUE);
+      END;
+    END;
+
+    PROCEDURE OnValidateExampleNo@2();
+    VAR
+      ExamplePerson@1000 : Record 50010;
+    BEGIN
+      IF NOT ExamplePerson.GET("Example Person No.") THEN
+        ExamplePerson.INIT;
+
+      Name := ExamplePerson.Name;
+      "Posting Date" := WORKDATE;
+      "Document Date" := WORKDATE;
+    END;
+
+    PROCEDURE Post@3(HideDialog@1001 : Boolean);
+    VAR
+      ExPostYesNo@1000 : Codeunit 50001;
+      ExamplePost@1002 : Codeunit 50000;
+    BEGIN
+      IF HideDialog THEN BEGIN
+        One := TRUE;
+        Two := TRUE;
+        ExamplePost.RUN(Rec)
+      END ELSE
+        ExPostYesNo.RUN(Rec);
+    END;
+
+    PROCEDURE PostBatch@4();
+    BEGIN
+      REPORT.RUNMODAL(REPORT::"Batch Post Examples",TRUE,TRUE,Rec);
+    END;
+
+    PROCEDURE GetWeightFromScale@5();
+    VAR
+      WeightArguments@1000 : Record 50098;
+      GetWeightFromScaleFacade@1001 : Codeunit 50012;
+    BEGIN
+      GetWeightFromScaleFacade.GetWeight(Rec, WeightArguments);
+
+      MESSAGE(FORMAT(WeightArguments.Weight));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,38 @@
+OBJECT Table 50001 Sales per Customer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=29-09-15;
+    Time=15:12:56;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Customer No.        ;Code20        ;TableRelation=Customer }
+    { 2   ;   ;Customer Name       ;Text50         }
+    { 3   ;   ;Customer City       ;Text50         }
+    { 4   ;   ;Item No.            ;Code20        ;TableRelation=Item }
+    { 5   ;   ;Valued Qty.         ;Decimal        }
+    { 6   ;   ;Sales Amount (Actual);Decimal       }
+    { 7   ;   ;Item Description    ;Text50         }
+    { 8   ;   ;Entry No.           ;Integer        }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

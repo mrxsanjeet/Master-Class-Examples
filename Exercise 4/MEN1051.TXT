@@ -1,0 +1,63 @@
+OBJECT MenuSuite 1051 Dept - Add-on 1
+{
+  OBJECT-PROPERTIES
+  {
+    Date=20-03-15;
+    Time=19:02:09;
+    Modified=Yes;
+    Version List=Example 2;
+  }
+  PROPERTIES
+  {
+  }
+  MENUNODES
+  {
+    {                ;[{19A352FE-D90D-424E-B85F-CF3B8E98CF0E}] ;NextNodeID=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}] }
+    { Menu           ;[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}] ;Name=Example;
+                                                                CaptionML=ENU=Example;
+                                                                MemberOfMenu=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
+                                                                ParentNodeID=[{00000000-0000-0000-0000-000000000000}];
+                                                                Image=0;
+                                                                IsShortcut=No;
+                                                                Visible=Yes;
+                                                                Enabled=Yes;
+                                                                NextNodeID=[{00000000-0000-0000-0000-000000000000}];
+                                                                FirstChild=[{52679F0C-A827-4D34-922D-16BF3DBAD750}] }
+    { MenuItem       ;[{52679F0C-A827-4D34-922D-16BF3DBAD750}] ;Name=Example Setup;
+                                                                CaptionML=ENU=Example Setup;
+                                                                MemberOfMenu=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
+                                                                RunObjectType=Page;
+                                                                RunObjectID=50000;
+                                                                ParentNodeID=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
+                                                                Visible=Yes;
+                                                                NextNodeID=[{74D23317-E1BB-4008-AFAC-7F5B9709F006}];
+                                                                DepartmentCategory=Administration }
+    { MenuItem       ;[{74D23317-E1BB-4008-AFAC-7F5B9709F006}] ;Name=Example Master Data List;
+                                                                CaptionML=ENU=Example Person List;
+                                                                MemberOfMenu=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
+                                                                RunObjectType=Page;
+                                                                RunObjectID=50011;
+                                                                ParentNodeID=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
+                                                                Visible=Yes;
+                                                                NextNodeID=[{B43E5CEF-F228-4412-A31B-E269342715B7}];
+                                                                DepartmentCategory=Lists }
+    { MenuItem       ;[{B43E5CEF-F228-4412-A31B-E269342715B7}] ;Name=Example Product Card;
+                                                                CaptionML=ENU=Example Journal;
+                                                                MemberOfMenu=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
+                                                                RunObjectType=Page;
+                                                                RunObjectID=50013;
+                                                                ParentNodeID=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
+                                                                Visible=Yes;
+                                                                NextNodeID=[{723A422E-4EF5-43AB-A897-EC8EE67249AA}];
+                                                                DepartmentCategory=Tasks }
+    { MenuItem       ;[{723A422E-4EF5-43AB-A897-EC8EE67249AA}] ;Name=Example Product List;
+                                                                CaptionML=ENU=Example Product List;
+                                                                MemberOfMenu=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
+                                                                RunObjectType=Page;
+                                                                RunObjectID=50021;
+                                                                ParentNodeID=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
+                                                                Visible=Yes;
+                                                                NextNodeID=[{00000000-0000-0000-0000-000000000000}];
+                                                                DepartmentCategory=Lists }
+  }
+}

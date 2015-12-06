@@ -1,0 +1,52 @@
+OBJECT Page 50025 Example Scales
+{
+  OBJECT-PROPERTIES
+  {
+    Date=19-11-15;
+    Time=18:34:08;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    SourceTable=Table50025;
+    PageType=List;
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr=Code }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr=Description }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr="Codeunit ID" }
+
+    { 6   ;0   ;Container ;
+                ContainerType=FactBoxArea }
+
+    { 7   ;1   ;Part      ;
+                PartType=System;
+                SystemPartID=Notes }
+
+    { 8   ;1   ;Part      ;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

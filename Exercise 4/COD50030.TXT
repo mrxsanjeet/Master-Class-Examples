@@ -1,0 +1,31 @@
+OBJECT Codeunit 50030 Example-Post Hook
+{
+  OBJECT-PROPERTIES
+  {
+    Date=23-06-15;
+    Time=16:21:46;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    PROCEDURE OnBeforeTestNear@1(VAR ExampleDocumentHeader@1000 : Record 50003);
+    BEGIN
+    END;
+
+    PROCEDURE OnAfterDelete@2(VAR ExampleDocumentHeader@1000 : Record 50003);
+    BEGIN
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,80 @@
+OBJECT Page 50001 Sales per Customer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=29-09-15;
+    Time=15:13:39;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    SourceTable=Table50001;
+    PageType=List;
+    SourceTableTemporary=Yes;
+    OnOpenPage=BEGIN
+                 InitPageBasedOnQuery;
+               END;
+
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="Customer No." }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr="Customer Name" }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr="Customer City" }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr="Item No." }
+
+    { 7   ;2   ;Field     ;
+                SourceExpr="Valued Qty." }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr="Sales Amount (Actual)" }
+
+    { 9   ;2   ;Field     ;
+                SourceExpr="Item Description" }
+
+  }
+  CODE
+  {
+
+    PROCEDURE InitPageBasedOnQuery@1();
+    VAR
+      ExQuery@1002 : Query 50000;
+      NextEntryNo@1001 : Integer;
+    BEGIN
+      ExQuery.OPEN;
+      WHILE ExQuery.READ DO BEGIN
+        NextEntryNo := NextEntryNo + 1;
+        "Entry No." := NextEntryNo;
+        "Customer No." := ExQuery.No;
+        "Customer Name" := ExQuery.Name;
+        "Customer City" := ExQuery.City;
+        "Item No." := ExQuery.Item_No;
+        "Valued Qty." := ExQuery.Sum_Valued_Quantity;
+        "Sales Amount (Actual)" := ExQuery.Sum_Sales_Amount_Actual;
+        "Item Description" := ExQuery.Description;
+        INSERT;
+      END;
+
+      FINDFIRST;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,43 @@
+OBJECT Page 50006 Example Activities
+{
+  OBJECT-PROPERTIES
+  {
+    Date=23-04-14;
+    Time=11:38:37;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    SourceTable=Table50006;
+    PageType=CardPart;
+    OnOpenPage=BEGIN
+                 RESET;
+                 IF NOT GET THEN BEGIN
+                   INIT;
+                   INSERT;
+                 END;
+               END;
+
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 3   ;1   ;Group     ;
+                GroupType=CueGroup }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr="Example Documents";
+                DrillDownPageID=Example Document List }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

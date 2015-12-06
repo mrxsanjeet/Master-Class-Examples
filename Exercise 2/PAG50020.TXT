@@ -1,0 +1,72 @@
+OBJECT Page 50020 Example Product Card
+{
+  OBJECT-PROPERTIES
+  {
+    Date=26-05-15;
+    Time=15:48:11;
+    Modified=Yes;
+    Version List=Exercise 2;
+  }
+  PROPERTIES
+  {
+    SourceTable=Table50020;
+    PageType=Card;
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=General;
+                GroupType=Group }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="No.";
+                OnValidate=BEGIN
+                             IF AssistEdit THEN
+                               CurrPage.UPDATE;
+                           END;
+                            }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr=Description }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr="Search Description" }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr="Description 2" }
+
+    { 12  ;2   ;Field     ;
+                SourceExpr=Blocked }
+
+    { 10  ;1   ;Group     ;
+                Name=Price;
+                GroupType=Group }
+
+    { 11  ;2   ;Field     ;
+                SourceExpr="Sales Price" }
+
+    { 9   ;0   ;Container ;
+                ContainerType=FactBoxArea }
+
+    { 8   ;1   ;Part      ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 7   ;1   ;Part      ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

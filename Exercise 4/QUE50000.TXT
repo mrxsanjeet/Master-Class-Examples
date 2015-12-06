@@ -1,0 +1,60 @@
+OBJECT Query 50000 Sales per Customer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=17-03-14;
+    Time=11:01:47;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+  }
+  ELEMENTS
+  {
+    { 1   ;    ;DataItem;                    ;
+               DataItemTable=Table18 }
+
+    { 3   ;1   ;Column  ;                    ;
+               DataSource=No. }
+
+    { 2   ;1   ;Column  ;                    ;
+               DataSource=Name }
+
+    { 4   ;1   ;Column  ;                    ;
+               DataSource=City }
+
+    { 5   ;1   ;DataItem;                    ;
+               DataItemTable=Table5802;
+               DataItemTableFilter=Source Type=CONST(Customer);
+               DataItemLink=Source No.=Customer."No." }
+
+    { 6   ;2   ;Column  ;                    ;
+               DataSource=Item No. }
+
+    { 7   ;2   ;Column  ;                    ;
+               DataSource=Valued Quantity;
+               MethodType=Totals;
+               Method=Sum }
+
+    { 8   ;2   ;Column  ;                    ;
+               DataSource=Sales Amount (Actual);
+               MethodType=Totals;
+               Method=Sum }
+
+    { 9   ;2   ;DataItem;                    ;
+               DataItemTable=Table27;
+               DataItemLink=No.=Value_Entry."Item No." }
+
+    { 10  ;3   ;Column  ;                    ;
+               DataSource=Description }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,74 @@
+OBJECT Page 50003 Example Document List
+{
+  OBJECT-PROPERTIES
+  {
+    Date=27-11-15;
+    Time=13:37:00;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    SourceTable=Table50003;
+    PageType=List;
+    CardPageID=Example Document;
+    ActionList=ACTIONS
+    {
+      { 9       ;0   ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 8       ;1   ;ActionGroup;
+                      CaptionML=ENU=P&osting;
+                      Image=Post }
+      { 6       ;2   ;Action    ;
+                      Name=Post;
+                      ShortCutKey=F9;
+                      Ellipsis=Yes;
+                      CaptionML=ENU=P&ost;
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=PostOrder;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 Post(FALSE);
+                                 CurrPage.UPDATE(FALSE);
+                               END;
+                                }
+      { 7       ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=ENU=Post &Batch;
+                      Image=PostBatch;
+                      OnAction=BEGIN
+                                 PostBatch;
+                                 CurrPage.UPDATE(FALSE);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="No." }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr="Example Person No." }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr=Name }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

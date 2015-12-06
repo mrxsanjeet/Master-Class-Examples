@@ -1,0 +1,34 @@
+OBJECT Table 50019 Example History Two Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=22-03-15;
+    Time=19:09:46;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Document No.        ;Code20        ;TableRelation="Example History Two Header" }
+    { 2   ;   ;Line No.            ;Integer        }
+    { 8   ;   ;Example Product No. ;Code20        ;TableRelation="Example Product" }
+    { 12  ;   ;Description         ;Text50         }
+  }
+  KEYS
+  {
+    {    ;Document No.,Line No.                   ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

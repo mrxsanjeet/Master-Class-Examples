@@ -1,0 +1,143 @@
+OBJECT Codeunit 50099 Example Test
+{
+  OBJECT-PROPERTIES
+  {
+    Date=04-11-15;
+    Time=20:24:43;
+    Modified=Yes;
+    Version List=Exercise 1;
+  }
+  PROPERTIES
+  {
+    Subtype=Test;
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [Test]
+    PROCEDURE TestInitSetup@50000();
+    VAR
+      ExampleSetup@50000 : Record 50000;
+    BEGIN
+      WITH ExampleSetup DO
+        InitSetupRecord;
+    END;
+
+    [Test]
+    PROCEDURE CreateNoSeries@5();
+    VAR
+      ExampleSetup@1000 : Record 50000;
+    BEGIN
+      CreateNoSeriesHelper('PERSON', 'Persons', 'PERS0001');
+      CreateNoSeriesHelper('PRODUCT', 'Products', 'PROD0001');
+      WITH ExampleSetup DO BEGIN
+        "Example Person Nos." := 'PERSON';
+        "Example Product Nos." := 'PRODUCT';
+        MODIFY;
+      END;
+    END;
+
+    [Test]
+    PROCEDURE CreatePerson@1();
+    VAR
+      ExamplePerson@1000 : Record 50010;
+    BEGIN
+      WITH ExamplePerson DO BEGIN
+        INIT;
+        INSERT(TRUE);
+        VALIDATE(Name, 'Mark Brummel');
+        Address := 'Street Somewhere';
+        VALIDATE("Post Code", '90201');
+        VALIDATE(City, 'Olst');
+        TESTFIELD("Search Name", UPPERCASE(Name));
+        MODIFY(TRUE);
+      END;
+    END;
+
+    [Test]
+    PROCEDURE CreateProduct@2();
+    VAR
+      ExampleProduct@1000 : Record 50020;
+    BEGIN
+      WITH ExampleProduct DO BEGIN
+        INIT;
+        INSERT(TRUE);
+        VALIDATE(Description, 'Product');
+        TESTFIELD("Search Description", UPPERCASE(Description));
+        "Sales Price" := 10;
+        MODIFY(TRUE);
+      END;
+    END;
+
+    [Test]
+    PROCEDURE CreateProductPrice@3();
+    VAR
+      ExampleProductPrice@1000 : Record 50030;
+    BEGIN
+      WITH ExampleProductPrice DO BEGIN
+        "Person No." := 'PERS0001';
+        "Product No." := 'PROD0001';
+        "Sales Price" := 20;
+        INSERT;
+      END;
+    END;
+
+    [Test]
+    PROCEDURE TestProductPrice@4();
+    VAR
+      ExampleProduct@1000 : Record 50020;
+      PriceShouldBeErr@1001 : TextConst 'ENU=Price should be %1';
+    BEGIN
+      WITH ExampleProduct DO BEGIN
+        GET('PROD0001');
+        IF GetSalesPrice('') <> 10 THEN
+          ERROR(PriceShouldBeErr, 10);
+        IF GetSalesPrice('PERS0001') <> 20 THEN
+          ERROR(PriceShouldBeErr, 20);
+      END;
+    END;
+
+    [Test]
+    PROCEDURE TestAddress@8();
+    VAR
+      ExamplePerson@1000 : Record 50010;
+      AddrArray@1001 : ARRAY [80] OF Text[80];
+      WrongAddressErr@1002 : TextConst 'ENU=Address is wrong %1';
+    BEGIN
+      WITH ExamplePerson DO BEGIN
+        GET('PERS0001');
+        FormatAddressArguments(AddrArray);
+        IF AddrArray[3] <> '90201 Olst' THEN
+          ERROR(WrongAddressErr, AddrArray[3]);
+      END;
+    END;
+
+    LOCAL PROCEDURE CreateNoSeriesHelper@6(NoSeriesCode@1002 : Code[10];NoSeriesDescription@1001 : Text;NoSeriesStartingNo@1000 : Code[20]);
+    VAR
+      NoSeries@1004 : Record 308;
+      NoSeriesLine@1003 : Record 309;
+    BEGIN
+      WITH NoSeries DO BEGIN
+        Code := NoSeriesCode;
+        Description := NoSeriesDescription;
+        "Default Nos." := TRUE;
+        "Manual Nos." := TRUE;
+        INSERT;
+      END;
+
+      WITH NoSeriesLine DO BEGIN
+        "Series Code" := NoSeriesCode;
+        "Line No." := 10000;
+        "Starting No." := NoSeriesStartingNo;
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

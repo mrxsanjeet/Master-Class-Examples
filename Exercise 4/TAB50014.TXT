@@ -1,0 +1,109 @@
+OBJECT Table 50014 Ex. Journal Batch
+{
+  OBJECT-PROPERTIES
+  {
+    Date=20-03-15;
+    Time=19:06:04;
+    Modified=Yes;
+    Version List=Exercise 3;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Name,Description;
+    OnInsert=BEGIN
+               LOCKTABLE;
+               ExJnlTemplate.GET("Journal Template Name");
+             END;
+
+    OnDelete=BEGIN
+               ExJnlLine.SETRANGE("Journal Template Name","Journal Template Name");
+               ExJnlLine.SETRANGE("Journal Batch Name",Name);
+               ExJnlLine.DELETEALL(TRUE);
+             END;
+
+    OnRename=BEGIN
+               ExJnlLine.SETRANGE("Journal Template Name",xRec."Journal Template Name");
+               ExJnlLine.SETRANGE("Journal Batch Name",xRec.Name);
+               WHILE ExJnlLine.FINDFIRST DO
+                 ExJnlLine.RENAME("Journal Template Name",Name,ExJnlLine."Line No.");
+             END;
+
+    CaptionML=ENU=Ex. Journal Batch;
+    LookupPageID=Page272;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Journal Template Name;Code10       ;TableRelation="Ex. Journal Template";
+                                                   CaptionML=ENU=Journal Template Name }
+    { 2   ;   ;Name                ;Code10        ;CaptionML=ENU=Name;
+                                                   NotBlank=Yes }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=ENU=Description }
+    { 4   ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
+                                                   OnValidate=BEGIN
+                                                                IF "Reason Code" <> xRec."Reason Code" THEN BEGIN
+                                                                  ExJnlLine.SETRANGE("Journal Template Name","Journal Template Name");
+                                                                  ExJnlLine.SETRANGE("Journal Batch Name",Name);
+                                                                  ExJnlLine.MODIFYALL("Reason Code","Reason Code");
+                                                                  MODIFY;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=ENU=Reason Code }
+    { 5   ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
+                                                   OnValidate=BEGIN
+                                                                IF "No. Series" <> '' THEN BEGIN
+                                                                  ExJnlTemplate.GET("Journal Template Name");
+                                                                  IF ExJnlTemplate.Recurring THEN
+                                                                    ERROR(
+                                                                      Text000,
+                                                                      FIELDCAPTION("Posting No. Series"));
+                                                                  IF "No. Series" = "Posting No. Series" THEN
+                                                                    VALIDATE("Posting No. Series",'');
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=ENU=No. Series }
+    { 6   ;   ;Posting No. Series  ;Code10        ;TableRelation="No. Series";
+                                                   OnValidate=BEGIN
+                                                                IF ("Posting No. Series" = "No. Series") AND ("Posting No. Series" <> '') THEN
+                                                                  FIELDERROR("Posting No. Series",STRSUBSTNO(Text001,"Posting No. Series"));
+                                                                ExJnlLine.SETRANGE("Journal Template Name","Journal Template Name");
+                                                                ExJnlLine.SETRANGE("Journal Batch Name",Name);
+                                                                ExJnlLine.MODIFYALL("Posting No. Series","Posting No. Series");
+                                                                MODIFY;
+                                                              END;
+
+                                                   CaptionML=ENU=Posting No. Series }
+    { 22  ;   ;Recurring           ;Boolean       ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup("Ex. Journal Template".Recurring WHERE (Name=FIELD(Journal Template Name)));
+                                                   CaptionML=ENU=Recurring;
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Journal Template Name,Name              ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=Only the %1 field can be filled in on recurring journals.';
+      Text001@1001 : TextConst 'ENU=must not be %1';
+      ExJnlTemplate@1002 : Record 50012;
+      ExJnlLine@1003 : Record 50013;
+
+    PROCEDURE SetupNewBatch@3();
+    BEGIN
+      ExJnlTemplate.GET("Journal Template Name");
+      "No. Series" := ExJnlTemplate."No. Series";
+      "Posting No. Series" := ExJnlTemplate."Posting No. Series";
+      "Reason Code" := ExJnlTemplate."Reason Code";
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

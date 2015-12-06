@@ -1,0 +1,45 @@
+OBJECT Table 50000 Example Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=04-11-15;
+    Time=20:18:43;
+    Modified=Yes;
+    Version List=Exercise 1;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=ENU=Primary Key }
+    { 2   ;   ;Example Enabled     ;Boolean       ;CaptionML=ENU=Example Enabled }
+    { 3   ;   ;Example Document Nos.;Code10       ;TableRelation="No. Series" }
+    { 10  ;   ;Example Person Nos. ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=ENU=Example Person Nos. }
+    { 20  ;   ;Example Product Nos.;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=ENU=Example Product Nos. }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE InitSetupRecord@50000();
+    BEGIN
+      IF NOT GET THEN BEGIN
+        INIT;
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,40 @@
+OBJECT Codeunit 50017 Get Weight From Brandx
+{
+  OBJECT-PROPERTIES
+  {
+    Date=18-11-15;
+    Time=16:13:23;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromPhilips@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Brandx" THEN
+        EXIT;
+
+      IF Handled THEN
+        EXIT;
+
+      WITH WeightArguments DO
+        Weight := 200;
+
+      Handled := TRUE;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,31 @@
+OBJECT Table 50098 Weight Arguments
+{
+  OBJECT-PROPERTIES
+  {
+    Date=09-06-15;
+    Time=16:31:18;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Weight              ;Decimal        }
+  }
+  KEYS
+  {
+    {    ;Weight                                  ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+
