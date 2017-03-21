@@ -2,8 +2,8 @@ OBJECT Codeunit 50099 Example Test
 {
   OBJECT-PROPERTIES
   {
-    Date=26-11-15;
-    Time=16:48:44;
+    Date=26-07-16;
+    Time=10:21:01;
     Modified=Yes;
     Version List=Exercise 1;
   }
@@ -40,6 +40,7 @@ OBJECT Codeunit 50099 Example Test
         "Example Product Nos." := 'PRODUCT';
         MODIFY;
       END;
+      COMMIT;
     END;
 
     [Test]
@@ -57,6 +58,7 @@ OBJECT Codeunit 50099 Example Test
         TESTFIELD("Search Name", UPPERCASE(Name));
         MODIFY(TRUE);
       END;
+      COMMIT;
     END;
 
     [Test]

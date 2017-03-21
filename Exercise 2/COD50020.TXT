@@ -2,8 +2,8 @@ OBJECT Codeunit 50020 Example Product Price Mgt.
 {
   OBJECT-PROPERTIES
   {
-    Date=26-11-15;
-    Time=17:26:38;
+    Date=21-03-17;
+    Time=10:22:05;
     Modified=Yes;
     Version List=Exercise 2;
   }
@@ -20,6 +20,9 @@ OBJECT Codeunit 50020 Example Product Price Mgt.
     VAR
       ExampleProductPrice@1002 : Record 50030;
     BEGIN
+      WITH ExampleProduct DO
+        EXIT("Sales Price");
+
       WITH ExampleProductPrice DO BEGIN
         IF GET(ExampleProduct."No.", PersonNo) THEN
           EXIT("Sales Price");
@@ -27,9 +30,6 @@ OBJECT Codeunit 50020 Example Product Price Mgt.
         IF GET(ExampleProduct."No.") THEN
           EXIT("Sales Price");
       END;
-
-      WITH ExampleProduct DO
-        EXIT("Sales Price");
     END;
 
     BEGIN

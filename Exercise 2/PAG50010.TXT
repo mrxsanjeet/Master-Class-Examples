@@ -2,8 +2,8 @@ OBJECT Page 50010 Example Person Card
 {
   OBJECT-PROPERTIES
   {
-    Date=14-03-15;
-    Time=16:33:55;
+    Date=14-02-17;
+    Time=08:38:17;
     Modified=Yes;
     Version List=Exercise 2;
   }
@@ -11,6 +11,10 @@ OBJECT Page 50010 Example Person Card
   {
     SourceTable=Table50010;
     PageType=Card;
+    OnOpenPage=BEGIN
+                 SetNoFieldVisible;
+               END;
+
   }
   CONTROLS
   {
@@ -75,6 +79,15 @@ OBJECT Page 50010 Example Person Card
   }
   CODE
   {
+    VAR
+      NoFieldVisible@1000000000 : Boolean;
+
+    LOCAL PROCEDURE SetNoFieldVisible@13();
+    VAR
+      ExampleDocumentNoVisibility@1000 : Codeunit 51400;
+    BEGIN
+      NoFieldVisible := ExampleDocumentNoVisibility.ExamplePersonNoIsVisible;
+    END;
 
     BEGIN
     END.

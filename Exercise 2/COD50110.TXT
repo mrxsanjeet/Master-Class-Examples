@@ -1,0 +1,70 @@
+OBJECT Codeunit 50110 Example Notifications
+{
+  OBJECT-PROPERTIES
+  {
+    Date=21-03-17;
+    Time=12:40:00;
+    Modified=Yes;
+    Version List=Exercise 1;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Page,9060,OnOpenPageEvent)]
+    LOCAL PROCEDURE OnOpenSalesActivitiesPage@1000000001(VAR Rec@1000000001 : Record 9053);
+    VAR
+      Customer@1000000002 : Record 18;
+      MyNotification@1000000000 : Notification;
+    BEGIN
+      Customer.GET('10000');
+      Customer.SETRECFILTER;
+
+      MyNotification.MESSAGE := 'This is a notification';
+      MyNotification.SCOPE := NOTIFICATIONSCOPE::LocalScope;
+      MyNotification.SETDATA('HelloWorld', 'Hello World');
+      MyNotification.SETDATA('Rec', Customer.GETVIEW);
+
+      MyNotification.ADDACTION('Show Hello World',CODEUNIT::"Example Notification Actions",'ShowHelloWorld');
+      MyNotification.ADDACTION('Open Filtered Customer List',CODEUNIT::"Example Notification Actions",'OpenCustomerList');
+      MyNotification.SEND;
+    END;
+
+    [EventSubscriber(Page,50020,OnAfterGetRecordEvent)]
+    LOCAL PROCEDURE ShowNotificationWhenNoProductPrices@1000000002(VAR Rec@1000000001 : Record 50020);
+    VAR
+      MyNotifications@1000000003 : Record 1518;
+      ExampleProduct@1000000002 : Record 50020;
+      ExampleProductPrice@1000000004 : Record 50030;
+      MyNotification@1000000000 : Notification;
+    BEGIN
+      IF NOT MyNotifications.IsEnabled('ce50e6d7-ca3c-496d-8352-2f6cce9a4178') THEN
+        EXIT;
+
+      ExampleProductPrice.SETRANGE("Product No.", Rec."No.");
+      IF NOT ExampleProductPrice.ISEMPTY THEN
+        EXIT;
+
+      ExampleProduct := Rec;
+      ExampleProduct.SETRECFILTER;
+
+      MyNotification.ID := 'ce50e6d7-ca3c-496d-8352-2f6cce9a4178';
+      MyNotification.MESSAGE := 'There are no prices setup for this product, do you want to do this now?';
+      MyNotification.SCOPE := NOTIFICATIONSCOPE::LocalScope;
+      MyNotification.SETDATA('Rec', ExampleProduct.GETVIEW);
+
+      MyNotification.ADDACTION('Yes', CODEUNIT::"Example Notification Actions", 'SetupPrices');
+      MyNotification.ADDACTION('Do no show again', CODEUNIT::"Example Notification Actions", 'HideSetupPrices');
+      MyNotification.SEND;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

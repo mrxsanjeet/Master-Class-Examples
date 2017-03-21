@@ -1,0 +1,110 @@
+OBJECT Codeunit 51400 ExampleDocumentNoVisibility
+{
+  OBJECT-PROPERTIES
+  {
+    Date=14-02-17;
+    Time=08:47:51;
+    Modified=Yes;
+    Version List=Exercise 1;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    PROCEDURE ExamplePersonNoIsVisible@4() : Boolean;
+    VAR
+      NoSeries@1002 : Record 308;
+      ExampleSetup@1000000000 : Page 50000;
+      NoSeriesCode@1004 : Code[10];
+    BEGIN
+      NoSeriesCode := DetermineExamplePersonSeriesNo;
+
+      IF NOT NoSeries.GET(NoSeriesCode) THEN BEGIN
+        ExampleSetup.RUNMODAL;
+        NoSeriesCode := DetermineExamplePersonSeriesNo;
+        IF NOT NoSeries.GET(NoSeriesCode) THEN
+          EXIT(TRUE);
+      END;
+
+      EXIT(ForceShowNoSeriesForDocNo(NoSeriesCode));
+    END;
+
+    PROCEDURE ExampleProductNoIsVisible@21() : Boolean;
+    VAR
+      NoSeries@1002 : Record 308;
+      NoSeriesCode@1004 : Code[10];
+    BEGIN
+      NoSeriesCode := DetermineExampleProductSeriesNo;
+
+      IF NOT NoSeries.GET(NoSeriesCode) THEN
+        EXIT(TRUE);
+
+      EXIT(ForceShowNoSeriesForDocNo(NoSeriesCode));
+    END;
+
+    PROCEDURE ExamplePersonNoSeriesIsDefault@10() : Boolean;
+    VAR
+      NoSeries@1000 : Record 308;
+    BEGIN
+      IF NoSeries.GET(DetermineExamplePersonSeriesNo) THEN
+        EXIT(NoSeries."Default Nos.");
+
+      EXIT(FALSE);
+    END;
+
+    PROCEDURE ExampleProductNoSeriesIsDefault@15() : Boolean;
+    VAR
+      NoSeries@1000 : Record 308;
+    BEGIN
+      IF NoSeries.GET(DetermineExampleProductSeriesNo) THEN
+        EXIT(NoSeries."Default Nos.");
+
+      EXIT(FALSE);
+    END;
+
+    LOCAL PROCEDURE DetermineExamplePersonSeriesNo@7() : Code[10];
+    VAR
+      ExampleSetup@1001 : Record 50000;
+    BEGIN
+      ExampleSetup.GET;
+      EXIT(ExampleSetup."Example Person Nos.");
+    END;
+
+    LOCAL PROCEDURE DetermineExampleProductSeriesNo@12() : Code[10];
+    VAR
+      ExampleSetup@1001 : Record 50000;
+    BEGIN
+      ExampleSetup.GET;
+      EXIT(ExampleSetup."Example Product Nos.");
+    END;
+
+    LOCAL PROCEDURE ForceShowNoSeriesForDocNo@3(NoSeriesCode@1004 : Code[10]) : Boolean;
+    VAR
+      NoSeries@1005 : Record 308;
+      NoSeriesRelationship@1001 : Record 310;
+      NoSeriesMgt@1000 : Codeunit 396;
+      SeriesDate@1002 : Date;
+    BEGIN
+      SeriesDate := WORKDATE;
+      NoSeries.GET(NoSeriesCode);
+
+      NoSeriesRelationship.SETRANGE(Code,NoSeriesCode);
+      IF NOT NoSeriesRelationship.ISEMPTY THEN
+        EXIT(TRUE);
+
+      IF NoSeries."Manual Nos." OR (NoSeries."Default Nos." = FALSE) THEN
+        EXIT(TRUE);
+
+      EXIT(NoSeriesMgt.GetNextNo3(NoSeriesCode,SeriesDate,FALSE,TRUE) = '');
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

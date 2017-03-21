@@ -1,0 +1,36 @@
+OBJECT Codeunit 50112 Example Notifications Init.
+{
+  OBJECT-PROPERTIES
+  {
+    Date=16-02-17;
+    Time=08:41:07;
+    Modified=Yes;
+    Version List=Exercise 1;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Page,1518,OnInitializingNotificationWithDefaultState)]
+    LOCAL PROCEDURE OnInitializingNotificationWithDefaultState@15();
+    VAR
+      MyNotifications@1000 : Record 1518;
+      ExampleProductPriceTxt@1000000000 : TextConst 'ENU=Show Create Example Price';
+      ExampleProductPriceDescriptionTxt@1000000001 : TextConst 'ENU=Show Create Example Price';
+    BEGIN
+      MyNotifications.InsertDefaultWithTableNum('ce50e6d7-ca3c-496d-8352-2f6cce9a4178',
+        ExampleProductPriceTxt,
+        ExampleProductPriceDescriptionTxt,
+        DATABASE::"Example Product");
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
