@@ -2,8 +2,8 @@ OBJECT Table 50000 Example Setup
 {
   OBJECT-PROPERTIES
   {
-    Date=26-11-15;
-    Time=14:10:19;
+    Date=09-03-17;
+    Time=14:10:48;
     Modified=Yes;
     Version List=Exercise 1;
   }
@@ -27,7 +27,7 @@ OBJECT Table 50000 Example Setup
 
     PROCEDURE InitSetupRecord@50000();
     BEGIN
-      IF GET THEN BEGIN
+      IF NOT GET THEN BEGIN
         INIT;
         INSERT;
       END;
