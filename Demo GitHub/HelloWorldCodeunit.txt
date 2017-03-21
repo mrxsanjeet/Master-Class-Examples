@@ -1,0 +1,24 @@
+OBJECT Codeunit 50000 Hello World on GitHub
+{
+  OBJECT-PROPERTIES
+  {
+    Date=21-03-17;
+    Time=15:59:08;
+    Modified=Yes;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+            MESSAGE('Hello World');
+          END;
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+
