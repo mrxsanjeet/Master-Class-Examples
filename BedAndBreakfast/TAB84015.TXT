@@ -1,0 +1,34 @@
+OBJECT Table 84015 Bed and Breakfast Clean Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-06-15;
+    Time=11:49:20;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;AutoIncrement=Yes }
+    { 2   ;   ;Date                ;Date           }
+    { 3   ;   ;Status              ;Option        ;OptionString=To be Cleaned,Cleaned }
+    { 4   ;   ;Room Code           ;Code10        ;TableRelation="Bed and Breakfast Room" }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

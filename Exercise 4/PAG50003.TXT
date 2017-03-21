@@ -2,8 +2,8 @@ OBJECT Page 50003 Example Document List
 {
   OBJECT-PROPERTIES
   {
-    Date=27-11-15;
-    Time=13:37:00;
+    Date=15-12-15;
+    Time=16:36:23;
     Modified=Yes;
     Version List=Exercise 4;
   }
@@ -15,12 +15,12 @@ OBJECT Page 50003 Example Document List
     CardPageID=Example Document;
     ActionList=ACTIONS
     {
-      { 9       ;0   ;ActionContainer;
+      { 10      ;0   ;ActionContainer;
                       ActionContainerType=ActionItems }
-      { 8       ;1   ;ActionGroup;
+      { 9       ;1   ;ActionGroup;
                       CaptionML=ENU=P&osting;
                       Image=Post }
-      { 6       ;2   ;Action    ;
+      { 8       ;2   ;Action    ;
                       Name=Post;
                       ShortCutKey=F9;
                       Ellipsis=Yes;
@@ -35,12 +35,24 @@ OBJECT Page 50003 Example Document List
                                END;
                                 }
       { 7       ;2   ;Action    ;
+                      Name=BatchPost;
                       Ellipsis=Yes;
                       CaptionML=ENU=Post &Batch;
                       Image=PostBatch;
                       OnAction=BEGIN
                                  PostBatch;
-                                 CurrPage.UPDATE(FALSE);
+                                 CurrPage.UPDATE(FALSE)
+                               END;
+                                }
+      { 6       ;1   ;Action    ;
+                      Name=GetWeight;
+                      CaptionML=ENU=GetWeight;
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Giro;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 GetWeightFromScale;
                                END;
                                 }
     }

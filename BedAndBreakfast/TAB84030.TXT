@@ -1,0 +1,139 @@
+OBJECT Table 84030 Bed and Breakfast Stay
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-10-15;
+    Time=11:45:17;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               IF "No." = '' THEN BEGIN
+                 BedandBreakfastSetup.GET;
+                 BedandBreakfastSetup.TESTFIELD("Stay Nos.");
+                 NoSeriesMgt.InitSeries(BedandBreakfastSetup."Stay Nos.",xRec."No. Series",0D,"No.","No. Series");
+               END;
+             END;
+
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20        ;OnValidate=BEGIN
+                                                                IF "No." <> xRec."No." THEN BEGIN
+                                                                  BedandBreakfastSetup.GET;
+                                                                  NoSeriesMgt.TestManual(BedandBreakfastSetup."Stay Nos.");
+                                                                  "No. Series" := '';
+                                                                END;
+                                                              END;
+                                                               }
+    { 2   ;   ;Guest No.           ;Code20        ;TableRelation=Customer;
+                                                   OnValidate=BEGIN
+                                                                GetGuest;
+                                                                GetRoomPrice;
+                                                              END;
+                                                               }
+    { 3   ;   ;Name                ;Text50        ;CaptionML=ENU=Name }
+    { 4   ;   ;Name 2              ;Text50        ;CaptionML=ENU=Name 2 }
+    { 5   ;   ;Address             ;Text50        ;CaptionML=ENU=Address }
+    { 6   ;   ;Address 2           ;Text50        ;CaptionML=ENU=Address 2 }
+    { 7   ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code" ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
+                                                   OnValidate=BEGIN
+                                                                PostCode.ValidatePostCode(City,"Post Code",County,"Country/Region Code",(CurrFieldNo <> 0) AND GUIALLOWED);
+                                                              END;
+
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=ENU=Post Code }
+    { 8   ;   ;County              ;Text30        ;CaptionML=ENU=County }
+    { 9   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
+                                                   OnValidate=BEGIN
+                                                                PostCode.ValidateCity(City,"Post Code",County,"Country/Region Code",(CurrFieldNo <> 0) AND GUIALLOWED);
+                                                              END;
+
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=ENU=City }
+    { 10  ;   ;Contact             ;Text50        ;CaptionML=ENU=Contact }
+    { 11  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
+                                                   CaptionML=ENU=Country/Region Code }
+    { 20  ;   ;Room Code           ;Code10        ;TableRelation="Bed and Breakfast Room";
+                                                   OnValidate=BEGIN
+                                                                GetRoomPrice;
+                                                              END;
+                                                               }
+    { 24  ;   ;Season Code         ;Code10        ;TableRelation="Bed and Breakfast Season";
+                                                   OnValidate=BEGIN
+                                                                GetRoomPrice;
+                                                              END;
+                                                               }
+    { 30  ;   ;Check-In Date       ;Date          ;OnValidate=BEGIN
+                                                                IF ("Check-Out Date" = 0D) OR ("Check-Out Date" = "Check-In Date") THEN
+                                                                  "Check-Out Date" := "Check-In Date";
+                                                              END;
+                                                               }
+    { 40  ;   ;Check-Out Date      ;Date           }
+    { 50  ;   ;Price               ;Decimal        }
+    { 107 ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=ENU=No. Series;
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      BedandBreakfastSetup@1000 : Record 84000;
+      PostCode@1002 : Record 225;
+      NoSeriesMgt@1001 : Codeunit 396;
+
+    PROCEDURE AssistEdit@2() : Boolean;
+    BEGIN
+      BedandBreakfastSetup.GET;
+      BedandBreakfastSetup.TESTFIELD("Stay Nos.");
+      IF NoSeriesMgt.SelectSeries(BedandBreakfastSetup."Stay Nos.",xRec."No. Series","No. Series") THEN BEGIN
+        NoSeriesMgt.SetSeries("No.");
+        EXIT(TRUE);
+      END;
+    END;
+
+    PROCEDURE GetGuest@3();
+    VAR
+      Customer@1000 : Record 18;
+    BEGIN
+      IF NOT Customer.GET("Guest No.") THEN
+        Customer.INIT;
+
+      Name := Customer.Name;
+      "Name 2" := Customer."Name 2";
+      Address := Customer.Address;
+      "Address 2" := Customer."Address 2";
+      "Post Code" := Customer."Post Code";
+      County := Customer.County;
+      City := Customer.City;
+      Contact := Customer.Contact;
+      "Country/Region Code" := Customer."Country/Region Code";
+    END;
+
+    PROCEDURE GetRoomPrice@1();
+    VAR
+      Room@1002 : Record 84010;
+    BEGIN
+      WITH Room DO BEGIN
+        IF NOT GET("Room Code") THEN
+          EXIT;
+        Price := GetPrice("Season Code", "Guest No.");
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

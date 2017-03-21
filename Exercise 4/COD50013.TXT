@@ -2,8 +2,8 @@ OBJECT Codeunit 50013 Get Weight From Philips
 {
   OBJECT-PROPERTIES
   {
-    Date=25-11-15;
-    Time=19:24:31;
+    Date=11-04-16;
+    Time=19:38:03;
     Modified=Yes;
     Version List=Exercise 4;
   }
@@ -28,7 +28,7 @@ OBJECT Codeunit 50013 Get Weight From Philips
         EXIT;
 
       WITH WeightArguments DO // Do It
-        Weight := 100;
+        Weight := -100;
 
       Handled := TRUE; // Clean Up
     END;
@@ -39,7 +39,8 @@ OBJECT Codeunit 50013 Get Weight From Philips
       Scale@1001 : Record 50025;
     BEGIN
       WITH Rec DO BEGIN
-        IF GET('PHILIPS') THEN EXIT;
+        IF GET('PHILIPS') THEN
+          EXIT;
         INIT;
         Code := 'PHILIPS';
         Description := 'Philips Scale';

@@ -1,0 +1,40 @@
+OBJECT Codeunit 90000 Locktable Demo 2
+{
+  OBJECT-PROPERTIES
+  {
+    Date=21-03-17;
+    Time=11:12:58;
+    Modified=Yes;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+            TheFirstFunctionOfThisCodeunitWillDoALOCKTABLEOnALocalVariableOfTheTypeCustomer;
+            ThenTheSecondFunctionOfTheCodeunitWillDoAGETOnASecondLocalVariable;
+          END;
+
+  }
+  CODE
+  {
+
+    LOCAL PROCEDURE TheFirstFunctionOfThisCodeunitWillDoALOCKTABLEOnALocalVariableOfTheTypeCustomer@1000000000();
+    VAR
+      CustomerForLocktable@1000000000 : Record 18;
+    BEGIN
+      CustomerForLocktable.LOCKTABLE;
+    END;
+
+    LOCAL PROCEDURE ThenTheSecondFunctionOfTheCodeunitWillDoAGETOnASecondLocalVariable@1000000001();
+    VAR
+      CustomerForGet@1000000000 : Record 18;
+    BEGIN
+      CustomerForGet.GET('10000');
+      IF CONFIRM('Million dollar question... is this record locked... or not...') THEN;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

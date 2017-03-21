@@ -1,0 +1,56 @@
+OBJECT Codeunit 90015 Get Weight From Madeira
+{
+  OBJECT-PROPERTIES
+  {
+    Date=13-05-16;
+    Time=14:09:18;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromPhilips@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Madeira" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 2345;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('MADEIRA') THEN
+          EXIT;
+        INIT;
+        Code := 'MADEIRA';
+        Description := 'Madeira Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Madeira";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

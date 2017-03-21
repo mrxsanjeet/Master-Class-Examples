@@ -1,0 +1,34 @@
+OBJECT Table 84051 B & B. Evaluation Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-06-15;
+    Time=11:20:05;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20         }
+    { 2   ;   ;Line No.            ;Integer        }
+    { 3   ;   ;Description         ;Text30         }
+    { 4   ;   ;Evaluation          ;Option        ;OptionString=Bad,Average,Good }
+  }
+  KEYS
+  {
+    {    ;No.,Line No.                            ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

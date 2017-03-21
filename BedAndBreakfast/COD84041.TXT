@@ -1,0 +1,120 @@
+OBJECT Codeunit 84041 B & B. Res. Jnl.-Post Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-10-15;
+    Time=11:52:03;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    TableNo=84043;
+    Permissions=TableData 50011=imd,
+                TableData 50015=imd,
+                TableData 951=m,
+                TableData 952=m;
+    OnRun=BEGIN
+            GetGLSetup;
+            RunWithCheck(Rec);
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      GLSetup@1010 : Record 98;
+      ResJnlLine@1000 : Record 84043;
+      ResEntry@1001 : Record 84041;
+      ResRegister@1003 : Record 84040;
+      ResJnlCheckLine@1006 : Codeunit 84040;
+      NextEntryNo@1008 : Integer;
+      GLSetupRead@1009 : Boolean;
+
+    PROCEDURE GetResReg@2(VAR NewResReg@1000 : Record 84040);
+    BEGIN
+      NewResReg := ResRegister;
+    END;
+
+    PROCEDURE RunWithCheck@3(VAR ResJnlLine2@1000 : Record 84043);
+    BEGIN
+      ResJnlLine.COPY(ResJnlLine2);
+      Code;
+      ResJnlLine2 := ResJnlLine;
+    END;
+
+    LOCAL PROCEDURE Code@1();
+    BEGIN
+      WITH ResJnlLine DO BEGIN
+        IF EmptyLine THEN
+          EXIT;
+
+        ResJnlCheckLine.RunCheck(ResJnlLine);
+
+        IF NextEntryNo = 0 THEN BEGIN
+          ResEntry.LOCKTABLE;
+          IF ResEntry.FINDLAST THEN
+            NextEntryNo := ResEntry."Entry No.";
+          NextEntryNo := NextEntryNo + 1;
+        END;
+
+        IF "Check-Out Date" = 0D THEN
+          "Check-Out Date" := "Check-In Date";
+
+        IF ResRegister."No." = 0 THEN BEGIN
+          ResRegister.LOCKTABLE;
+          IF (NOT ResRegister.FINDLAST) OR (ResRegister."To Entry No." <> 0) THEN BEGIN
+            ResRegister.INIT;
+            ResRegister."No." := ResRegister."No." + 1;
+            ResRegister."From Entry No." := NextEntryNo;
+            ResRegister."To Entry No." := NextEntryNo;
+            ResRegister."Creation Date" := TODAY;
+            ResRegister."Journal Batch Name" := "Journal Batch Name";
+            ResRegister."User ID" := USERID;
+            ResRegister.INSERT;
+          END;
+        END;
+        ResRegister."To Entry No." := NextEntryNo;
+        ResRegister.MODIFY;
+
+        ResEntry.INIT;
+
+        ResEntry."Reservation No." := "Reservation No.";
+        ResEntry."Check-In Date" := "Check-In Date";
+        ResEntry."Check-Out Date" := "Check-Out Date";
+        ResEntry."Guest No." := "Guest No.";
+        ResEntry."Room Code" := "Room Code";
+        ResEntry.Description := Name;
+        ResEntry."Reservation Date" := "Reservation Date";
+        ResEntry."Season Code" := "Season Code";
+        ResEntry.Price := Price;
+        ResEntry."Global Dimension 1 Code" := "Shortcut Dimension 1 Code";
+        ResEntry."Global Dimension 2 Code" := "Shortcut Dimension 2 Code";
+        ResEntry."Dimension Set ID" := "Dimension Set ID";
+        ResEntry."Journal Batch Name" := "Journal Batch Name";
+        ResEntry."Reason Code" := "Reason Code";
+        GetGLSetup;
+
+        WITH ResEntry DO BEGIN
+          "User ID" := USERID;
+          "Entry No." := NextEntryNo;
+        END;
+
+        ResEntry.INSERT;
+
+        NextEntryNo := NextEntryNo + 1;
+      END;
+    END;
+
+    LOCAL PROCEDURE GetGLSetup@14();
+    BEGIN
+      IF NOT GLSetupRead THEN
+        GLSetup.GET;
+      GLSetupRead := TRUE;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

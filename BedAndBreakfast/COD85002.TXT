@@ -1,0 +1,41 @@
+OBJECT Codeunit 85002 B & B. As Navision
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-10-15;
+    Time=12:14:40;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+            IF Room.FINDSET THEN
+              REPEAT
+                BEGIN
+                  CleanEntry.SETCURRENTKEY(Date);
+                  CleanEntry.SETRANGE("Room Code", Room.Code);
+                  IF CleanEntry.FINDLAST THEN
+                    IF (NOT Room.Vacant) OR (CleanEntry.Date < WORKDATE - 7) THEN BEGIN
+                      CleanEntry."Entry No." := 0;
+                      CleanEntry.Date := WORKDATE;
+                      CleanEntry.Status := CleanEntry.Status::"To be Cleaned";
+                      CleanEntry."Room Code" := Room.Code;
+                      CleanEntry.INSERT;
+                    END;
+                  END;
+                UNTIL Room.NEXT = 0;
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Room@1000 : Record 84010;
+      CleanEntry@1001 : Record 84015;
+
+    BEGIN
+    END.
+  }
+}
+

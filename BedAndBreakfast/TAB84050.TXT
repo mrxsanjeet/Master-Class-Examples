@@ -1,0 +1,34 @@
+OBJECT Table 84050 B & B. Evaluation Header
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-06-15;
+    Time=11:19:26;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20         }
+    { 2   ;   ;Stay No.            ;Code20         }
+    { 3   ;   ;Guest No.           ;Code20         }
+    { 4   ;   ;Room Code           ;Code10         }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

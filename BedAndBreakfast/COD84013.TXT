@@ -1,0 +1,42 @@
+OBJECT Codeunit 84013 B & B. Room Calculate Price
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-06-15;
+    Time=13:57:17;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    PROCEDURE GetRoomPrice@1(Room@1000 : Record 84010;SeasonCode@1002 : Code[10];GuestNo@1001 : Code[20]) : Decimal;
+    VAR
+      BedandBreakfastPrice@1003 : Record 84012;
+    BEGIN
+      WITH BedandBreakfastPrice DO BEGIN
+        IF GET(Room.Code, SeasonCode, GuestNo) THEN
+          EXIT(Price);
+
+        IF GET(Room.Code, '', GuestNo) THEN
+          EXIT(Price);
+
+        IF GET(Room.Code, SeasonCode) THEN
+          EXIT(Price);
+
+        IF GET(Room.Code) THEN
+          EXIT(Price);
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

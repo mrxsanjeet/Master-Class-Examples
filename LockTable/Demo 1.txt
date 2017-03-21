@@ -1,0 +1,31 @@
+OBJECT Codeunit 88889 Locktable Demo
+{
+  OBJECT-PROPERTIES
+  {
+    Date=21-03-17;
+    Time=11:08:42;
+    Modified=Yes;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+            //Customer.LOCKTABLE;
+            Customer.GET('10000');
+            Customer.Name := 'Changed Name';
+            IF CONFIRM('Lets see what happens with this code') THEN;
+            Customer.MODIFY;
+            //ERROR('Oops');
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Customer@1000000000 : Record 18;
+
+    BEGIN
+    END.
+  }
+}
+

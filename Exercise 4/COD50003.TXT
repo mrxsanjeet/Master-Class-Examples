@@ -2,8 +2,8 @@ OBJECT Codeunit 50003 Ex. Jnl.-Post Line
 {
   OBJECT-PROPERTIES
   {
-    Date=10-10-15;
-    Time=19:27:49;
+    Date=15-12-15;
+    Time=16:38:52;
     Modified=Yes;
     Version List=Exercise 3;
   }
@@ -31,6 +31,7 @@ OBJECT Codeunit 50003 Ex. Jnl.-Post Line
       ExJnlCheckLine@1006 : Codeunit 50002;
       NextEntryNo@1008 : Integer;
       GLSetupRead@1009 : Boolean;
+      ExJnlPostLineHook@1004 : Codeunit 50031;
 
     PROCEDURE GetExReg@2(VAR NewExReg@1000 : Record 50015);
     BEGIN
@@ -51,6 +52,8 @@ OBJECT Codeunit 50003 Ex. Jnl.-Post Line
           EXIT;
 
         ExJnlCheckLine.RunCheck(ExJnlLine);
+
+        ExJnlPostLineHook.OnAfterEmptyLine;
 
         IF NextEntryNo = 0 THEN BEGIN
           ExLedgEntry.LOCKTABLE;

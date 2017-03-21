@@ -1,0 +1,27 @@
+OBJECT Codeunit 50031 Ex. Jnl.-Post Line-Hook
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-12-15;
+    Time=16:38:44;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    PROCEDURE OnAfterEmptyLine@1();
+    BEGIN
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

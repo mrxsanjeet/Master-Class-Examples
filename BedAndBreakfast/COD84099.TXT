@@ -1,0 +1,26 @@
+OBJECT Codeunit 84099 Bed and Breakfast Test Runner
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-06-15;
+    Time=13:39:47;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    Subtype=TestRunner;
+    TestIsolation=Codeunit;
+    OnRun=BEGIN
+            CODEUNIT.RUN(CODEUNIT::"Bed and Breakfast Test");
+          END;
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

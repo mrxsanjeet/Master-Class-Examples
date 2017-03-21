@@ -1,0 +1,183 @@
+OBJECT Table 84043 B & B. Reservation Jnl. Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-10-15;
+    Time=11:50:09;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               LOCKTABLE;
+               BandBJnlTemplate.GET("Journal Template Name");
+               BandBJnlBatch.GET("Journal Template Name","Journal Batch Name");
+
+               ValidateShortcutDimCode(1,"Shortcut Dimension 1 Code");
+               ValidateShortcutDimCode(2,"Shortcut Dimension 2 Code");
+             END;
+
+  }
+  FIELDS
+  {
+    { 1   ;   ;Journal Template Name;Code10       ;TableRelation="B & B. Reserv. Jnl. Template" }
+    { 2   ;   ;Line No.            ;Integer        }
+    { 3   ;   ;Reservation No.     ;Code20         }
+    { 4   ;   ;Check-In Date       ;Date          ;OnValidate=BEGIN
+                                                                VALIDATE("Check-Out Date", "Check-In Date");
+                                                              END;
+                                                               }
+    { 5   ;   ;Check-Out Date      ;Date           }
+    { 6   ;   ;Guest No.           ;Code20        ;TableRelation=Table84020;
+                                                   OnValidate=BEGIN
+                                                                IF "Guest No." = '' THEN BEGIN
+                                                                  CreateDim(
+                                                                    DATABASE::Customer, "Guest No.");
+                                                                  EXIT;
+                                                                END;
+
+                                                                Customer.GET("Guest No.");
+                                                                Customer.TESTFIELD(Blocked, Customer.Blocked::" ");
+                                                                Name := Customer.Name;
+                                                                GetRoomPrice;
+
+                                                                CreateDim(
+                                                                  DATABASE::Customer,"Guest No.");
+                                                              END;
+                                                               }
+    { 7   ;   ;Room Code           ;Code10        ;TableRelation="Bed and Breakfast Room";
+                                                   OnValidate=BEGIN
+                                                                GetRoomPrice;
+                                                              END;
+                                                               }
+    { 8   ;   ;Name                ;Text50         }
+    { 11  ;   ;Season Code         ;Code10        ;TableRelation="Bed and Breakfast Season";
+                                                   OnValidate=BEGIN
+                                                                GetRoomPrice;
+                                                              END;
+                                                               }
+    { 12  ;   ;Reservation Date    ;Date           }
+    { 15  ;   ;Price               ;Decimal        }
+    { 18  ;   ;Shortcut Dimension 1 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   OnValidate=BEGIN
+                                                                ValidateShortcutDimCode(1,"Shortcut Dimension 1 Code");
+                                                              END;
+
+                                                   CaptionClass='1,2,1' }
+    { 19  ;   ;Shortcut Dimension 2 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   OnValidate=BEGIN
+                                                                ValidateShortcutDimCode(2,"Shortcut Dimension 2 Code");
+                                                              END;
+
+                                                   CaptionClass='1,2,2' }
+    { 23  ;   ;Journal Batch Name  ;Code10        ;TableRelation=Table50014.Field2 WHERE (Field1=FIELD(Journal Template Name)) }
+    { 24  ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code" }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   OnLookup=BEGIN
+                                                              ShowDimensions;
+                                                            END;
+
+                                                   Editable=No }
+    { 959 ;   ;System-Created Entry;Boolean       ;Editable=No }
+  }
+  KEYS
+  {
+    {    ;Journal Template Name,Journal Batch Name,Line No.;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      BandBJnlTemplate@1000 : Record 84042;
+      BandBJnlBatch@1001 : Record 84044;
+      BandBJnlLine@1002 : Record 84043;
+      Customer@1003 : Record 18;
+      GLSetup@1012 : Record 98;
+      DimMgt@1010 : Codeunit 408;
+      GLSetupRead@1011 : Boolean;
+
+    PROCEDURE EmptyLine@5() : Boolean;
+    BEGIN
+      EXIT(("Guest No." = '') AND ("Check-In Date" = 0D));
+    END;
+
+    PROCEDURE SetUpNewLine@8(LastBandBJnlLine@1000 : Record 84043);
+    BEGIN
+      BandBJnlTemplate.GET("Journal Template Name");
+      BandBJnlBatch.GET("Journal Template Name","Journal Batch Name");
+      BandBJnlLine.SETRANGE("Journal Template Name","Journal Template Name");
+      BandBJnlLine.SETRANGE("Journal Batch Name","Journal Batch Name");
+      IF BandBJnlLine.FINDFIRST THEN BEGIN
+        "Check-In Date" := LastBandBJnlLine."Check-In Date";
+        "Check-Out Date" := LastBandBJnlLine."Check-Out Date";
+        "Reservation No." := LastBandBJnlLine."Reservation No.";
+      END ELSE BEGIN
+        "Check-In Date" := WORKDATE;
+        "Check-Out Date" := WORKDATE;
+      END;
+      "Reason Code" := BandBJnlBatch."Reason Code";
+    END;
+
+    PROCEDURE CreateDim@13(Type1@1000 : Integer;No1@1001 : Code[20]);
+    VAR
+      TableID@1006 : ARRAY [10] OF Integer;
+      No@1007 : ARRAY [10] OF Code[20];
+    BEGIN
+      TableID[1] := Type1;
+      No[1] := No1;
+      "Shortcut Dimension 1 Code" := '';
+      "Shortcut Dimension 2 Code" := '';
+      "Dimension Set ID" :=
+        DimMgt.GetDefaultDimID(TableID,No,'',"Shortcut Dimension 1 Code","Shortcut Dimension 2 Code",0,0);
+    END;
+
+    PROCEDURE ValidateShortcutDimCode@14(FieldNumber@1000 : Integer;VAR ShortcutDimCode@1001 : Code[20]);
+    BEGIN
+      DimMgt.ValidateShortcutDimValues(FieldNumber,ShortcutDimCode,"Dimension Set ID");
+    END;
+
+    PROCEDURE LookupShortcutDimCode@18(FieldNumber@1000 : Integer;VAR ShortcutDimCode@1001 : Code[20]);
+    BEGIN
+      DimMgt.LookupDimValueCode(FieldNumber,ShortcutDimCode);
+      DimMgt.ValidateShortcutDimValues(FieldNumber,ShortcutDimCode,"Dimension Set ID");
+    END;
+
+    PROCEDURE ShowShortcutDimCode@15(VAR ShortcutDimCode@1000 : ARRAY [8] OF Code[20]);
+    BEGIN
+      DimMgt.GetShortcutDimensions("Dimension Set ID",ShortcutDimCode);
+    END;
+
+    LOCAL PROCEDURE GetGLSetup@3();
+    BEGIN
+      IF NOT GLSetupRead THEN
+        GLSetup.GET;
+      GLSetupRead := TRUE;
+    END;
+
+    PROCEDURE ShowDimensions@4();
+    BEGIN
+      "Dimension Set ID" :=
+        DimMgt.EditDimensionSet("Dimension Set ID",STRSUBSTNO('%1 %2 %3',"Journal Template Name","Journal Batch Name","Line No."));
+      DimMgt.UpdateGlobalDimFromDimSetID("Dimension Set ID","Shortcut Dimension 1 Code","Shortcut Dimension 2 Code");
+    END;
+
+    PROCEDURE GetRoomPrice@1() : Decimal;
+    VAR
+      Room@1002 : Record 84010;
+    BEGIN
+      WITH Room DO BEGIN
+        IF NOT GET("Room Code") THEN
+          EXIT;
+        Price := GetPrice("Season Code", "Guest No.");
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

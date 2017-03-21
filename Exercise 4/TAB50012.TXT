@@ -86,7 +86,7 @@ OBJECT Table 50012 Ex. Journal Template
                                                                 "Test Report ID" := REPORT::"Sales per Customer";
                                                                 "Posting Report ID" := REPORT::"Example Register";
                                                                 SourceCodeSetup.GET;
-                                                                "Source Code" := SourceCodeSetup."Example Journal";
+                                                                "Source Code" := SourceCodeSetup."Example Setup";
                                                                 IF Recurring THEN
                                                                   TESTFIELD("No. Series",'');
                                                               END;

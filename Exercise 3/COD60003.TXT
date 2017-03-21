@@ -2,8 +2,8 @@ OBJECT Codeunit 60003 Example Jnl.-Post Line
 {
   OBJECT-PROPERTIES
   {
-    Date=27-01-17;
-    Time=13:41:17;
+    Date=21-03-17;
+    Time=13:00:19;
     Modified=Yes;
     Version List=Exercise 3;
   }
@@ -15,9 +15,10 @@ OBJECT Codeunit 60003 Example Jnl.-Post Line
                 TableData 951=m,
                 TableData 952=m;
     OnRun=BEGIN
-            IF NOT TestNearAndTestFar(Rec) THEN
+            IF NOT TestNear(Rec) THEN
               EXIT;
 
+            TestFar(Rec);
             IsolateTransactionAndFindLastEntryNumber;
             CreateOrUpdateRegister("Source Code", "Journal Batch Name");
             CreateEntry(Rec);
@@ -30,7 +31,7 @@ OBJECT Codeunit 60003 Example Jnl.-Post Line
       ExReg@1003 : Record 50015;
       NextEntryNo@1008 : Integer;
 
-    LOCAL PROCEDURE TestNearAndTestFar@5(ExJnlLine@1000 : Record 50013) : Boolean;
+    LOCAL PROCEDURE TestNear@5(ExJnlLine@1000 : Record 50013) : Boolean;
     VAR
       ExJnlCheckLine@1001 : Codeunit 50002;
     BEGIN
@@ -38,9 +39,14 @@ OBJECT Codeunit 60003 Example Jnl.-Post Line
         IF EmptyLine THEN
           EXIT(FALSE);
 
-      ExJnlCheckLine.RunCheck(ExJnlLine);
-
       EXIT(TRUE);
+    END;
+
+    LOCAL PROCEDURE TestFar@1000000000(ExJnlLine@1000 : Record 50013);
+    VAR
+      ExJnlCheckLine@1001 : Codeunit 50002;
+    BEGIN
+      ExJnlCheckLine.RunCheck(ExJnlLine);
     END;
 
     LOCAL PROCEDURE IsolateTransactionAndFindLastEntryNumber@6();
@@ -102,12 +108,10 @@ OBJECT Codeunit 60003 Example Jnl.-Post Line
         ExLedgEntry."Gen. Prod. Posting Group" := "Gen. Prod. Posting Group";
         ExLedgEntry."No. Series" := "Posting No. Series";
 
-        WITH ExLedgEntry DO BEGIN
-          IF "Entry Type" = "Entry Type"::Sale THEN
-            Quantity := -Quantity;
-          "User ID" := USERID;
-          "Entry No." := NextEntryNo;
-        END;
+        IF ExLedgEntry."Entry Type" = ExLedgEntry."Entry Type"::Sale THEN
+          ExLedgEntry.Quantity := -ExLedgEntry.Quantity;
+        ExLedgEntry."User ID" := USERID;
+        ExLedgEntry."Entry No." := NextEntryNo;
 
         ExLedgEntry.INSERT;
 

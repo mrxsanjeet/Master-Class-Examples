@@ -1,0 +1,23 @@
+OBJECT Codeunit 84034 B & B. Stay Apply Reservation
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-06-15;
+    Time=11:28:14;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

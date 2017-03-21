@@ -1,0 +1,32 @@
+OBJECT Table 84008 Bed and Breakfast Season
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-06-15;
+    Time=08:19:19;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10         }
+    { 2   ;   ;Description         ;Text30         }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

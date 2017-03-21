@@ -1,0 +1,221 @@
+OBJECT Codeunit 84098 Bed and Breakfast Test
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-10-15;
+    Time=11:53:13;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    Subtype=Test;
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [Test]
+    PROCEDURE CreateNumberSeries@1();
+    BEGIN
+      InternalCreateNumberSeries('GUEST', 'Guests', 'GUEST0001');
+      InternalCreateNumberSeries('STAY', 'Stays', 'STAY0001');
+    END;
+
+    [Test]
+    PROCEDURE CreateSetup@2();
+    VAR
+      BedandBreakfastSetup@1000 : Record 84000;
+    BEGIN
+      WITH BedandBreakfastSetup DO BEGIN
+        "Stay Nos." := 'STAY';
+        INSERT;
+      END;
+    END;
+
+    [Test]
+    PROCEDURE CreateRooms@3();
+    VAR
+      i@1000 : Integer;
+    BEGIN
+      FOR i := 1 TO 9 DO
+        InternalCreateRoom('0' + FORMAT(i), 'Room 00' + FORMAT(i));
+    END;
+
+    [Test]
+    PROCEDURE CreateSeasons@4();
+    BEGIN
+      InternalCreateSeaon('SUMMER', 'The Summer');
+      InternalCreateSeaon('AUTHUMN', 'The Authumn');
+      InternalCreateSeaon('WINTER', 'The Winter');
+      InternalCreateSeaon('SPRINT', 'The Spring');
+    END;
+
+    [Test]
+    PROCEDURE CreatePrices@5();
+    VAR
+      i@1000 : Integer;
+    BEGIN
+      FOR i := 1 TO 9 DO
+        InternalCreatePrice('0' + FORMAT(i), '', '', 10);
+
+      InternalCreatePrice('01', 'SUMMER', '', 20);
+      InternalCreatePrice('09', 'WINTER', '', 40);
+    END;
+
+    [Test]
+    PROCEDURE CreateReservations@7();
+    BEGIN
+      InternalCreateReservation(InternalGetGuest(3), '01', 'WINTER');
+      InternalCreateReservation(InternalGetGuest(8), '02', 'SUMMER');
+      InternalCreateReservation(InternalGetGuest(10), '05', 'SUMMER');
+      InternalCreateReservation(InternalGetGuest(12), '06', 'SPRING');
+    END;
+
+    [Test]
+    PROCEDURE CreateStays@8();
+    BEGIN
+      InternalCreateStay(InternalGetGuest(3), '01', 'WINTER');
+      InternalCreateStay(InternalGetGuest(8), '02', 'SUMMER');
+      InternalCreateStay(InternalGetGuest(10), '05', 'SUMMER');
+      InternalCreateStay(InternalGetGuest(12), '06', 'SPRING');
+    END;
+
+    [Test]
+    PROCEDURE CreateCleaning@9();
+    VAR
+      BBCreateCleaningEntries@1000 : Codeunit 84000;
+    BEGIN
+      BBCreateCleaningEntries.RUN;
+    END;
+
+    [Test]
+    PROCEDURE TestPrice@10();
+    VAR
+      Stay@1000 : Record 84030;
+    BEGIN
+      Stay.GET('STAY0001');
+      Stay.TESTFIELD(Price, 8);
+    END;
+
+    [Test]
+    PROCEDURE TestCleaning@11();
+    BEGIN
+    END;
+
+    [Test]
+    PROCEDURE TestVacant@12();
+    BEGIN
+    END;
+
+    [Test]
+    PROCEDURE TestCheckIn@13();
+    BEGIN
+    END;
+
+    [Test]
+    PROCEDURE TestCheckOut@14();
+    BEGIN
+    END;
+
+    PROCEDURE InternalCreateNumberSeries@15(NoSeriesCode@1002 : Code[10];NoSeriesDescription@1003 : Text;NoSeriesStartingNo@1004 : Code[20]);
+    VAR
+      NoSeries@1000 : Record 308;
+      NoSeriesLine@1001 : Record 309;
+    BEGIN
+      WITH NoSeries DO BEGIN
+        Code := NoSeriesCode;
+        Description := NoSeriesDescription;
+        "Default Nos." := TRUE;
+        "Manual Nos." := TRUE;
+        INSERT;
+      END;
+
+      WITH NoSeriesLine DO BEGIN
+        "Series Code" := NoSeriesCode;
+        "Line No." := 10000;
+        "Starting No." := NoSeriesStartingNo;
+        INSERT;
+      END;
+    END;
+
+    PROCEDURE InternalCreateRoom@21(RoomCode@1000 : Code[10];RoomDescription@1001 : Text);
+    VAR
+      BedandBreakfastRoom@1002 : Record 84010;
+    BEGIN
+      WITH BedandBreakfastRoom DO BEGIN
+        Code := RoomCode;
+        Description := RoomDescription;
+        INSERT;
+      END;
+    END;
+
+    PROCEDURE InternalCreateSeaon@22(SeasonCode@1000 : Code[10];SeasonDescription@1001 : Text);
+    VAR
+      BedandBreakfastSeason@1002 : Record 84008;
+    BEGIN
+      WITH BedandBreakfastSeason DO BEGIN
+        Code := SeasonCode;
+        Description := SeasonDescription;
+        INSERT;
+      END;
+    END;
+
+    PROCEDURE InternalCreatePrice@29(RoomCode@1000 : Code[10];SeasonCode@1003 : Code[10];GuestNo@1004 : Code[20];RoomPrice@1001 : Decimal);
+    VAR
+      BedandBreakfastPrice@1002 : Record 84012;
+    BEGIN
+      WITH BedandBreakfastPrice DO BEGIN
+        "Room Code" := RoomCode;
+        "Season Code" := SeasonCode;
+        "Guest No." := GuestNo;
+        Price := RoomPrice;
+        INSERT;
+      END;
+    END;
+
+    PROCEDURE InternalCreateReservation@39(GuestNo@1004 : Code[20];RoomCode@1003 : Code[10];SeasonCode@1002 : Code[10]);
+    VAR
+      BBReservationJnlLine@1000 : Record 84043;
+      BBResJnlPostLine@1001 : Codeunit 84041;
+    BEGIN
+      WITH BBReservationJnlLine DO BEGIN
+        INIT;
+        VALIDATE("Guest No.", GuestNo);
+        VALIDATE("Room Code", RoomCode);
+        VALIDATE("Check-In Date", WORKDATE);
+        BBResJnlPostLine.RunWithCheck(BBReservationJnlLine);
+      END;
+    END;
+
+    PROCEDURE InternalCreateStay@40(GuestNo@1000 : Code[20];RoomCode@1001 : Code[10];SeasonCode@1002 : Code[10]);
+    VAR
+      BedandBreakfastStay@1003 : Record 84030;
+    BEGIN
+      WITH BedandBreakfastStay DO BEGIN
+        INIT;
+        VALIDATE("Guest No.", GuestNo);
+        VALIDATE("Room Code", RoomCode);
+        VALIDATE("Check-In Date", WORKDATE);
+        INSERT(TRUE);
+      END;
+    END;
+
+    PROCEDURE InternalGetGuest@41(Offset@1000 : Integer) : Code[20];
+    VAR
+      Customer@1001 : Record 18;
+    BEGIN
+      WITH Customer DO BEGIN
+        FINDSET;
+        NEXT(Offset);
+        EXIT("No.");
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

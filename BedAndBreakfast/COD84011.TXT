@@ -1,0 +1,23 @@
+OBJECT Codeunit 84011 B & B. Room Cleaning
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-06-15;
+    Time=11:26:43;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,85 @@
+OBJECT Codeunit 85000 B & B. Before Refactoring
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-10-15;
+    Time=12:07:23;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+            CreateCleaningEntryForEachRoom;
+          END;
+
+  }
+  CODE
+  {
+
+    LOCAL PROCEDURE CreateCleaningEntryForEachRoom@1();
+    VAR
+      Room@1000 : Record 84010;
+    BEGIN
+      WITH Room DO
+        IF FINDSET THEN
+          REPEAT
+            IF OccupiedOrHasNotBeenCleanedForAWeek THEN
+              CreateCleaningEntryForRoom;
+            UNTIL NEXT = 0;
+    END;
+
+    LOCAL PROCEDURE OccupiedOrHasNotBeenCleanedForAWeek@2() : Boolean;
+    VAR
+      BedandBreakfastRoom@1000 : Record 84010;
+    BEGIN
+      WITH BedandBreakfastRoom DO BEGIN
+        IF NOT Vacant THEN
+          EXIT(TRUE);
+
+        IF FindLastCleaningEntry < LastWeek THEN
+          EXIT(TRUE);
+      END;
+
+      EXIT(FALSE);
+    END;
+
+    LOCAL PROCEDURE FindLastCleaningEntry@4() : Date;
+    VAR
+      BedandBreakfastRoom@1000 : Record 84010;
+      CleanEntry@1001 : Record 84015;
+    BEGIN
+      WITH CleanEntry DO BEGIN
+        SETCURRENTKEY(Date);
+        SETRANGE("Room Code", BedandBreakfastRoom.Code);
+        IF FINDLAST THEN
+          EXIT(Date);
+      END;
+
+      EXIT(0D);
+    END;
+
+    LOCAL PROCEDURE CreateCleaningEntryForRoom@3();
+    VAR
+      CleanEntry@1001 : Record 84015;
+      BedandBreakfastRoom@1000 : Record 84010;
+    BEGIN
+      WITH CleanEntry DO BEGIN
+        "Entry No." := 0;
+        Date := WORKDATE;
+        Status := Status::"To be Cleaned";
+        "Room Code" := BedandBreakfastRoom.Code;
+        INSERT;
+      END;
+    END;
+
+    LOCAL PROCEDURE LastWeek@5() : Date;
+    BEGIN
+      EXIT(WORKDATE - 7);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

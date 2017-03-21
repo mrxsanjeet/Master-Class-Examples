@@ -2,10 +2,10 @@ OBJECT Table 91 User Setup
 {
   OBJECT-PROPERTIES
   {
-    Date=04-11-15;
-    Time=19:47:19;
+    Date=01-03-17;
+    Time=11:32:44;
     Modified=Yes;
-    Version List=NAVW19.00,Exercise 1;
+    Version List=NAVW110.00,Exercise 1;
   }
   PROPERTIES
   {
@@ -16,7 +16,8 @@ OBJECT Table 91 User Setup
                NotificationSetup.DELETEALL(TRUE);
              END;
 
-    CaptionML=ENU=User Setup;
+    CaptionML=[ENU=User Setup;
+               NLD=Gebruikersinstellingen];
     LookupPageID=Page119;
     DrillDownPageID=Page119;
   }
@@ -35,11 +36,16 @@ OBJECT Table 91 User Setup
                                                               UserMgt.LookupUserID("User ID");
                                                             END;
 
-                                                   CaptionML=ENU=User ID;
+                                                   ValidateTableRelation=No;
+                                                   CaptionML=[ENU=User ID;
+                                                              NLD=Gebruikers-id];
                                                    NotBlank=Yes }
-    { 2   ;   ;Allow Posting From  ;Date          ;CaptionML=ENU=Allow Posting From }
-    { 3   ;   ;Allow Posting To    ;Date          ;CaptionML=ENU=Allow Posting To }
-    { 4   ;   ;Register Time       ;Boolean       ;CaptionML=ENU=Register Time }
+    { 2   ;   ;Allow Posting From  ;Date          ;CaptionML=[ENU=Allow Posting From;
+                                                              NLD=Boeken toegest. vanaf] }
+    { 3   ;   ;Allow Posting To    ;Date          ;CaptionML=[ENU=Allow Posting To;
+                                                              NLD=Boeken toegest. tot] }
+    { 4   ;   ;Register Time       ;Boolean       ;CaptionML=[ENU=Register Time;
+                                                              NLD=Tijd registreren] }
     { 10  ;   ;Salespers./Purch. Code;Code10      ;TableRelation=Salesperson/Purchaser.Code;
                                                    OnValidate=VAR
                                                                 UserSetup@1000 : Record 91;
@@ -52,9 +58,8 @@ OBJECT Table 91 User Setup
                                                                 END;
                                                               END;
 
-                                                   ValidateTableRelation=No;
-                                                   TestTableRelation=No;
-                                                   CaptionML=ENU=Salespers./Purch. Code }
+                                                   CaptionML=[ENU=Salespers./Purch. Code;
+                                                              NLD=Verkoper/Inkoper] }
     { 11  ;   ;Approver ID         ;Code50        ;TableRelation="User Setup"."User ID";
                                                    OnValidate=BEGIN
                                                                 IF "Approver ID" = "User ID" THEN
@@ -69,7 +74,8 @@ OBJECT Table 91 User Setup
                                                                 VALIDATE("Approver ID",UserSetup."User ID");
                                                             END;
 
-                                                   CaptionML=ENU=Approver ID }
+                                                   CaptionML=[ENU=Approver ID;
+                                                              NLD=Fiatteur-id] }
     { 12  ;   ;Sales Amount Approval Limit;Integer;OnValidate=BEGIN
                                                                 IF "Unlimited Sales Approval" AND ("Sales Amount Approval Limit" <> 0) THEN
                                                                   ERROR(Text003,FIELDCAPTION("Sales Amount Approval Limit"),FIELDCAPTION("Unlimited Sales Approval"));
@@ -77,7 +83,8 @@ OBJECT Table 91 User Setup
                                                                   ERROR(Text005);
                                                               END;
 
-                                                   CaptionML=ENU=Sales Amount Approval Limit;
+                                                   CaptionML=[ENU=Sales Amount Approval Limit;
+                                                              NLD=Limiet voor goedkeuring verkoopbedrag];
                                                    BlankZero=Yes }
     { 13  ;   ;Purchase Amount Approval Limit;Integer;
                                                    OnValidate=BEGIN
@@ -87,20 +94,23 @@ OBJECT Table 91 User Setup
                                                                   ERROR(Text005);
                                                               END;
 
-                                                   CaptionML=ENU=Purchase Amount Approval Limit;
+                                                   CaptionML=[ENU=Purchase Amount Approval Limit;
+                                                              NLD=Limiet voor goedkeuring inkoopbedrag];
                                                    BlankZero=Yes }
     { 14  ;   ;Unlimited Sales Approval;Boolean   ;OnValidate=BEGIN
                                                                 IF "Unlimited Sales Approval" THEN
                                                                   "Sales Amount Approval Limit" := 0;
                                                               END;
 
-                                                   CaptionML=ENU=Unlimited Sales Approval }
+                                                   CaptionML=[ENU=Unlimited Sales Approval;
+                                                              NLD=Onbeperkte goedkeuring van verkopen] }
     { 15  ;   ;Unlimited Purchase Approval;Boolean;OnValidate=BEGIN
                                                                 IF "Unlimited Purchase Approval" THEN
                                                                   "Purchase Amount Approval Limit" := 0;
                                                               END;
 
-                                                   CaptionML=ENU=Unlimited Purchase Approval }
+                                                   CaptionML=[ENU=Unlimited Purchase Approval;
+                                                              NLD=Onbeperkte goedkeuring van inkopen] }
     { 16  ;   ;Substitute          ;Code50        ;TableRelation="User Setup"."User ID";
                                                    OnValidate=BEGIN
                                                                 IF Substitute = "User ID" THEN
@@ -115,9 +125,11 @@ OBJECT Table 91 User Setup
                                                                 VALIDATE(Substitute,UserSetup."User ID");
                                                             END;
 
-                                                   CaptionML=ENU=Substitute }
+                                                   CaptionML=[ENU=Substitute;
+                                                              NLD=Vervanger] }
     { 17  ;   ;E-Mail              ;Text100       ;ExtendedDatatype=E-Mail;
-                                                   CaptionML=ENU=E-Mail }
+                                                   CaptionML=[ENU=E-Mail;
+                                                              NLD=E-mail] }
     { 19  ;   ;Request Amount Approval Limit;Integer;
                                                    OnValidate=BEGIN
                                                                 IF "Unlimited Request Approval" AND ("Request Amount Approval Limit" <> 0) THEN
@@ -126,14 +138,16 @@ OBJECT Table 91 User Setup
                                                                   ERROR(Text005);
                                                               END;
 
-                                                   CaptionML=ENU=Request Amount Approval Limit;
+                                                   CaptionML=[ENU=Request Amount Approval Limit;
+                                                              NLD=Limiet voor goedkeuring aanvraagbedrag];
                                                    BlankZero=Yes }
     { 20  ;   ;Unlimited Request Approval;Boolean ;OnValidate=BEGIN
                                                                 IF "Unlimited Request Approval" THEN
                                                                   "Request Amount Approval Limit" := 0;
                                                               END;
 
-                                                   CaptionML=ENU=Unlimited Request Approval }
+                                                   CaptionML=[ENU=Unlimited Request Approval;
+                                                              NLD=Onbeperkt aanvragen van goedkeuring] }
     { 21  ;   ;Approval Administrator;Boolean     ;OnValidate=VAR
                                                                 UserSetup@1000 : Record 91;
                                                               BEGIN
@@ -144,16 +158,30 @@ OBJECT Table 91 User Setup
                                                                 END;
                                                               END;
 
-                                                   CaptionML=ENU=Approval Administrator }
-    { 950 ;   ;Time Sheet Admin.   ;Boolean       ;CaptionML=ENU=Time Sheet Admin. }
-    { 5600;   ;Allow FA Posting From;Date         ;CaptionML=ENU=Allow FA Posting From }
-    { 5601;   ;Allow FA Posting To ;Date          ;CaptionML=ENU=Allow FA Posting To }
+                                                   CaptionML=[ENU=Approval Administrator;
+                                                              NLD=Beheerder goedkeuringssysteem] }
+    { 31  ;   ;License Type        ;Option        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(User."License Type" WHERE (User Name=FIELD(User ID)));
+                                                   CaptionML=[ENU=License Type;
+                                                              NLD=Licentietype];
+                                                   OptionCaptionML=[ENU=Full User,Limited User,Device Only User,Windows Group,External User;
+                                                                    NLD=Volwaardige gebruiker,Beperkte gebruiker,Alleen apparaat,Windows-groep,Externe gebruiker];
+                                                   OptionString=Full User,Limited User,Device Only User,Windows Group,External User }
+    { 950 ;   ;Time Sheet Admin.   ;Boolean       ;CaptionML=[ENU=Time Sheet Admin.;
+                                                              NLD=Urenstaat-admin.] }
+    { 5600;   ;Allow FA Posting From;Date         ;CaptionML=[ENU=Allow FA Posting From;
+                                                              NLD=VA-boeken toegest. vanaf] }
+    { 5601;   ;Allow FA Posting To ;Date          ;CaptionML=[ENU=Allow FA Posting To;
+                                                              NLD=VA-boeken toegest. tot] }
     { 5700;   ;Sales Resp. Ctr. Filter;Code10     ;TableRelation="Responsibility Center".Code;
-                                                   CaptionML=ENU=Sales Resp. Ctr. Filter }
+                                                   CaptionML=[ENU=Sales Resp. Ctr. Filter;
+                                                              NLD=Verkoopdivisiefilter] }
     { 5701;   ;Purchase Resp. Ctr. Filter;Code10  ;TableRelation="Responsibility Center";
-                                                   CaptionML=ENU=Purchase Resp. Ctr. Filter }
+                                                   CaptionML=[ENU=Purchase Resp. Ctr. Filter;
+                                                              NLD=Inkoopdivisiefilter] }
     { 5900;   ;Service Resp. Ctr. Filter;Code10   ;TableRelation="Responsibility Center";
-                                                   CaptionML=ENU=Service Resp. Ctr. Filter }
+                                                   CaptionML=[ENU=Service Resp. Ctr. Filter;
+                                                              NLD=Servicedivisiefilter] }
     { 50000;  ;Example Enabled     ;Boolean        }
   }
   KEYS
@@ -167,9 +195,343 @@ OBJECT Table 91 User Setup
   CODE
   {
     VAR
-      Text001@1000 : TextConst 'ENU=The %1 Salesperson/Purchaser code is already assigned to another User ID %2.';
-      Text003@1002 : TextConst 'ENU="You cannot have both a %1 and %2. "';
-      Text005@1004 : TextConst 'ENU=You cannot have approval limits less than zero.';
+      Text001@1000 : TextConst 'ENU=The %1 Salesperson/Purchaser code is already assigned to another User ID %2.;NLD=Verkoper-/inkopercode %1 is al toegewezen aan gebruikers-id %2.';
+      Text003@1002 : TextConst 'ENU="You cannot have both a %1 and %2. ";NLD="U kunt niet zowel %1 als %2 hebben. "';
+      Text005@1004 : TextConst 'ENU=You cannot have approval limits less than zero.;NLD=Goedkeuringslimieten mogen niet kleiner dan nul zijn.';
+
+    PROCEDURE CreateApprovalUserSetup@3(User@1000 : Record 2000000120);
+    VAR
+      UserSetup@1001 : Record 91;
+      ApprovalUserSetup@1002 : Record 91;
+    BEGIN
+      ApprovalUserSetup.INIT;
+      ApprovalUserSetup.VALIDATE("User ID",User."User Name");
+      ApprovalUserSetup.VALIDATE("Sales Amount Approval Limit",GetDefaultSalesAmountApprovalLimit);
+      ApprovalUserSetup.VALIDATE("Purchase Amount Approval Limit",GetDefaultPurchaseAmountApprovalLimit);
+      ApprovalUserSetup.VALIDATE("E-Mail",User."Contact Email");
+      UserSetup.SETRANGE("Sales Amount Approval Limit",UserSetup.GetDefaultSalesAmountApprovalLimit);
+      IF UserSetup.FINDFIRST THEN
+        ApprovalUserSetup.VALIDATE("Approver ID",UserSetup."Approver ID");
+      IF ApprovalUserSetup.INSERT THEN;
+    END;
+
+    PROCEDURE GetDefaultSalesAmountApprovalLimit@1() : Integer;
+    VAR
+      UserSetup@1001 : Record 91;
+      DefaultApprovalLimit@1000 : Integer;
+      LimitedApprovers@1002 : Integer;
+    BEGIN
+      UserSetup.SETRANGE("Unlimited Sales Approval",FALSE);
+
+      IF UserSetup.FINDFIRST THEN BEGIN
+        DefaultApprovalLimit := UserSetup."Sales Amount Approval Limit";
+        LimitedApprovers := UserSetup.COUNT;
+        UserSetup.SETRANGE("Sales Amount Approval Limit",DefaultApprovalLimit);
+        IF LimitedApprovers = UserSetup.COUNT THEN
+          EXIT(DefaultApprovalLimit);
+      END;
+
+      // Return 0 if no user setup exists or no default value is found
+      EXIT(0);
+    END;
+
+    PROCEDURE GetDefaultPurchaseAmountApprovalLimit@2() : Integer;
+    VAR
+      UserSetup@1002 : Record 91;
+      DefaultApprovalLimit@1001 : Integer;
+      LimitedApprovers@1000 : Integer;
+    BEGIN
+      UserSetup.SETRANGE("Unlimited Purchase Approval",FALSE);
+
+      IF UserSetup.FINDFIRST THEN BEGIN
+        DefaultApprovalLimit := UserSetup."Purchase Amount Approval Limit";
+        LimitedApprovers := UserSetup.COUNT;
+        UserSetup.SETRANGE("Purchase Amount Approval Limit",DefaultApprovalLimit);
+        IF LimitedApprovers = UserSetup.COUNT THEN
+          EXIT(DefaultApprovalLimit);
+      END;
+
+      // Return 0 if no user setup exists or no default value is found
+      EXIT(0);
+    END;
+
+    PROCEDURE HideExternalUsers@5();
+    VAR
+      PermissionManager@1001 : Codeunit 9002;
+      OriginalFilterGroup@1000 : Integer;
+    BEGIN
+      IF NOT PermissionManager.SoftwareAsAService THEN
+        EXIT;
+
+      OriginalFilterGroup := FILTERGROUP;
+      FILTERGROUP := 2;
+      CALCFIELDS("License Type");
+      SETFILTER("License Type",'<>%1',"License Type"::"External User");
+      FILTERGROUP := OriginalFilterGroup;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Table 242 Source Code Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=01-03-17;
+    Time=11:33:33;
+    Modified=Yes;
+    Version List=NAVW110.00,NAVNL10.00,Exercise 3;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Source Code Setup;
+               NLD=Broncode-instelling];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              NLD=Primaire sleutel] }
+    { 2   ;   ;Sales               ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Sales;
+                                                              NLD=Verkoop] }
+    { 3   ;   ;Purchases           ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Purchases;
+                                                              NLD=Inkoop] }
+    { 4   ;   ;Inventory Post Cost ;Code10        ;TableRelation="Source Code";
+                                                   AccessByPermission=TableData 27=R;
+                                                   CaptionML=[ENU=Inventory Post Cost;
+                                                              NLD=Voorraadwaarde boeken] }
+    { 5   ;   ;Exchange Rate Adjmt.;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Exchange Rate Adjmt.;
+                                                              NLD=Wisselkoers herw.] }
+    { 6   ;   ;Post Recognition    ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Post Recognition;
+                                                              NLD=Verantwoording boeken] }
+    { 7   ;   ;Post Value          ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Post Value;
+                                                              NLD=Waarde boeken] }
+    { 8   ;   ;Close Income Statement;Code10      ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Close Income Statement;
+                                                              NLD=Afsluiten WenV-rekening] }
+    { 9   ;   ;Consolidation       ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Consolidation;
+                                                              NLD=Consolidatie] }
+    { 10  ;   ;General Journal     ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=General Journal;
+                                                              NLD=Diversendagboek/Memoriaal] }
+    { 11  ;   ;Sales Journal       ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Sales Journal;
+                                                              NLD=Verkoopdagboek] }
+    { 12  ;   ;Purchase Journal    ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Purchase Journal;
+                                                              NLD=Inkoopdagboek] }
+    { 13  ;   ;Cash Receipt Journal;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Cash Receipt Journal;
+                                                              NLD=Ontvangstendagboek] }
+    { 14  ;   ;Payment Journal     ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Payment Journal;
+                                                              NLD=Betalingsdagboek] }
+    { 16  ;   ;Item Journal        ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Item Journal;
+                                                              NLD=Artikeldagboek] }
+    { 19  ;   ;Resource Journal    ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Resource Journal;
+                                                              NLD=Resourcedagboek] }
+    { 20  ;   ;Job Journal         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Job Journal;
+                                                              NLD=Projectdagboek] }
+    { 21  ;   ;Sales Entry Application;Code10     ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Sales Entry Application;
+                                                              NLD=Vereffenen verkoopposten] }
+    { 22  ;   ;Purchase Entry Application;Code10  ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Purchase Entry Application;
+                                                              NLD=Vereffenen inkoopposten] }
+    { 23  ;   ;VAT Settlement      ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=VAT Settlement;
+                                                              NLD=Btw-vereffening] }
+    { 24  ;   ;Compress G/L        ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress G/L;
+                                                              NLD=Grootboekposten compr.] }
+    { 25  ;   ;Compress VAT Entries;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress VAT Entries;
+                                                              NLD=Btw-posten compr.] }
+    { 26  ;   ;Compress Cust. Ledger;Code10       ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Cust. Ledger;
+                                                              NLD=Klantenposten compr.] }
+    { 27  ;   ;Compress Vend. Ledger;Code10       ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Vend. Ledger;
+                                                              NLD=Leveranciersposten compr.] }
+    { 28  ;   ;Compress Item Ledger;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Item Ledger;
+                                                              NLD=Artikelposten compr.] }
+    { 31  ;   ;Compress Res. Ledger;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Res. Ledger;
+                                                              NLD=Resourceposten compr.] }
+    { 32  ;   ;Compress Job Ledger ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Job Ledger;
+                                                              NLD=Projectposten compr.] }
+    { 33  ;   ;Item Reclass. Journal;Code10       ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Item Reclass. Journal;
+                                                              NLD=Art.-herindelingsdagboek] }
+    { 34  ;   ;Phys. Inventory Journal;Code10     ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Phys. Inventory Journal;
+                                                              NLD=Inventarisatiedagboek] }
+    { 35  ;   ;Compress Bank Acc. Ledger;Code10   ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Bank Acc. Ledger;
+                                                              NLD=Bankposten compr.] }
+    { 36  ;   ;Compress Check Ledger;Code10       ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Check Ledger;
+                                                              NLD=Chequeposten compr.] }
+    { 37  ;   ;Financially Voided Check;Code10    ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Financially Voided Check;
+                                                              NLD=Nietig verklaarde cheque] }
+    { 38  ;   ;Finance Charge Memo ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Finance Charge Memo;
+                                                              NLD=Rentefactuur] }
+    { 39  ;   ;Reminder            ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Reminder;
+                                                              NLD=Aanmaning] }
+    { 40  ;   ;Deleted Document    ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Deleted Document;
+                                                              NLD=Verwijderd document] }
+    { 41  ;   ;Adjust Add. Reporting Currency;Code10;
+                                                   TableRelation="Source Code";
+                                                   CaptionML=[ENU=Adjust Add. Reporting Currency;
+                                                              NLD=Rapp.-val. herwaarderen] }
+    { 42  ;   ;Trans. Bank Rec. to Gen. Jnl.;Code10;
+                                                   TableRelation="Source Code";
+                                                   CaptionML=[ENU=Trans. Bank Rec. to Gen. Jnl.;
+                                                              NLD=Bankreconciliatie naar dagboek] }
+    { 43  ;   ;IC General Journal  ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=IC General Journal;
+                                                              NLD=IC-diversendagboek] }
+    { 45  ;   ;Unapplied Sales Entry Appln.;Code10;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Unapplied Sales Entry Appln.;
+                                                              NLD=Nt-toegep. vereff. verkooppost] }
+    { 46  ;   ;Unapplied Purch. Entry Appln.;Code10;
+                                                   TableRelation="Source Code";
+                                                   CaptionML=[ENU=Unapplied Purch. Entry Appln.;
+                                                              NLD=Nt-toegep. vereff. inkooppost] }
+    { 47  ;   ;Reversal            ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Reversal;
+                                                              NLD=Tegenboeking] }
+    { 49  ;   ;Payment Reconciliation Journal;Code10;
+                                                   TableRelation="Source Code";
+                                                   CaptionML=[ENU=Payment Reconciliation Journal;
+                                                              NLD=Betalingsreconciliatiedagboek] }
+    { 840 ;   ;Cash Flow Worksheet ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Cash Flow Worksheet;
+                                                              NLD=Cashflowvoorstel] }
+    { 900 ;   ;Assembly            ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Assembly;
+                                                              NLD=Assemblage] }
+    { 1000;   ;Job G/L Journal     ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Job G/L Journal;
+                                                              NLD=GB-dagboek project] }
+    { 1001;   ;Job G/L WIP         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Job G/L WIP;
+                                                              NLD=Boeking OHW naar GB voor project] }
+    { 1100;   ;G/L Entry to CA     ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=G/L Entry to CA;
+                                                              NLD=Grootboekpost voor CA] }
+    { 1102;   ;Cost Journal        ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Cost Journal;
+                                                              NLD=Kostendagboek] }
+    { 1104;   ;Cost Allocation     ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Cost Allocation;
+                                                              NLD=Kostenverdeling] }
+    { 1105;   ;Transfer Budget to Actual;Code10   ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Transfer Budget to Actual;
+                                                              NLD=Budget overdragen naar werkelijk] }
+    { 5400;   ;Consumption Journal ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Consumption Journal;
+                                                              NLD=Verbruiksdagboek] }
+    { 5402;   ;Output Journal      ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Output Journal;
+                                                              NLD=Outputdagboek] }
+    { 5403;   ;Flushing            ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Flushing;
+                                                              NLD=Afboeking] }
+    { 5404;   ;Capacity Journal    ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Capacity Journal;
+                                                              NLD=Capaciteitsdagboek] }
+    { 5500;   ;Production Journal  ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Production Journal;
+                                                              NLD=Productiedagboek] }
+    { 5600;   ;Fixed Asset Journal ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Fixed Asset Journal;
+                                                              NLD=VA-dagboek] }
+    { 5601;   ;Fixed Asset G/L Journal;Code10     ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Fixed Asset G/L Journal;
+                                                              NLD=VA-fin. dagboek] }
+    { 5602;   ;Insurance Journal   ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Insurance Journal;
+                                                              NLD=Verzekeringsdagboek] }
+    { 5603;   ;Compress FA Ledger  ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress FA Ledger;
+                                                              NLD=VA-posten compr.] }
+    { 5604;   ;Compress Maintenance Ledger;Code10 ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Maintenance Ledger;
+                                                              NLD=Onderh.-posten compr.] }
+    { 5605;   ;Compress Insurance Ledger;Code10   ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Insurance Ledger;
+                                                              NLD=Verzekeringsposten compr.] }
+    { 5700;   ;Transfer            ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Transfer;
+                                                              NLD=Transfer] }
+    { 5800;   ;Revaluation Journal ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Revaluation Journal;
+                                                              NLD=Herwaarderingsdagboek] }
+    { 5801;   ;Adjust Cost         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Adjust Cost;
+                                                              NLD=Kostprijs herwaarderen] }
+    { 5900;   ;Service Management  ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Service Management;
+                                                              NLD=CRM - Service] }
+    { 7139;   ;Compress Item Budget;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Item Budget;
+                                                              NLD=Artikelbudget comprimeren] }
+    { 7300;   ;Whse. Item Journal  ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Item Journal;
+                                                              NLD=Mag.-artikeldagboek] }
+    { 7302;   ;Whse. Phys. Invt. Journal;Code10   ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Phys. Invt. Journal;
+                                                              NLD=Mag.-inventarisatiedagboek] }
+    { 7303;   ;Whse. Reclassification Journal;Code10;
+                                                   TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Reclassification Journal;
+                                                              NLD=Mag.-herindelingsdagboek] }
+    { 7304;   ;Whse. Put-away      ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Put-away;
+                                                              NLD=Magazijnopslag] }
+    { 7305;   ;Whse. Pick          ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Pick;
+                                                              NLD=Magazijnpick] }
+    { 7306;   ;Whse. Movement      ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Movement;
+                                                              NLD=Magazijnverplaatsing] }
+    { 7307;   ;Compress Whse. Entries;Code10      ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Whse. Entries;
+                                                              NLD=Magazijnposten compr.] }
+    { 11400;  ;Cash Journal        ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Cash Journal;
+                                                              NLD=Kasboek] }
+    { 11401;  ;Bank Journal        ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Bank Journal;
+                                                              NLD=Bankboek] }
+    { 50000;  ;Example Setup       ;Code10        ;TableRelation="Source Code" }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
 
     BEGIN
     END.
@@ -917,7 +1279,7 @@ OBJECT Table 50012 Ex. Journal Template
                                                                 "Test Report ID" := REPORT::"Sales per Customer";
                                                                 "Posting Report ID" := REPORT::"Example Register";
                                                                 SourceCodeSetup.GET;
-                                                                "Source Code" := SourceCodeSetup."Example Journal";
+                                                                "Source Code" := SourceCodeSetup."Example Setup";
                                                                 IF Recurring THEN
                                                                   TESTFIELD("No. Series",'');
                                                               END;
@@ -1646,8 +2008,8 @@ OBJECT Table 50098 Weight Arguments
 {
   OBJECT-PROPERTIES
   {
-    Date=09-06-15;
-    Time=16:31:18;
+    Date=26-07-16;
+    Time=15:06:19;
     Modified=Yes;
     Version List=Exercise 4;
   }
@@ -4762,903 +5124,6 @@ End Function
   }
 }
 
-OBJECT Codeunit 2 Company-Initialize
-{
-  OBJECT-PROPERTIES
-  {
-    Date=04-11-15;
-    Time=19:58:46;
-    Modified=Yes;
-    Version List=NAVW19.00,Exercise 1;
-  }
-  PROPERTIES
-  {
-    OnRun=VAR
-            BankPmtApplRule@1003 : Record 1252;
-            TransformationRule@1005 : Record 1237;
-            ApplicationLaunchMgt@1001 : Codeunit 403;
-            AddOnIntegrMgt@1000 : Codeunit 5403;
-            WorkflowSetup@1004 : Codeunit 1502;
-            Window@1002 : Dialog;
-          BEGIN
-            Window.OPEN(Text000);
-
-            InitSetupTables;
-            AddOnIntegrMgt.InitMfgSetup;
-            InitSourceCodeSetup;
-            InitStandardTexts;
-            InitReportSelection;
-            InitJobWIPMethods;
-            InitBankExportImportSetup;
-            InitBankDataConversionPmtType;
-            InitBankClearingStandard;
-            InitBankDataConvServiceSetup;
-            InitOcrServiceSetup;
-            InitDocExchServiceSetup;
-            BankPmtApplRule.InsertDefaultMatchingRules;
-            ApplicationLaunchMgt.InsertStyleSheets;
-            InsertClientAddIns;
-            InitVATRegNrValidationSetup;
-            WorkflowSetup.InitWorkflow;
-            TransformationRule.CreateDefaultTransformations;
-            InitElectronicFormats;
-            InitExampleAddOn;
-
-            Window.CLOSE;
-
-            IF STRPOS(COMPANYNAME,Text093) = 1 THEN
-              EXIT;
-
-            COMMIT;
-          END;
-
-  }
-  CODE
-  {
-    VAR
-      Text000@1000 : TextConst 'ENU=Initializing company...';
-      SEPACTCodeTxt@1076 : TextConst '@@@=No need to translate - but can be translated at will.;ENU=SEPACT';
-      SEPACTNameTxt@1083 : TextConst 'ENU=SEPA Credit Transfer';
-      SEPADDCodeTxt@1033 : TextConst '@@@=No need to translate - but can be translated at will.;ENU=SEPADD';
-      SEPADDNameTxt@1020 : TextConst 'ENU=SEPA Direct Debit';
-      Text001@1001 : TextConst 'ENU=SALES';
-      Text002@1002 : TextConst 'ENU=Sales';
-      Text003@1003 : TextConst 'ENU=PURCHASES';
-      Text004@1004 : TextConst 'ENU=Purchases';
-      Text005@1005 : TextConst 'ENU=DELETE';
-      Text006@1006 : TextConst 'ENU=INVTPCOST';
-      Text007@1007 : TextConst 'ENU=EXCHRATADJ';
-      Text010@1010 : TextConst 'ENU=CLSINCOME';
-      Text011@1011 : TextConst 'ENU=CONSOLID';
-      Text012@1012 : TextConst 'ENU=Consolidation';
-      Text013@1013 : TextConst 'ENU=GENJNL';
-      Text014@1014 : TextConst 'ENU=SALESJNL';
-      Text015@1015 : TextConst 'ENU=PURCHJNL';
-      Text016@1016 : TextConst 'ENU=CASHRECJNL';
-      Text017@1017 : TextConst 'ENU=PAYMENTJNL';
-      Text018@1018 : TextConst 'ENU=ITEMJNL';
-      Text020@1019 : TextConst 'ENU=PHYSINVJNL';
-      Text022@1021 : TextConst 'ENU=RESJNL';
-      Text023@1022 : TextConst 'ENU=JOBJNL';
-      Text024@1023 : TextConst 'ENU=SALESAPPL';
-      Text025@1024 : TextConst 'ENU=Sales Entry Application';
-      PaymentReconJnlTok@1169 : TextConst '@@@=Payment Reconciliation Journal Code;ENU=PAYMTRECON';
-      Text026@1025 : TextConst 'ENU=PURCHAPPL';
-      Text027@1026 : TextConst 'ENU=Purchase Entry Application';
-      Text028@1027 : TextConst 'ENU=VATSTMT';
-      Text029@1028 : TextConst 'ENU=COMPRGL';
-      Text030@1029 : TextConst 'ENU=COMPRVAT';
-      Text031@1030 : TextConst 'ENU=COMPRCUST';
-      Text032@1031 : TextConst 'ENU=COMPRVEND';
-      Text035@1034 : TextConst 'ENU=COMPRRES';
-      Text036@1035 : TextConst 'ENU=COMPRJOB';
-      Text037@1036 : TextConst 'ENU=COMPRBANK';
-      Text038@1037 : TextConst 'ENU=COMPRCHECK';
-      Text039@1038 : TextConst 'ENU=FINVOIDCHK';
-      Text040@1039 : TextConst 'ENU=Financially Voided Check';
-      Text041@1040 : TextConst 'ENU=REMINDER';
-      Text042@1041 : TextConst 'ENU=Reminder';
-      Text043@1042 : TextConst 'ENU=FINCHRG';
-      Text044@1043 : TextConst 'ENU=Finance Charge Memo';
-      Text045@1044 : TextConst 'ENU=FAGLJNL';
-      Text046@1045 : TextConst 'ENU=FAJNL';
-      Text047@1046 : TextConst 'ENU=INSJNL';
-      Text048@1047 : TextConst 'ENU=COMPRFA';
-      Text049@1048 : TextConst 'ENU=COMPRMAINT';
-      Text050@1049 : TextConst 'ENU=COMPRINS';
-      Text051@1050 : TextConst 'ENU=ADJADDCURR';
-      Text052@1051 : TextConst 'ENU=MD';
-      Text053@1052 : TextConst 'ENU=Monthly Depreciation';
-      Text054@1053 : TextConst 'ENU=SC';
-      Text055@1054 : TextConst 'ENU=Shipping Charge';
-      Text056@1055 : TextConst 'ENU=SUC';
-      Text057@1056 : TextConst 'ENU=Sale under Contract';
-      Text058@1057 : TextConst 'ENU=TE';
-      Text059@1058 : TextConst 'ENU=Travel Expenses';
-      Text063@1062 : TextConst 'ENU=TRANSFER';
-      Text064@1063 : TextConst 'ENU=Transfer';
-      Text065@1064 : TextConst 'ENU=RECLASSJNL';
-      Text066@1065 : TextConst 'ENU=REVALJNL';
-      Text067@1066 : TextConst 'ENU=CONSUMPJNL';
-      Text068@1067 : TextConst 'ENU=INVTADJMT';
-      Text069@1069 : TextConst 'ENU=POINOUTJNL';
-      Text070@1073 : TextConst 'ENU=CAPACITJNL';
-      Text071@1107 : TextConst 'ENU=WHITEM';
-      Text072@1105 : TextConst 'ENU=WHPHYSINVT';
-      Text073@1068 : TextConst 'ENU=WHRCLSSJNL';
-      Text074@1070 : TextConst 'ENU=SERVICE';
-      Text075@1074 : TextConst 'ENU=Service Management';
-      Text076@1075 : TextConst 'ENU=BANKREC';
-      Text077@1077 : TextConst 'ENU=WHPUTAWAY';
-      Text078@1078 : TextConst 'ENU=WHPICK';
-      Text079@1079 : TextConst 'ENU=WHMOVEMENT';
-      Text080@1080 : TextConst 'ENU=Whse. Put-away';
-      Text081@1081 : TextConst 'ENU=Whse. Pick';
-      Text082@1082 : TextConst 'ENU=Whse. Movement';
-      Text083@1100 : TextConst 'ENU=COMPRWHSE';
-      Text084@1106 : TextConst 'ENU=INTERCOMP';
-      Text085@1108 : TextConst 'ENU=Intercompany';
-      Text086@1114 : TextConst 'ENU=UNAPPSALES';
-      Text087@1113 : TextConst 'ENU=Unapplied Sales Entry Application';
-      Text088@1112 : TextConst 'ENU=UNAPPPURCH';
-      Text089@1111 : TextConst 'ENU=Unapplied Purchase Entry Application';
-      Text090@1110 : TextConst 'ENU=REVERSAL';
-      Text091@1109 : TextConst 'ENU="Reversal Entry "';
-      Text092@1115 : TextConst 'ENU=PRODORDER';
-      Text093@1059 : TextConst 'ENU=CRONUS';
-      Text99000004@1071 : TextConst 'ENU=FLUSHING';
-      Text99000005@1072 : TextConst 'ENU=Flushing';
-      Text096@1008 : TextConst 'ENU=JOBGLJNL';
-      Text097@1009 : TextConst 'ENU=JOBGLWIP';
-      Text098@1122 : TextConst 'ENU=WIP Entry';
-      Text099@1123 : TextConst 'ENU=Date Compress Job Ledge';
-      Text100@1032 : TextConst '@@@="{Locked} ";ENU=COMPRIBUDG';
-      Text101@1117 : TextConst 'ENU=Completed Contract';
-      Text102@1116 : TextConst 'ENU=Cost of Sales';
-      Text103@1101 : TextConst 'ENU=Cost Value';
-      Text104@1061 : TextConst 'ENU=Sales Value';
-      Text105@1060 : TextConst 'ENU=Percentage of Completion';
-      Text106@1084 : TextConst 'ENU=POC';
-      Text109@1127 : TextConst '@@@=Uppercase of the translation of cash flow work sheet with a max of 10 char;ENU=CFWKSH';
-      Text110@1128 : TextConst 'ENU=Cash Flow Worksheet';
-      Text107@1121 : TextConst '@@@=Uppercase of the translation of assembly with a max of 10 char;ENU=ASSEMBLY';
-      Text108@1125 : TextConst 'ENU=Assembly';
-      Text111@1130 : TextConst 'ENU=GL';
-      Text112@1131 : TextConst 'ENU=G/L Entry to Cost Accounting';
-      Text113@1132 : TextConst '@@@=Uppercase of the translation of cost accounting journal with a max of 10 char;ENU=CAJOUR';
-      Text114@1133 : TextConst 'ENU=Cost Journal';
-      Text115@1134 : TextConst '@@@=Uppercase of the translation of allocation with a max of 10 char;ENU=ALLOC';
-      Text116@1135 : TextConst 'ENU=Cost Allocation';
-      Text117@1137 : TextConst '@@@=Uppercase of the translation of Transfer Budget to Actual with a max of 10 char;ENU=TRABUD';
-      Text118@1138 : TextConst 'ENU=Transfer Budget to Actual';
-      BankClearingStandardCode1Tok@1085 : TextConst '@@@={Locked};ENU=AustrianBankleitzahl';
-      BankClearingStandardDesc1Txt@1086 : TextConst 'ENU=Austrian BLZ number';
-      BankClearingStandardCode2Tok@1088 : TextConst '@@@={Locked};ENU=CanadianPaymentsARN';
-      BankClearingStandardDesc2Txt@1087 : TextConst 'ENU=Canadian ARN number';
-      BankClearingStandardCode3Tok@1090 : TextConst '@@@={Locked};ENU=CHIPSParticipant';
-      BankClearingStandardDesc3Txt@1089 : TextConst 'ENU=American CHIPS number';
-      BankClearingStandardCode4Tok@1092 : TextConst '@@@={Locked};ENU=CHIPSUniversal';
-      BankClearingStandardDesc4Txt@1091 : TextConst 'ENU=American CHIPS universal number';
-      BankClearingStandardCode5Tok@1094 : TextConst '@@@={Locked};ENU=ExtensiveBranchNetwork';
-      BankClearingStandardDesc5Txt@1093 : TextConst 'ENU=Extensive branch network number';
-      BankClearingStandardCode6Tok@1096 : TextConst '@@@={Locked};ENU=FedwireRoutingNumber';
-      BankClearingStandardDesc6Txt@1095 : TextConst 'ENU=American Fedwire/ABA routing number';
-      BankClearingStandardCode7Tok@1098 : TextConst '@@@={Locked};ENU=GermanBankleitzahl';
-      BankClearingStandardDesc7Txt@1097 : TextConst 'ENU=German BLZ number';
-      BankClearingStandardCode8Tok@1102 : TextConst '@@@={Locked};ENU=HongKongBank';
-      BankClearingStandardDesc8Txt@1099 : TextConst 'ENU=Hong Kong branch number';
-      BankClearingStandardCode9Tok@1104 : TextConst '@@@={Locked};ENU=IrishNSC';
-      BankClearingStandardDesc9Txt@1103 : TextConst 'ENU=Irish NSC number';
-      BankClearingStandardCode10Tok@1119 : TextConst '@@@={Locked};ENU=ItalianDomestic';
-      BankClearingStandardDesc10Txt@1118 : TextConst 'ENU=Italian domestic code';
-      BankClearingStandardCode11Tok@1124 : TextConst '@@@={Locked};ENU=NewZealandNCC';
-      BankClearingStandardDesc11Txt@1120 : TextConst 'ENU=New Zealand NCC number';
-      BankClearingStandardCode12Tok@1129 : TextConst '@@@={Locked};ENU=PortugueseNCC';
-      BankClearingStandardDesc12Txt@1126 : TextConst 'ENU=Portuguese NCC number';
-      BankClearingStandardCode13Tok@1139 : TextConst '@@@={Locked};ENU=RussianCentralBankIdentificationCode';
-      BankClearingStandardDesc13Txt@1136 : TextConst 'ENU=Russian CBI code';
-      BankClearingStandardCode14Tok@1143 : TextConst '@@@={Locked};ENU=SouthAfricanNCC';
-      BankClearingStandardDesc14Txt@1142 : TextConst 'ENU=South African NCC number';
-      BankClearingStandardCode15Tok@1145 : TextConst '@@@={Locked};ENU=SpanishDomesticInterbanking';
-      BankClearingStandardDesc15Txt@1144 : TextConst 'ENU=Spanish domestic interbanking number';
-      BankClearingStandardCode16Tok@1147 : TextConst '@@@={Locked};ENU=SwissBC';
-      BankClearingStandardDesc16Txt@1146 : TextConst 'ENU=Swiss BC number';
-      BankClearingStandardCode17Tok@1151 : TextConst '@@@={Locked};ENU=SwissSIC';
-      BankClearingStandardDesc17Txt@1150 : TextConst 'ENU=Swiss SIC number';
-      BankClearingStandardCode18Tok@1149 : TextConst '@@@={Locked};ENU=UKDomesticSortCode';
-      BankClearingStandardDesc18Txt@1148 : TextConst 'ENU=British sorting code';
-      BankDataConvPmtTypeCode1Tok@1140 : TextConst '@@@={Locked};ENU=IntAcc2Acc';
-      BankDataConvPmtTypeDesc1Txt@1141 : TextConst 'ENU=International account to account transfer (standard)';
-      BankDataConvPmtTypeCode2Tok@1152 : TextConst '@@@={Locked};ENU=IntAcc2AccExp';
-      BankDataConvPmtTypeDesc2Txt@1153 : TextConst 'ENU=International account to account transfer (express)';
-      BankDataConvPmtTypeCode3Tok@1155 : TextConst '@@@={Locked};ENU=IntAcc2AccFoFa';
-      BankDataConvPmtTypeDesc3Txt@1154 : TextConst 'ENU=International account to account transfer';
-      BankDataConvPmtTypeCode4Tok@1157 : TextConst '@@@={Locked};ENU=IntAcc2AccHighVal';
-      BankDataConvPmtTypeDesc4Txt@1156 : TextConst 'ENU=International account to account transfer (high value)';
-      BankDataConvPmtTypeCode5Tok@1159 : TextConst '@@@={Locked};ENU=IntAcc2AccInterComp';
-      BankDataConvPmtTypeDesc5Txt@1158 : TextConst 'ENU=International account to account transfer (inter company)';
-      BankDataConvPmtTypeCode6Tok@1161 : TextConst '@@@={Locked};ENU=DomAcc2Acc';
-      BankDataConvPmtTypeDesc6Txt@1160 : TextConst 'ENU=Domestic account to account transfer';
-      BankDataConvPmtTypeCode7Tok@1163 : TextConst '@@@={Locked};ENU=DomAcc2AccHighVal';
-      BankDataConvPmtTypeDesc7Txt@1162 : TextConst 'ENU=Domestic account to account transfer (high value)';
-      BankDataConvPmtTypeCode8Tok@1165 : TextConst '@@@={Locked};ENU=DomAcc2AccInterComp';
-      BankDataConvPmtTypeDesc8Txt@1164 : TextConst 'ENU=Domestic account to account transfer (inter company)';
-      BankDataConvPmtTypeCode9Tok@1167 : TextConst '@@@={Locked};ENU=EurAcc2AccSepa';
-      BankDataConvPmtTypeDesc9Txt@1166 : TextConst 'ENU=SEPA credit transfer';
-      PEPPOL21_ElectronicFormatTxt@1168 : TextConst '@@@={Locked};ENU=PEPPOL 2.1';
-      PEPPOL21_ElectronicFormatDescriptionTxt@1170 : TextConst 'ENU=PEPPOL 2.1 Format (Pan-European Public Procurement Online)';
-      PEPPOL20_ElectronicFormatTxt@1172 : TextConst '@@@={Locked};ENU=PEPPOL 2.0';
-      PEPPOL20_ElectronicFormatDescriptionTxt@1171 : TextConst 'ENU=PEPPOL 2.0 Format (Pan-European Public Procurement Online)';
-
-    LOCAL PROCEDURE InitSetupTables@3();
-    VAR
-      GLSetup@1025 : Record 98;
-      SalesSetup@1024 : Record 311;
-      PurchSetup@1023 : Record 312;
-      InvtSetup@1022 : Record 313;
-      ResourcesSetup@1021 : Record 314;
-      JobsSetup@1020 : Record 315;
-      HumanResourcesSetup@1019 : Record 5218;
-      MarketingSetup@1018 : Record 5079;
-      InteractionTemplateSetup@1017 : Record 5122;
-      ServiceMgtSetup@1016 : Record 5911;
-      NonstockItemSetup@1015 : Record 5719;
-      FASetup@1014 : Record 5603;
-      CashFlowSetup@1007 : Record 843;
-      CostAccSetup@1006 : Record 1108;
-      WhseSetup@1004 : Record 5769;
-      AssemblySetup@1002 : Record 905;
-      VATReportSetup@1000 : Record 743;
-      ConfigSetup@1001 : Record 8627;
-      IncomingDocumentsSetup@1008 : Record 131;
-      CompanyInfo@1003 : Record 79;
-      SocialListeningSetup@1005 : Record 870;
-    BEGIN
-      WITH GLSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH SalesSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH MarketingSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH InteractionTemplateSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH ServiceMgtSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH SocialListeningSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT(TRUE);
-        END;
-
-      WITH PurchSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH InvtSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH ResourcesSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH JobsSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH FASetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH HumanResourcesSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH WhseSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH NonstockItemSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH CashFlowSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH CostAccSetup DO
-        IF WRITEPERMISSION THEN
-          IF NOT FINDFIRST THEN BEGIN
-            INIT;
-            INSERT;
-          END;
-
-      WITH AssemblySetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH VATReportSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH ConfigSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH IncomingDocumentsSetup DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-
-      WITH CompanyInfo DO
-        IF NOT FINDFIRST THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-    END;
-
-    LOCAL PROCEDURE InitSourceCodeSetup@9();
-    VAR
-      SourceCode@1001 : Record 230;
-      SourceCodeSetup@1000 : Record 242;
-    BEGIN
-      IF NOT (SourceCodeSetup.FINDFIRST OR SourceCode.FINDFIRST) THEN
-        WITH SourceCodeSetup DO BEGIN
-          INIT;
-          InsertSourceCode(Sales,Text001,Text002);
-          InsertSourceCode(Purchases,Text003,Text004);
-          InsertSourceCode("Deleted Document",Text005,COPYSTR(FIELDCAPTION("Deleted Document"),1,30));
-          InsertSourceCode("Inventory Post Cost",Text006,ReportName(REPORT::"Post Inventory Cost to G/L"));
-          InsertSourceCode("Exchange Rate Adjmt.",Text007,ReportName(REPORT::"Adjust Exchange Rates"));
-          InsertSourceCode("Close Income Statement",Text010,ReportName(REPORT::"Close Income Statement"));
-          InsertSourceCode(Consolidation,Text011,Text012);
-          InsertSourceCode("General Journal",Text013,PageName(PAGE::"General Journal"));
-          InsertSourceCode("Sales Journal",Text014,PageName(PAGE::"Sales Journal"));
-          InsertSourceCode("Purchase Journal",Text015,PageName(PAGE::"Purchase Journal"));
-          InsertSourceCode("Cash Receipt Journal",Text016,PageName(PAGE::"Cash Receipt Journal"));
-          InsertSourceCode("Payment Journal",Text017,PageName(PAGE::"Payment Journal"));
-          InsertSourceCode("Payment Reconciliation Journal",PaymentReconJnlTok,PageName(PAGE::"Payment Reconciliation Journal"));
-          InsertSourceCode("Item Journal",Text018,PageName(PAGE::"Item Journal"));
-          InsertSourceCode(Transfer,Text063,Text064);
-          InsertSourceCode("Item Reclass. Journal",Text065,PageName(PAGE::"Item Reclass. Journal"));
-          InsertSourceCode("Phys. Inventory Journal",Text020,PageName(PAGE::"Phys. Inventory Journal"));
-          InsertSourceCode("Revaluation Journal",Text066,PageName(PAGE::"Revaluation Journal"));
-          InsertSourceCode("Consumption Journal",Text067,PageName(PAGE::"Consumption Journal"));
-          InsertSourceCode("Output Journal",Text069,PageName(PAGE::"Output Journal"));
-          InsertSourceCode("Production Journal",Text092,PageName(PAGE::"Production Journal"));
-          InsertSourceCode("Capacity Journal",Text070,PageName(PAGE::"Capacity Journal"));
-          InsertSourceCode("Resource Journal",Text022,PageName(PAGE::"Resource Journal"));
-          InsertSourceCode("Job Journal",Text023,PageName(PAGE::"Job Journal"));
-          InsertSourceCode("Job G/L Journal",Text096,PageName(PAGE::"Job G/L Journal"));
-          InsertSourceCode("Job G/L WIP",Text097,Text098);
-          InsertSourceCode("Sales Entry Application",Text024,Text025);
-          InsertSourceCode("Unapplied Sales Entry Appln.",Text086,Text087);
-          InsertSourceCode("Unapplied Purch. Entry Appln.",Text088,Text089);
-          InsertSourceCode(Reversal,Text090,Text091);
-          InsertSourceCode("Purchase Entry Application",Text026,Text027);
-          InsertSourceCode("VAT Settlement",Text028,ReportName(REPORT::"Calc. and Post VAT Settlement"));
-          InsertSourceCode("Compress G/L",Text029,ReportName(REPORT::"Date Compress General Ledger"));
-          InsertSourceCode("Compress VAT Entries",Text030,ReportName(REPORT::"Date Compress VAT Entries"));
-          InsertSourceCode("Compress Cust. Ledger",Text031,ReportName(REPORT::"Date Compress Customer Ledger"));
-          InsertSourceCode("Compress Vend. Ledger",Text032,ReportName(REPORT::"Date Compress Vendor Ledger"));
-          InsertSourceCode("Compress Res. Ledger",Text035,ReportName(REPORT::"Date Compress Resource Ledger"));
-          InsertSourceCode("Compress Job Ledger",Text036,Text099);
-          InsertSourceCode("Compress Bank Acc. Ledger",Text037,ReportName(REPORT::"Date Compress Bank Acc. Ledger"));
-          InsertSourceCode("Compress Check Ledger",Text038,ReportName(REPORT::"Delete Check Ledger Entries"));
-          InsertSourceCode("Financially Voided Check",Text039,Text040);
-          InsertSourceCode(Reminder,Text041,Text042);
-          InsertSourceCode("Finance Charge Memo",Text043,Text044);
-          InsertSourceCode("Trans. Bank Rec. to Gen. Jnl.",Text076,ReportName(REPORT::"Trans. Bank Rec. to Gen. Jnl."));
-          InsertSourceCode("Fixed Asset G/L Journal",Text045,PageName(PAGE::"Fixed Asset G/L Journal"));
-          InsertSourceCode("Fixed Asset Journal",Text046,PageName(PAGE::"Fixed Asset Journal"));
-          InsertSourceCode("Insurance Journal",Text047,PageName(PAGE::"Insurance Journal"));
-          InsertSourceCode("Compress FA Ledger",Text048,ReportName(REPORT::"Date Compress FA Ledger"));
-          InsertSourceCode("Compress Maintenance Ledger",Text049,ReportName(REPORT::"Date Compress Maint. Ledger"));
-          InsertSourceCode("Compress Insurance Ledger",Text050,ReportName(REPORT::"Date Compress Insurance Ledger"));
-          InsertSourceCode("Adjust Add. Reporting Currency",Text051,ReportName(REPORT::"Adjust Add. Reporting Currency"));
-          InsertSourceCode(Flushing,Text99000004,Text99000005);
-          InsertSourceCode("Adjust Cost",Text068,ReportName(REPORT::"Adjust Cost - Item Entries"));
-          InsertSourceCode("Compress Item Budget",Text100,ReportName(REPORT::"Date Comp. Item Budget Entries"));
-          InsertSourceCode("Whse. Item Journal",Text071,PageName(PAGE::"Whse. Item Journal"));
-          InsertSourceCode("Whse. Phys. Invt. Journal",Text072,PageName(PAGE::"Whse. Phys. Invt. Journal"));
-          InsertSourceCode("Whse. Reclassification Journal",Text073,PageName(PAGE::"Whse. Reclassification Journal"));
-          InsertSourceCode("Compress Whse. Entries",Text083,ReportName(REPORT::"Date Compress Whse. Entries"));
-          InsertSourceCode("Whse. Put-away",Text077,Text080);
-          InsertSourceCode("Whse. Pick",Text078,Text081);
-          InsertSourceCode("Whse. Movement",Text079,Text082);
-          InsertSourceCode("Service Management",Text074,Text075);
-          InsertSourceCode("IC General Journal",Text084,Text085);
-          InsertSourceCode("Cash Flow Worksheet",Text109,Text110);
-          InsertSourceCode(Assembly,Text107,Text108);
-          InsertSourceCode("G/L Entry to CA",Text111,Text112);
-          InsertSourceCode("Cost Journal",Text113,Text114);
-          InsertSourceCode("Cost Allocation",Text115,Text116);
-          InsertSourceCode("Transfer Budget to Actual",Text117,Text118);
-          INSERT;
-        END;
-    END;
-
-    LOCAL PROCEDURE InitStandardTexts@11();
-    VAR
-      StandardText@1000 : Record 7;
-    BEGIN
-      IF NOT StandardText.FINDFIRST THEN BEGIN
-        InsertStandardText(Text052,Text053);
-        InsertStandardText(Text054,Text055);
-        InsertStandardText(Text056,Text057);
-        InsertStandardText(Text058,Text059);
-      END;
-    END;
-
-    LOCAL PROCEDURE InitReportSelection@13();
-    VAR
-      ReportSelections@1000 : Record 77;
-    BEGIN
-      WITH ReportSelections DO
-        IF NOT FINDFIRST THEN BEGIN
-          InsertRepSelection(Usage::"S.Quote",'1',REPORT::"Sales - Quote");
-          InsertRepSelection(Usage::"S.Blanket",'1',REPORT::"Blanket Sales Order");
-          InsertRepSelection(Usage::"S.Order",'1',REPORT::"Order Confirmation");
-          InsertRepSelection(Usage::"S.Work Order",'1',REPORT::"Work Order");
-          InsertRepSelection(Usage::"S.Invoice",'1',REPORT::"Sales - Invoice");
-          InsertRepSelection(Usage::"S.Return",'1',REPORT::"Return Order Confirmation");
-          InsertRepSelection(Usage::"S.Cr.Memo",'1',REPORT::"Sales - Credit Memo");
-          InsertRepSelection(Usage::"S.Shipment",'1',REPORT::"Sales - Shipment");
-          InsertRepSelection(Usage::"S.Ret.Rcpt.",'1',REPORT::"Sales - Return Receipt");
-          InsertRepSelection(Usage::"S.Test",'1',REPORT::"Sales Document - Test");
-          InsertRepSelection(Usage::"P.Quote",'1',REPORT::"Purchase - Quote");
-          InsertRepSelection(Usage::"P.Blanket",'1',REPORT::"Blanket Purchase Order");
-          InsertRepSelection(Usage::"P.Order",'1',REPORT::Order);
-          InsertRepSelection(Usage::"P.Invoice",'1',REPORT::"Purchase - Invoice");
-          InsertRepSelection(Usage::"P.Return",'1',REPORT::"Return Order");
-          InsertRepSelection(Usage::"P.Cr.Memo",'1',REPORT::"Purchase - Credit Memo");
-          InsertRepSelection(Usage::"P.Receipt",'1',REPORT::"Purchase - Receipt");
-          InsertRepSelection(Usage::"P.Ret.Shpt.",'1',REPORT::"Purchase - Return Shipment");
-          InsertRepSelection(Usage::"P.Test",'1',REPORT::"Purchase Document - Test");
-          InsertRepSelection(Usage::"B.Stmt",'1',REPORT::"Bank Account Statement");
-          InsertRepSelection(Usage::"B.Recon.Test",'1',REPORT::"Bank Acc. Recon. - Test");
-          InsertRepSelection(Usage::"B.Check",'1',REPORT::Check);
-          InsertRepSelection(Usage::Reminder,'1',REPORT::Reminder);
-          InsertRepSelection(Usage::"Fin.Charge",'1',REPORT::"Finance Charge Memo");
-          InsertRepSelection(Usage::"Rem.Test",'1',REPORT::"Reminder - Test");
-          InsertRepSelection(Usage::"F.C.Test",'1',REPORT::"Finance Charge Memo - Test");
-          InsertRepSelection(Usage::Inv1,'1',REPORT::"Transfer Order");
-          InsertRepSelection(Usage::Inv2,'1',REPORT::"Transfer Shipment");
-          InsertRepSelection(Usage::Inv3,'1',REPORT::"Transfer Receipt");
-          InsertRepSelection(Usage::"Invt. Period Test",'1',REPORT::"Close Inventory Period - Test");
-          InsertRepSelection(Usage::"Prod. Order",'1',REPORT::"Prod. Order - Job Card");
-          InsertRepSelection(Usage::M1,'1',REPORT::"Prod. Order - Job Card");
-          InsertRepSelection(Usage::M2,'1',REPORT::"Prod. Order - Mat. Requisition");
-          InsertRepSelection(Usage::M3,'1',REPORT::"Prod. Order - Shortage List");
-          InsertRepSelection(Usage::"SM.Quote",'1',REPORT::"Service Quote");
-          InsertRepSelection(Usage::"SM.Order",'1',REPORT::"Service Order");
-          InsertRepSelection(Usage::"SM.Invoice",'1',REPORT::"Service - Invoice");
-          InsertRepSelection(Usage::"SM.Credit Memo",'1',REPORT::"Service - Credit Memo");
-          InsertRepSelection(Usage::"SM.Shipment",'1',REPORT::"Service - Shipment");
-          InsertRepSelection(Usage::"SM.Contract Quote",'1',REPORT::"Service Contract Quote");
-          InsertRepSelection(Usage::"SM.Contract",'1',REPORT::"Service Contract");
-          InsertRepSelection(Usage::"SM.Test",'1',REPORT::"Service Document - Test");
-          InsertRepSelection(Usage::"Asm. Order",'1',REPORT::"Assembly Order");
-          InsertRepSelection(Usage::"P.Assembly Order",'1',REPORT::"Posted Assembly Order");
-          InsertRepSelection(Usage::"S.Test Prepmt.",'1',REPORT::"Sales Prepmt. Document Test");
-          InsertRepSelection(Usage::"P.Test Prepmt.",'1',REPORT::"Purchase Prepmt. Doc. - Test");
-          InsertRepSelection(Usage::"S.Arch. Quote",'1',REPORT::"Archived Sales Quote");
-          InsertRepSelection(Usage::"S.Arch. Order",'1',REPORT::"Archived Sales Order");
-          InsertRepSelection(Usage::"P.Arch. Quote",'1',REPORT::"Archived Purchase Quote");
-          InsertRepSelection(Usage::"P.Arch. Order",'1',REPORT::"Archived Purchase Order");
-          InsertRepSelection(Usage::"P. Arch. Return Order",'1',REPORT::"Arch.Purch. Return Order");
-          InsertRepSelection(Usage::"S. Arch. Return Order",'1',REPORT::"Arch. Sales Return Order");
-          InsertRepSelection(Usage::"S.Order Pick Instruction",'1',REPORT::"Pick Instruction");
-          InsertRepSelection(Usage::"C.Statement",'1',REPORT::Statement);
-        END;
-    END;
-
-    LOCAL PROCEDURE InitJobWIPMethods@15();
-    VAR
-      JobWIPMethod@1000 : Record 1006;
-    BEGIN
-      IF NOT JobWIPMethod.FINDFIRST THEN BEGIN
-        InsertJobWIPMethod(Text101,Text101,JobWIPMethod."Recognized Costs"::"At Completion",
-          JobWIPMethod."Recognized Sales"::"At Completion",4);
-        InsertJobWIPMethod(Text102,Text102,JobWIPMethod."Recognized Costs"::"Cost of Sales",
-          JobWIPMethod."Recognized Sales"::"Contract (Invoiced Price)",2);
-        InsertJobWIPMethod(Text103,Text103,JobWIPMethod."Recognized Costs"::"Cost Value",
-          JobWIPMethod."Recognized Sales"::"Contract (Invoiced Price)",0);
-        InsertJobWIPMethod(Text104,Text104,JobWIPMethod."Recognized Costs"::"Usage (Total Cost)",
-          JobWIPMethod."Recognized Sales"::"Sales Value",1);
-        InsertJobWIPMethod(Text106,Text105,JobWIPMethod."Recognized Costs"::"Usage (Total Cost)",
-          JobWIPMethod."Recognized Sales"::"Percentage of Completion",3);
-      END;
-    END;
-
-    LOCAL PROCEDURE InitBankExportImportSetup@14();
-    VAR
-      BankExportImportSetup@1000 : Record 1200;
-    BEGIN
-      IF NOT BankExportImportSetup.FINDFIRST THEN BEGIN
-        InsertBankExportImportSetup(SEPACTCodeTxt,SEPACTNameTxt,BankExportImportSetup.Direction::Export,
-          CODEUNIT::"SEPA CT-Export File",XMLPORT::"SEPA CT pain.001.001.03",CODEUNIT::"SEPA CT-Check Line");
-        InsertBankExportImportSetup(SEPADDCodeTxt,SEPADDNameTxt,BankExportImportSetup.Direction::Export,
-          CODEUNIT::"SEPA DD-Export File",XMLPORT::"SEPA DD pain.008.001.02",CODEUNIT::"SEPA DD-Check Line");
-      END;
-    END;
-
-    LOCAL PROCEDURE InitBankClearingStandard@18();
-    VAR
-      BankClearingStandard@1000 : Record 1280;
-    BEGIN
-      IF NOT BankClearingStandard.FINDFIRST THEN BEGIN
-        InsertBankClearingStandard(BankClearingStandardCode1Tok,BankClearingStandardDesc1Txt);
-        InsertBankClearingStandard(BankClearingStandardCode2Tok,BankClearingStandardDesc2Txt);
-        InsertBankClearingStandard(BankClearingStandardCode3Tok,BankClearingStandardDesc3Txt);
-        InsertBankClearingStandard(BankClearingStandardCode4Tok,BankClearingStandardDesc4Txt);
-        InsertBankClearingStandard(BankClearingStandardCode5Tok,BankClearingStandardDesc5Txt);
-        InsertBankClearingStandard(BankClearingStandardCode6Tok,BankClearingStandardDesc6Txt);
-        InsertBankClearingStandard(BankClearingStandardCode7Tok,BankClearingStandardDesc7Txt);
-        InsertBankClearingStandard(BankClearingStandardCode8Tok,BankClearingStandardDesc8Txt);
-        InsertBankClearingStandard(BankClearingStandardCode9Tok,BankClearingStandardDesc9Txt);
-        InsertBankClearingStandard(BankClearingStandardCode10Tok,BankClearingStandardDesc10Txt);
-        InsertBankClearingStandard(BankClearingStandardCode11Tok,BankClearingStandardDesc11Txt);
-        InsertBankClearingStandard(BankClearingStandardCode12Tok,BankClearingStandardDesc12Txt);
-        InsertBankClearingStandard(BankClearingStandardCode13Tok,BankClearingStandardDesc13Txt);
-        InsertBankClearingStandard(BankClearingStandardCode14Tok,BankClearingStandardDesc14Txt);
-        InsertBankClearingStandard(BankClearingStandardCode15Tok,BankClearingStandardDesc15Txt);
-        InsertBankClearingStandard(BankClearingStandardCode16Tok,BankClearingStandardDesc16Txt);
-        InsertBankClearingStandard(BankClearingStandardCode17Tok,BankClearingStandardDesc17Txt);
-        InsertBankClearingStandard(BankClearingStandardCode18Tok,BankClearingStandardDesc18Txt);
-      END;
-    END;
-
-    LOCAL PROCEDURE InitBankDataConvServiceSetup@19();
-    VAR
-      BankDataConvServiceSetup@1000 : Record 1260;
-      BankDataConvServMgt@1001 : Codeunit 1265;
-    BEGIN
-      IF NOT BankDataConvServiceSetup.GET THEN BEGIN
-        BankDataConvServiceSetup.INIT;
-        BankDataConvServiceSetup.INSERT;
-        BankDataConvServMgt.SetURLsToDefault(BankDataConvServiceSetup);
-      END;
-    END;
-
-    LOCAL PROCEDURE InitOcrServiceSetup@10();
-    VAR
-      OCRServiceSetup@1000 : Record 1270;
-    BEGIN
-      WITH OCRServiceSetup DO
-        IF NOT GET THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-    END;
-
-    LOCAL PROCEDURE InitDocExchServiceSetup@26();
-    VAR
-      DocExchServiceSetup@1000 : Record 1275;
-    BEGIN
-      WITH DocExchServiceSetup DO
-        IF NOT GET THEN BEGIN
-          INIT;
-          INSERT;
-        END;
-    END;
-
-    LOCAL PROCEDURE InitBankDataConversionPmtType@21();
-    VAR
-      BankDataConversionPmtType@1000 : Record 1281;
-    BEGIN
-      IF NOT BankDataConversionPmtType.FINDFIRST THEN BEGIN
-        InsertBankDataConversionPmtType(BankDataConvPmtTypeCode1Tok,BankDataConvPmtTypeDesc1Txt);
-        InsertBankDataConversionPmtType(BankDataConvPmtTypeCode2Tok,BankDataConvPmtTypeDesc2Txt);
-        InsertBankDataConversionPmtType(BankDataConvPmtTypeCode3Tok,BankDataConvPmtTypeDesc3Txt);
-        InsertBankDataConversionPmtType(BankDataConvPmtTypeCode4Tok,BankDataConvPmtTypeDesc4Txt);
-        InsertBankDataConversionPmtType(BankDataConvPmtTypeCode5Tok,BankDataConvPmtTypeDesc5Txt);
-        InsertBankDataConversionPmtType(BankDataConvPmtTypeCode6Tok,BankDataConvPmtTypeDesc6Txt);
-        InsertBankDataConversionPmtType(BankDataConvPmtTypeCode7Tok,BankDataConvPmtTypeDesc7Txt);
-        InsertBankDataConversionPmtType(BankDataConvPmtTypeCode8Tok,BankDataConvPmtTypeDesc8Txt);
-        InsertBankDataConversionPmtType(BankDataConvPmtTypeCode9Tok,BankDataConvPmtTypeDesc9Txt);
-      END;
-    END;
-
-    LOCAL PROCEDURE InitVATRegNrValidationSetup@22();
-    VAR
-      GeneralLedgerSetup@1000 : Record 98;
-      VATLookupExtDataHndl@1001 : Codeunit 248;
-    BEGIN
-      IF GeneralLedgerSetup.GET THEN
-        IF GeneralLedgerSetup."VAT Reg. No. Validation URL" = '' THEN BEGIN
-          GeneralLedgerSetup."VAT Reg. No. Validation URL" := VATLookupExtDataHndl.GetVATRegNrValidationWebServiceURL;
-          GeneralLedgerSetup.MODIFY;
-        END;
-    END;
-
-    LOCAL PROCEDURE InitElectronicFormats@23();
-    VAR
-      ElectronicDocumentFormat@1000 : Record 61;
-    BEGIN
-      InsertElectronicFormat(
-        PEPPOL21_ElectronicFormatTxt,PEPPOL21_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"Export Sales Inv. - PEPPOL 2.1",ElectronicDocumentFormat.Usage::"Sales Invoice");
-
-      InsertElectronicFormat(
-        PEPPOL21_ElectronicFormatTxt,PEPPOL21_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"Export Sales Cr.M. - PEPPOL2.1",ElectronicDocumentFormat.Usage::"Sales Credit Memo");
-
-      InsertElectronicFormat(
-        PEPPOL21_ElectronicFormatTxt,PEPPOL21_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"Export Serv. Inv. - PEPPOL 2.1",ElectronicDocumentFormat.Usage::"Service Invoice");
-
-      InsertElectronicFormat(
-        PEPPOL21_ElectronicFormatTxt,PEPPOL21_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"Exp. Service Cr.M. - PEPPOL2.1",ElectronicDocumentFormat.Usage::"Service Credit Memo");
-
-      InsertElectronicFormat(
-        PEPPOL21_ElectronicFormatTxt,PEPPOL21_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"PEPPOL Validation",ElectronicDocumentFormat.Usage::"Sales Validation");
-
-      InsertElectronicFormat(
-        PEPPOL21_ElectronicFormatTxt,PEPPOL21_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"PEPPOL Service Validation",ElectronicDocumentFormat.Usage::"Service Validation");
-
-      InsertElectronicFormat(
-        PEPPOL20_ElectronicFormatTxt,PEPPOL20_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"Export Sales Inv. - PEPPOL 2.0",ElectronicDocumentFormat.Usage::"Sales Invoice");
-
-      InsertElectronicFormat(
-        PEPPOL20_ElectronicFormatTxt,PEPPOL20_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"Export Sales Cr.M. - PEPPOL2.0",ElectronicDocumentFormat.Usage::"Sales Credit Memo");
-
-      InsertElectronicFormat(
-        PEPPOL20_ElectronicFormatTxt,PEPPOL20_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"Export Serv. Inv. - PEPPOL 2.0",ElectronicDocumentFormat.Usage::"Service Invoice");
-
-      InsertElectronicFormat(
-        PEPPOL20_ElectronicFormatTxt,PEPPOL20_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"Exp. Service Cr.M. - PEPPOL2.0",ElectronicDocumentFormat.Usage::"Service Credit Memo");
-
-      InsertElectronicFormat(
-        PEPPOL20_ElectronicFormatTxt,PEPPOL20_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"PEPPOL Validation",ElectronicDocumentFormat.Usage::"Sales Validation");
-
-      InsertElectronicFormat(
-        PEPPOL20_ElectronicFormatTxt,PEPPOL20_ElectronicFormatDescriptionTxt,
-        CODEUNIT::"PEPPOL Service Validation",ElectronicDocumentFormat.Usage::"Service Validation");
-    END;
-
-    LOCAL PROCEDURE InsertSourceCode@1(VAR SourceCodeDefCode@1000 : Code[10];Code@1001 : Code[10];Description@1002 : Text[50]);
-    VAR
-      SourceCode@1003 : Record 230;
-    BEGIN
-      SourceCodeDefCode := Code;
-      SourceCode.INIT;
-      SourceCode.Code := Code;
-      SourceCode.Description := Description;
-      SourceCode.INSERT;
-    END;
-
-    LOCAL PROCEDURE InsertStandardText@4(Code@1000 : Code[20];Description@1001 : Text[50]);
-    VAR
-      StandardText@1002 : Record 7;
-    BEGIN
-      StandardText.INIT;
-      StandardText.Code := Code;
-      StandardText.Description := Description;
-      StandardText.INSERT;
-    END;
-
-    LOCAL PROCEDURE InsertRepSelection@2(ReportUsage@1000 : Integer;Sequence@1001 : Code[10];ReportID@1002 : Integer);
-    VAR
-      ReportSelections@1003 : Record 77;
-    BEGIN
-      ReportSelections.INIT;
-      ReportSelections.Usage := ReportUsage;
-      ReportSelections.Sequence := Sequence;
-      ReportSelections."Report ID" := ReportID;
-      ReportSelections.INSERT;
-    END;
-
-    LOCAL PROCEDURE PageName@5(PageID@1000 : Integer) : Text[50];
-    VAR
-      ObjectTranslation@1001 : Record 377;
-    BEGIN
-      EXIT(COPYSTR(ObjectTranslation.TranslateObject(ObjectTranslation."Object Type"::Page,PageID),1,30));
-    END;
-
-    LOCAL PROCEDURE ReportName@6(ReportID@1000 : Integer) : Text[50];
-    VAR
-      ObjectTranslation@1001 : Record 377;
-    BEGIN
-      EXIT(COPYSTR(ObjectTranslation.TranslateObject(ObjectTranslation."Object Type"::Report,ReportID),1,30));
-    END;
-
-    LOCAL PROCEDURE InsertClientAddIns@8();
-    VAR
-      ClientAddIn@1000 : Record 2000000069;
-    BEGIN
-      InsertClientAddIn(
-        'Microsoft.Dynamics.Nav.Client.DynamicsOnlineConnect','31bf3856ad364e35','',
-        ClientAddIn.Category::"DotNet Control Add-in",
-        'Microsoft Dynamics Online Connect control add-in','');
-      InsertClientAddIn(
-        'Microsoft.Dynamics.Nav.Client.BusinessChart','31bf3856ad364e35','',
-        ClientAddIn.Category::"JavaScript Control Add-in",
-        'Microsoft Dynamics BusinessChart control add-in',
-        APPLICATIONPATH + 'Add-ins\BusinessChart\Microsoft.Dynamics.Nav.Client.BusinessChart.zip');
-      InsertClientAddIn(
-        'Microsoft.Dynamics.Nav.Client.TimelineVisualization','31bf3856ad364e35','',
-        ClientAddIn.Category::"DotNet Control Add-in",
-        'Interactive visualizion for a timeline of events','');
-      InsertClientAddIn(
-        'Microsoft.Dynamics.Nav.Client.PingPong','31bf3856ad364e35','',
-        ClientAddIn.Category::"DotNet Control Add-in",
-        'Microsoft Dynamics PingPong control add-in','');
-      InsertClientAddIn(
-        'Microsoft.Dynamics.Nav.Client.VideoPlayer','31bf3856ad364e35','',
-        ClientAddIn.Category::"JavaScript Control Add-in",
-        'Microsoft Dynamics VideoPlayer control add-in',
-        APPLICATIONPATH + 'Add-ins\VideoPlayer\Microsoft.Dynamics.Nav.Client.VideoPlayer.zip');
-      InsertClientAddIn(
-        'Microsoft.Dynamics.Nav.Client.PageReady','31bf3856ad364e35','',
-        ClientAddIn.Category::"JavaScript Control Add-in",
-        'Microsoft Dynamics PageReady control add-in',
-        APPLICATIONPATH + 'Add-ins\PageReady\Microsoft.Dynamics.Nav.Client.PageReady.zip');
-      InsertClientAddIn(
-        'Microsoft.Dynamics.Nav.Client.SocialListening','31bf3856ad364e35','',
-        ClientAddIn.Category::"JavaScript Control Add-in",
-        'Microsoft Social Listening control add-in',
-        APPLICATIONPATH + 'Add-ins\SocialListening\Microsoft.Dynamics.Nav.Client.SocialListening.zip');
-    END;
-
-    LOCAL PROCEDURE InsertClientAddIn@17(ControlAddInName@1000 : Text[220];PublicKeyToken@1001 : Text[20];Version@1002 : Text[25];Category@1006 : Option;Description@1003 : Text[250];ResourceFilePath@1005 : Text[250]);
-    VAR
-      ClientAddIn@1004 : Record 2000000069;
-    BEGIN
-      IF ClientAddIn.GET(ControlAddInName,PublicKeyToken,Version) THEN
-        EXIT;
-
-      ClientAddIn.INIT;
-      ClientAddIn."Add-in Name" := ControlAddInName;
-      ClientAddIn."Public Key Token" := PublicKeyToken;
-      ClientAddIn.Version := Version;
-      ClientAddIn.Category := Category;
-      ClientAddIn.Description := Description;
-      IF EXISTS(ResourceFilePath) THEN
-        ClientAddIn.Resource.IMPORT(ResourceFilePath);
-      IF ClientAddIn.INSERT THEN;
-    END;
-
-    LOCAL PROCEDURE InsertJobWIPMethod@7(Code@1000 : Code[20];Description@1001 : Text[50];RecognizedCosts@1002 : Option;RecognizedSales@1003 : Option;SystemDefinedIndex@1004 : Integer);
-    VAR
-      JobWIPMethod@1005 : Record 1006;
-    BEGIN
-      JobWIPMethod.INIT;
-      JobWIPMethod.Code := Code;
-      JobWIPMethod.Description := Description;
-      JobWIPMethod."WIP Cost" := TRUE;
-      JobWIPMethod."WIP Sales" := TRUE;
-      JobWIPMethod."Recognized Costs" := RecognizedCosts;
-      JobWIPMethod."Recognized Sales" := RecognizedSales;
-      JobWIPMethod.Valid := TRUE;
-      JobWIPMethod."System Defined" := TRUE;
-      JobWIPMethod."System-Defined Index" := SystemDefinedIndex;
-      JobWIPMethod.INSERT;
-    END;
-
-    LOCAL PROCEDURE InsertBankExportImportSetup@16(CodeTxt@1000 : Text[20];NameTxt@1001 : Text[100];DirectionOpt@1002 : Option;CodeunitID@1003 : Integer;XMLPortID@1004 : Integer;CheckCodeunitID@1006 : Integer);
-    VAR
-      BankExportImportSetup@1005 : Record 1200;
-    BEGIN
-      WITH BankExportImportSetup DO BEGIN
-        INIT;
-        Code := CodeTxt;
-        Name := NameTxt;
-        Direction := DirectionOpt;
-        "Processing Codeunit ID" := CodeunitID;
-        "Processing XMLport ID" := XMLPortID;
-        "Check Export Codeunit" := CheckCodeunitID;
-        "Preserve Non-Latin Characters" := FALSE;
-        INSERT;
-      END;
-    END;
-
-    LOCAL PROCEDURE InsertBankClearingStandard@12(CodeText@1001 : Text[50];DescriptionText@1002 : Text[80]);
-    VAR
-      BankClearingStandard@1000 : Record 1280;
-    BEGIN
-      WITH BankClearingStandard DO BEGIN
-        INIT;
-        Code := CodeText;
-        Description := DescriptionText;
-        INSERT;
-      END;
-    END;
-
-    LOCAL PROCEDURE InsertBankDataConversionPmtType@20(CodeText@1001 : Text[50];DescriptionText@1002 : Text[80]);
-    VAR
-      BankDataConversionPmtType@1000 : Record 1281;
-    BEGIN
-      WITH BankDataConversionPmtType DO BEGIN
-        INIT;
-        Code := CodeText;
-        Description := DescriptionText;
-        INSERT;
-      END;
-    END;
-
-    LOCAL PROCEDURE InsertElectronicFormat@24(Code@1000 : Code[20];Description@1001 : Text[250];CodeunitID@1002 : Integer;Usage@1004 : Option);
-    VAR
-      ElectronicDocumentFormat@1003 : Record 61;
-    BEGIN
-      IF ElectronicDocumentFormat.GET(Code,Usage) THEN
-        EXIT;
-
-      ElectronicDocumentFormat.INIT;
-      ElectronicDocumentFormat.Code := Code;
-      ElectronicDocumentFormat.Description := Description;
-      ElectronicDocumentFormat."Codeunit ID" := CodeunitID;
-      ElectronicDocumentFormat.Usage := Usage;
-      ElectronicDocumentFormat.INSERT;
-    END;
-
-    LOCAL PROCEDURE InitExampleAddOn@50000();
-    VAR
-      ExampleSetup@50000 : Record 50000;
-    BEGIN
-      WITH ExampleSetup DO
-        InitSetupRecord;
-
-    END;
-
-    BEGIN
-    END.
-  }
-}
-
 OBJECT Codeunit 50000 Example-Post
 {
   OBJECT-PROPERTIES
@@ -5957,8 +5422,8 @@ OBJECT Codeunit 50003 Ex. Jnl.-Post Line
 {
   OBJECT-PROPERTIES
   {
-    Date=10-10-15;
-    Time=19:27:49;
+    Date=15-12-15;
+    Time=16:38:52;
     Modified=Yes;
     Version List=Exercise 3;
   }
@@ -5986,6 +5451,7 @@ OBJECT Codeunit 50003 Ex. Jnl.-Post Line
       ExJnlCheckLine@1006 : Codeunit 50002;
       NextEntryNo@1008 : Integer;
       GLSetupRead@1009 : Boolean;
+      ExJnlPostLineHook@1004 : Codeunit 50031;
 
     PROCEDURE GetExReg@2(VAR NewExReg@1000 : Record 50015);
     BEGIN
@@ -6006,6 +5472,8 @@ OBJECT Codeunit 50003 Ex. Jnl.-Post Line
           EXIT;
 
         ExJnlCheckLine.RunCheck(ExJnlLine);
+
+        ExJnlPostLineHook.OnAfterEmptyLine;
 
         IF NextEntryNo = 0 THEN BEGIN
           ExLedgEntry.LOCKTABLE;
@@ -7017,8 +6485,8 @@ OBJECT Codeunit 50013 Get Weight From Philips
 {
   OBJECT-PROPERTIES
   {
-    Date=25-11-15;
-    Time=19:24:31;
+    Date=11-04-16;
+    Time=19:38:03;
     Modified=Yes;
     Version List=Exercise 4;
   }
@@ -7043,7 +6511,7 @@ OBJECT Codeunit 50013 Get Weight From Philips
         EXIT;
 
       WITH WeightArguments DO // Do It
-        Weight := 100;
+        Weight := -100;
 
       Handled := TRUE; // Clean Up
     END;
@@ -7054,7 +6522,8 @@ OBJECT Codeunit 50013 Get Weight From Philips
       Scale@1001 : Record 50025;
     BEGIN
       WITH Rec DO BEGIN
-        IF GET('PHILIPS') THEN EXIT;
+        IF GET('PHILIPS') THEN
+          EXIT;
         INIT;
         Code := 'PHILIPS';
         Description := 'Philips Scale';
@@ -7228,6 +6697,116 @@ OBJECT Codeunit 50017 Get Weight From Brandx
   }
 }
 
+OBJECT Codeunit 50018 Get Weight From Schouw
+{
+  OBJECT-PROPERTIES
+  {
+    Date=04-02-16;
+    Time=19:10:08;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromPhilips@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Philips" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 100;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('SCHOUW') THEN EXIT;
+        INIT;
+        Code := 'SCHOUW';
+        Description := 'Schouws Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Schouw";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50019 Get Weight From Mark
+{
+  OBJECT-PROPERTIES
+  {
+    Date=09-12-15;
+    Time=22:06:52;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromPhilips@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Philips" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 100;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('MARK') THEN EXIT;
+        INIT;
+        Code := 'MARK';
+        Description := 'Marks Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Mark";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
 OBJECT Codeunit 50020 Example Product Price Mgt.
 {
   OBJECT-PROPERTIES
@@ -7291,6 +6870,593 @@ OBJECT Codeunit 50030 Example-Post Hook
 
     PROCEDURE OnAfterDelete@2(VAR ExampleDocumentHeader@1000 : Record 50003);
     BEGIN
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50031 Ex. Jnl.-Post Line-Hook
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-12-15;
+    Time=16:38:44;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    PROCEDURE OnAfterEmptyLine@1();
+    BEGIN
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50032 Get Weight From Church
+{
+  OBJECT-PROPERTIES
+  {
+    Date=02-09-16;
+    Time=15:05:21;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromChurch@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Church" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 5678;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('CHURCH') THEN
+          EXIT;
+        INIT;
+        Code := 'CHURCH';
+        Description := 'Church Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Church";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50033 Get Weight From Iceland
+{
+  OBJECT-PROPERTIES
+  {
+    Date=06-09-16;
+    Time=15:51:40;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromIceland@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Iceland" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 25602;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('ICELAND') THEN
+          EXIT;
+        INIT;
+        Code := 'ICELAND';
+        Description := 'Iceland Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Iceland";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50034 Get Weight From No Idea
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-09-16;
+    Time=15:32:34;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromNoIdea@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From No Idea" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 238695;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('NOIDEA') THEN
+          EXIT;
+        INIT;
+        Code := 'NOIDEA';
+        Description := 'No Idea What Brand Of Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From No Idea";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50035 Get Weight From Gates
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-10-16;
+    Time=14:53:40;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromGates@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Gates" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := -49382;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('GATES') THEN
+          EXIT;
+        INIT;
+        Code := 'GATES';
+        Description := 'Gates Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Gates";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50045 Get Weight From Navtilus
+{
+  OBJECT-PROPERTIES
+  {
+    Date=31-05-16;
+    Time=15:21:28;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromNavtilus@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Navtilus" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 12345;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('NAVTILUS') THEN
+          EXIT;
+        INIT;
+        Code := 'NAVTILUS';
+        Description := 'Navtilus Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Navtilus";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50080 Get Weight From VSCode
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-03-17;
+    Time=14:16:01;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromVSCode@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From VSCode" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 59382;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('VSCODE') THEN
+          EXIT;
+        INIT;
+        Code := 'VSCODE';
+        Description := 'Weight From VSCode';
+        "Codeunit ID" := CODEUNIT::"Get Weight From VSCode";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50084 Get Weight From MT
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-06-16;
+    Time=14:40:07;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromMT@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From MT" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 8765;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('MT') THEN
+          EXIT;
+        INIT;
+        Code := 'MT';
+        Description := 'Metthler Toledo';
+        "Codeunit ID" := CODEUNIT::"Get Weight From MT";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50086 Get Weight From Portugal
+{
+  OBJECT-PROPERTIES
+  {
+    Date=01-04-16;
+    Time=17:31:45;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromPortugal@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Portugal" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := -250;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('PT') THEN
+          EXIT;
+        INIT;
+        Code := 'PT';
+        Description := 'Portugal Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Portugal";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50087 Get Weight From Efoqus
+{
+  OBJECT-PROPERTIES
+  {
+    Date=26-07-16;
+    Time=15:15:25;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromEfoqus@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Efoqus" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 8256;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('EFOQUS') THEN
+          EXIT;
+        INIT;
+        Code := 'EFOQUS';
+        Description := 'Efoqus Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Efoqus";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 50088 Get Weight From NAVTechDays
+{
+  OBJECT-PROPERTIES
+  {
+    Date=16-11-16;
+    Time=15:59:24;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromNAVTechDays@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From NAVTechDays" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 984315;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('NAVTECHD') THEN
+          EXIT;
+        INIT;
+        Code := 'NAVTECHD';
+        Description := 'NAVTechDays Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From NAVTechDays";
+        INSERT;
+      END;
     END;
 
     BEGIN
@@ -7631,83 +7797,751 @@ OBJECT Codeunit 60000 Example-Post With Events
   }
 }
 
-OBJECT MenuSuite 1051 Dept - Add-on 1
+OBJECT Codeunit 60002 Get Weight From Hamburg
 {
   OBJECT-PROPERTIES
   {
-    Date=20-03-15;
-    Time=19:02:09;
+    Date=27-01-17;
+    Time=15:29:00;
     Modified=Yes;
-    Version List=Example 2;
+    Version List=Exercise 4;
   }
   PROPERTIES
   {
+    OnRun=BEGIN
+          END;
+
   }
-  MENUNODES
+  CODE
   {
-    {                ;[{19A352FE-D90D-424E-B85F-CF3B8E98CF0E}] ;NextNodeID=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}] }
-    { Menu           ;[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}] ;Name=Example;
-                                                                CaptionML=ENU=Example;
-                                                                MemberOfMenu=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
-                                                                ParentNodeID=[{00000000-0000-0000-0000-000000000000}];
-                                                                Image=0;
-                                                                IsShortcut=No;
-                                                                Visible=Yes;
-                                                                Enabled=Yes;
-                                                                NextNodeID=[{00000000-0000-0000-0000-000000000000}];
-                                                                FirstChild=[{52679F0C-A827-4D34-922D-16BF3DBAD750}] }
-    { MenuItem       ;[{52679F0C-A827-4D34-922D-16BF3DBAD750}] ;Name=Example Setup;
-                                                                CaptionML=ENU=Example Setup;
-                                                                MemberOfMenu=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
-                                                                RunObjectType=Page;
-                                                                RunObjectID=50000;
-                                                                ParentNodeID=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
-                                                                Visible=Yes;
-                                                                NextNodeID=[{74D23317-E1BB-4008-AFAC-7F5B9709F006}];
-                                                                DepartmentCategory=Administration }
-    { MenuItem       ;[{74D23317-E1BB-4008-AFAC-7F5B9709F006}] ;Name=Example Master Data List;
-                                                                CaptionML=ENU=Example Person List;
-                                                                MemberOfMenu=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
-                                                                RunObjectType=Page;
-                                                                RunObjectID=50011;
-                                                                ParentNodeID=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
-                                                                Visible=Yes;
-                                                                NextNodeID=[{B43E5CEF-F228-4412-A31B-E269342715B7}];
-                                                                DepartmentCategory=Lists }
-    { MenuItem       ;[{B43E5CEF-F228-4412-A31B-E269342715B7}] ;Name=Example Product Card;
-                                                                CaptionML=ENU=Example Journal;
-                                                                MemberOfMenu=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
-                                                                RunObjectType=Page;
-                                                                RunObjectID=50013;
-                                                                ParentNodeID=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
-                                                                Visible=Yes;
-                                                                NextNodeID=[{723A422E-4EF5-43AB-A897-EC8EE67249AA}];
-                                                                DepartmentCategory=Tasks }
-    { MenuItem       ;[{723A422E-4EF5-43AB-A897-EC8EE67249AA}] ;Name=Example Product List;
-                                                                CaptionML=ENU=Example Product List;
-                                                                MemberOfMenu=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
-                                                                RunObjectType=Page;
-                                                                RunObjectID=50021;
-                                                                ParentNodeID=[{186D573F-9A04-4CB1-A9DA-17F3E9F07630}];
-                                                                Visible=Yes;
-                                                                NextNodeID=[{00000000-0000-0000-0000-000000000000}];
-                                                                DepartmentCategory=Lists }
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromHamburg@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Hamburg" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := -49380;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('HAMBURG') THEN
+          EXIT;
+        INIT;
+        Code := 'HAMBURG';
+        Description := 'Hamburg Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Hamburg";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
   }
 }
+
+OBJECT Codeunit 60113 Get Weight From ProdWare
+{
+  OBJECT-PROPERTIES
+  {
+    Date=11-04-16;
+    Time=19:41:58;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromPhilips@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From ProdWare" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 1268;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('PRODWARE') THEN
+          EXIT;
+        INIT;
+        Code := 'PRODWARE';
+        Description := 'ProdWare Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From ProdWare";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 60115 Get Weight From EV
+{
+  OBJECT-PROPERTIES
+  {
+    Date=01-03-17;
+    Time=14:42:27;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromEV@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From EV" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := -568472;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('EV') THEN
+          EXIT;
+        INIT;
+        Code := 'EV';
+        Description := 'Elbek And Vejrup Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From EV";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 60200 Get Weight From Kista
+{
+  OBJECT-PROPERTIES
+  {
+    Date=14-02-17;
+    Time=15:38:37;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromKista@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Kista" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 68539;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('KISTA') THEN
+          EXIT;
+        INIT;
+        Code := 'KISTA';
+        Description := 'Kista Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Kista";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 70002 Get Weight From NAB
+{
+  OBJECT-PROPERTIES
+  {
+    Date=16-02-17;
+    Time=15:18:34;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromNAB@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From NAB" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := -100565;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('NAB') THEN
+          EXIT;
+        INIT;
+        Code := 'NAB';
+        Description := 'NAB Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From NAB";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 70013 Get Weight From Italian
+{
+  OBJECT-PROPERTIES
+  {
+    Date=12-02-16;
+    Time=15:43:19;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromPhilips@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Italian" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 1234;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('ITALIAN') THEN
+          EXIT;
+        INIT;
+        Code := 'ITALIAN';
+        Description := 'Italian Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Italian";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 70018 Get Weight From Avery
+{
+  OBJECT-PROPERTIES
+  {
+    Date=04-03-16;
+    Time=14:26:27;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromAvery@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Avery" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 123456;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('AVERY') THEN
+          EXIT;
+        INIT;
+        Code := 'AVERY';
+        Description := 'Avery Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Avery";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 70025 Get Weight From Gram
+{
+  OBJECT-PROPERTIES
+  {
+    Date=16-02-16;
+    Time=15:19:27;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromPhilips@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Gram" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 98765;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('GRAM') THEN
+          EXIT;
+        INIT;
+        Code := 'GRAM';
+        Description := 'Gram Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Gram";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 70028 Get Weight From Infoma
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-04-16;
+    Time=14:42:56;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromInfoma@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Infoma" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 1847;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('INFOMA') THEN
+          EXIT;
+        INIT;
+        Code := 'INFOMA';
+        Description := 'Infoma Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Infoma";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 80053 Get Weight From Tiger
+{
+  OBJECT-PROPERTIES
+  {
+    Date=25-03-16;
+    Time=15:25:25;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromTiger@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Tiger" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 100;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('TIGER') THEN
+          EXIT;
+        INIT;
+        Code := 'TIGER';
+        Description := 'Tiger Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Tiger";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 88888 Get Weight From Skillshouse
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-12-15;
+    Time=15:35:04;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromPhilips@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Philips" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 1500;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('SKILLSHOUS') THEN EXIT;
+        INIT;
+        Code := 'SKILLSHOUS';
+        Description := 'Skillshouse Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Skillshouse";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 88890 Get Weight From Denmark
+{
+  OBJECT-PROPERTIES
+  {
+    Date=18-05-16;
+    Time=15:21:50;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromDenmark@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Denmark" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 6421;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('DENMARK') THEN
+          EXIT;
+        INIT;
+        Code := 'DENMARK';
+        Description := 'Danish Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Denmark";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
+OBJECT Codeunit 90015 Get Weight From Madeira
+{
+  OBJECT-PROPERTIES
+  {
+    Date=13-05-16;
+    Time=14:09:18;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromPhilips@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Madeira" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 2345;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('MADEIRA') THEN
+          EXIT;
+        INIT;
+        Code := 'MADEIRA';
+        Description := 'Madeira Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Madeira";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+
 OBJECT Page 119 User Setup
 {
   OBJECT-PROPERTIES
   {
-    Date=04-11-15;
-    Time=19:49:27;
+    Date=21-03-17;
+    Time=13:03:11;
     Modified=Yes;
-    Version List=NAVW17.00,Exercise 1;
+    Version List=NAVW110.00,Exercise 1;
   }
   PROPERTIES
   {
     CaptionML=ENU=User Setup;
     SourceTable=Table91;
     PageType=List;
+    OnOpenPage=BEGIN
+                 HideExternalUsers;
+               END;
+
   }
   CONTROLS
   {
@@ -7718,31 +8552,55 @@ OBJECT Page 119 User Setup
                 GroupType=Repeater }
 
     { 2   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies a user ID.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="User ID" }
 
+    { 1000000000;2;Field  ;
+                SourceExpr="Example Enabled" }
+
     { 4   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the earliest date on which the user is allowed to post to the company.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Allow Posting From" }
 
     { 6   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the last date on which the user is allowed to post to the company.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Allow Posting To" }
 
     { 8   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies whether to register the user's time usage defined as the time spent from when the user logs in to when the user logs out.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Register Time" }
 
+    { 5   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code for the salesperson or purchaser for the user.;
+                ApplicationArea=#Basic,#Suite;
+                SourceExpr="Salespers./Purch. Code" }
+
     { 15  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code for the responsibility center to which you want to assign the user.;
                 SourceExpr="Sales Resp. Ctr. Filter" }
 
     { 17  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code for the responsibility center to which you want to assign the user.;
                 SourceExpr="Purchase Resp. Ctr. Filter" }
 
     { 21  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code for the responsibility center you want to assign to the user. The user will only be able to see service documents for the responsibility center specified in the field. This responsibility center will also be the default responsibility center when the user creates new service documents.;
                 SourceExpr="Service Resp. Ctr. Filter" }
 
     { 3   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies if a user is a time sheet administrator. A time sheet administrator can access any time sheet and then edit, change, or delete it.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Time Sheet Admin." }
 
-    { 50000;2  ;Field     ;
-                SourceExpr="Example Enabled" }
+    { 7   ;2   ;Field     ;
+                Name=Email;
+                ToolTipML=ENU=Specifies the user's email address.;
+                ApplicationArea=#Basic,#Suite;
+                SourceExpr="E-Mail" }
 
     { 1900000007;0;Container;
                 ContainerType=FactBoxArea }
@@ -7770,10 +8628,10 @@ OBJECT Page 279 Source Code Setup
 {
   OBJECT-PROPERTIES
   {
-    Date=15-11-15;
-    Time=12:31:07;
+    Date=21-03-17;
+    Time=13:03:52;
     Modified=Yes;
-    Version List=NAVW17.00,Exercise 3;
+    Version List=NAVW110.00,NAVNA10.00,Example 3;
   }
   PROPERTIES
   {
@@ -7800,245 +8658,372 @@ OBJECT Page 279 Source Code Setup
                 CaptionML=ENU=General }
 
     { 2   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a general journal of the general type.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="General Journal" }
 
     { 113 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from an intercompany general journal.;
                 SourceExpr="IC General Journal" }
 
     { 4   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted when you run the Close Income Statement batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Close Income Statement" }
 
     { 8   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Calc. and Post Tax Settlement batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="VAT Settlement" }
 
     { 12  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted when you run the Adjust Exchange Rates batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Exchange Rate Adjmt." }
 
     { 20  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted in connection with the deletion of a document.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Deleted Document" }
 
     { 83  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted when you change the additional reporting currency in the General Ledger Setup table.;
+                ApplicationArea=#Suite;
                 SourceExpr="Adjust Add. Reporting Currency" }
 
+    { 119 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code assigned to entries that are posted from the Reverse Entries window.;
+                ApplicationArea=#Basic,#Suite;
+                SourceExpr=Reversal }
+
     { 6   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress General Ledger batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress G/L" }
 
     { 10  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress Tax Entries batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress VAT Entries" }
 
     { 53  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress Bank Acc. Ledger batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Bank Acc. Ledger" }
 
     { 63  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Delete Check Ledger Entries batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Check Ledger" }
 
     { 65  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to check ledger entries with the entry status Financially Voided.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Financially Voided Check" }
 
     { 93  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries posted after being transferred from a bank reconciliation by the Trans. Bank Rec. to Gen. Jnl. batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Trans. Bank Rec. to Gen. Jnl." }
 
-    { 119 ;2   ;Field     ;
-                SourceExpr=Reversal }
-
     { 5   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the source code assigned to entries that are posted from the cash flow worksheet.;
                 SourceExpr="Cash Flow Worksheet" }
+
+    { 17  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a payment reconciliation journal.;
+                ApplicationArea=#Basic,#Suite;
+                SourceExpr="Payment Reconciliation Journal" }
+
+    { 1000000000;1;Group  ;
+                CaptionML=ENU=Example;
+                GroupType=Group }
+
+    { 1000000001;2;Field  ;
+                SourceExpr="Example Setup" }
 
     { 1904305601;1;Group  ;
                 CaptionML=ENU=Sales }
 
     { 14  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted in connection with sales, such as orders, invoices, and credit memos.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr=Sales }
 
     { 16  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries posted from a general journal of the sales type.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Sales Journal" }
 
     { 18  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a general journal of the cash receipts type.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Cash Receipt Journal" }
 
     { 22  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from the Apply Customer Entries window.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Sales Entry Application" }
 
     { 121 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code assigned to entries that are posted from the Unapply Customer Entries window.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Unapplied Sales Entry Appln." }
 
     { 69  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a Reminder.;
                 SourceExpr=Reminder }
 
     { 67  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a Finance Charge Memo.;
                 SourceExpr="Finance Charge Memo" }
 
     { 24  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress Customer Ledger batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Cust. Ledger" }
 
     { 1907458401;1;Group  ;
                 CaptionML=ENU=Purchases }
 
     { 26  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted in connection with purchases, such as orders, invoices, and credit memos.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr=Purchases }
 
     { 28  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a general journal of the purchase type.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Purchase Journal" }
 
     { 30  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a general journal of the payments type.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Payment Journal" }
 
     { 32  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from the Apply Vendor Entries window.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Purchase Entry Application" }
 
     { 123 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code assigned to entries that are posted from the Unapply Vendor Entries window.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Unapplied Purch. Entry Appln." }
 
     { 34  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress Vendor Ledger batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Vend. Ledger" }
 
     { 1904162201;1;Group  ;
                 CaptionML=ENU=Inventory }
 
     { 103 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted in connection with transfer orders.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr=Transfer }
 
     { 36  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from an item journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Item Journal" }
 
     { 49  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from an Item Reclass. Journal.;
                 SourceExpr="Item Reclass. Journal" }
 
     { 51  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a Physical Inventory Journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Phys. Inventory Journal" }
 
     { 107 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a Revaluation Journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Revaluation Journal" }
 
     { 40  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted when you run the Post Inventory Cost to G/L batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Inventory Post Cost" }
 
     { 42  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress Item Ledger batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Item Ledger" }
 
     { 131 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code that is linked to the compressed item budget entries.;
+                ApplicationArea=#Suite;
                 SourceExpr="Compress Item Budget" }
 
     { 109 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are the result of a cost adjustment.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Adjust Cost" }
 
     { 3   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code that is linked to entries that are posted with assembly orders.;
                 SourceExpr=Assembly }
 
     { 1903030901;1;Group  ;
                 CaptionML=ENU=Resources }
 
     { 55  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a Resource Journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Resource Journal" }
 
     { 57  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress Resource Ledger batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Res. Ledger" }
 
     { 1903715801;1;Group  ;
                 CaptionML=ENU=Jobs }
 
     { 61  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a job journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Job Journal" }
 
     { 127 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code assigned to entries that are posted from a general journal of the Job G/L Journal type.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Job G/L Journal" }
 
     { 129 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code assigned to entries that are posted from the Job Post WIP to G/L batch job in the Jobs module.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Job G/L WIP" }
 
     { 59  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress Job Ledger batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Job Ledger" }
 
     { 1906780401;1;Group  ;
                 CaptionML=ENU=Fixed Assets }
 
     { 77  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a fixed asset G/L journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Fixed Asset G/L Journal" }
 
     { 78  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a fixed asset journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Fixed Asset Journal" }
 
     { 79  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from an insurance journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Insurance Journal" }
 
     { 73  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress FA Ledger batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress FA Ledger" }
 
     { 72  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress Maint. Ledger batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Maintenance Ledger" }
 
     { 71  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress Insurance Ledger batch job.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Insurance Ledger" }
 
     { 1904591101;1;Group  ;
                 CaptionML=ENU=Manufacturing }
 
     { 85  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a consumption journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Consumption Journal" }
 
     { 87  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from an output journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Output Journal" }
 
     { 89  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to consumption entries that are posted when you change the status of a released production order to Finished.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr=Flushing }
 
     { 91  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from a capacity journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Capacity Journal" }
 
     { 125 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code that is linked to the entries that are posted from a production journal.;
                 SourceExpr="Production Journal" }
 
     { 1902138501;1;Group  ;
                 CaptionML=ENU=Service }
 
     { 105 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted from the Service Management application area.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Service Management" }
 
     { 1907509201;1;Group  ;
                 CaptionML=ENU=Warehouse }
 
     { 111 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code for the Warehouse Item Journal.;
                 SourceExpr="Whse. Item Journal" }
 
     { 97  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code for the Whse. Reclassification Journal.;
                 SourceExpr="Whse. Reclassification Journal" }
 
     { 115 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code for the Whse. Phys. Invt. Journal.;
                 SourceExpr="Whse. Phys. Invt. Journal" }
 
     { 95  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code for the Warehouse Put-away.;
                 SourceExpr="Whse. Put-away" }
 
     { 99  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code for the Warehouse Pick.;
                 SourceExpr="Whse. Pick" }
 
     { 101 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code for the Warehouse movement.;
                 SourceExpr="Whse. Movement" }
 
     { 117 ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted using the Date Compress Whse. Entries batch job.;
                 SourceExpr="Compress Whse. Entries" }
 
     { 7   ;1   ;Group     ;
                 CaptionML=ENU=Cost Accounting }
 
     { 9   ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code assigned to entries that are posted from transferring general ledger entries to cost entries.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="G/L Entry to CA" }
 
     { 11  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code assigned to entries that are posted from a cost journal.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Cost Journal" }
 
     { 13  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code assigned to entries that are posted from cost allocations.;
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Cost Allocation" }
 
     { 15  ;2   ;Field     ;
+                ToolTipML=ENU=Specifies the code linked to entries that are posted by running the Transfer Budget to Actual batch job.;
+                ApplicationArea=#Suite;
                 SourceExpr="Transfer Budget to Actual" }
-
-    { 19  ;1   ;Group     ;
-                CaptionML=ENU=Example;
-                GroupType=Group }
-
-    { 17  ;2   ;Field     ;
-                SourceExpr="Example Journal" }
 
     { 1900000007;0;Container;
                 ContainerType=FactBoxArea }
@@ -8066,7 +9051,7 @@ OBJECT Page 50000 Example Setup
 {
   OBJECT-PROPERTIES
   {
-    Date=26-05-15;
+    Date=07-06-16;
     Time=15:45:30;
     Modified=Yes;
     Version List=Exercise 1;
@@ -8213,8 +9198,8 @@ OBJECT Page 50003 Example Document List
 {
   OBJECT-PROPERTIES
   {
-    Date=27-11-15;
-    Time=13:37:00;
+    Date=15-12-15;
+    Time=16:36:23;
     Modified=Yes;
     Version List=Exercise 4;
   }
@@ -8226,12 +9211,12 @@ OBJECT Page 50003 Example Document List
     CardPageID=Example Document;
     ActionList=ACTIONS
     {
-      { 9       ;0   ;ActionContainer;
+      { 10      ;0   ;ActionContainer;
                       ActionContainerType=ActionItems }
-      { 8       ;1   ;ActionGroup;
+      { 9       ;1   ;ActionGroup;
                       CaptionML=ENU=P&osting;
                       Image=Post }
-      { 6       ;2   ;Action    ;
+      { 8       ;2   ;Action    ;
                       Name=Post;
                       ShortCutKey=F9;
                       Ellipsis=Yes;
@@ -8246,12 +9231,24 @@ OBJECT Page 50003 Example Document List
                                END;
                                 }
       { 7       ;2   ;Action    ;
+                      Name=BatchPost;
                       Ellipsis=Yes;
                       CaptionML=ENU=Post &Batch;
                       Image=PostBatch;
                       OnAction=BEGIN
                                  PostBatch;
-                                 CurrPage.UPDATE(FALSE);
+                                 CurrPage.UPDATE(FALSE)
+                               END;
+                                }
+      { 6       ;1   ;Action    ;
+                      Name=GetWeight;
+                      CaptionML=ENU=GetWeight;
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Giro;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 GetWeightFromScale;
                                END;
                                 }
     }

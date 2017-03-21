@@ -1,0 +1,28 @@
+OBJECT Codeunit 84001 Bed and Breakfast Functions
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-06-15;
+    Time=12:14:22;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    PROCEDURE LastWeek@5() : Date;
+    BEGIN
+      EXIT(WORKDATE - 7);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,56 @@
+OBJECT Codeunit 50033 Get Weight From Iceland
+{
+  OBJECT-PROPERTIES
+  {
+    Date=06-09-16;
+    Time=15:51:40;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromIceland@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Iceland" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 25602;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('ICELAND') THEN
+          EXIT;
+        INIT;
+        Code := 'ICELAND';
+        Description := 'Iceland Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Iceland";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

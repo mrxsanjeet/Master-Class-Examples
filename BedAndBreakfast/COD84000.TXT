@@ -1,0 +1,36 @@
+OBJECT Codeunit 84000 B & B. Create Cleaning Entries
+{
+  OBJECT-PROPERTIES
+  {
+    Date=21-08-15;
+    Time=15:09:41;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+            CreateCleaningEntryForEachRoom;
+          END;
+
+  }
+  CODE
+  {
+
+    LOCAL PROCEDURE CreateCleaningEntryForEachRoom@1();
+    VAR
+      Room@1000 : Record 84010;
+    BEGIN
+      WITH Room DO
+        IF FINDSET THEN
+          REPEAT
+            IF OccupiedOrHasNotBeenCleanedForAWeek THEN
+              CreateCleaningEntryForRoom;
+            UNTIL NEXT = 0;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

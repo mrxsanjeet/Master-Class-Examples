@@ -1,0 +1,56 @@
+OBJECT Codeunit 70018 Get Weight From Avery
+{
+  OBJECT-PROPERTIES
+  {
+    Date=04-03-16;
+    Time=14:26:27;
+    Modified=Yes;
+    Version List=Exercise 4;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,50012,GetWeightEvent)]
+    LOCAL PROCEDURE GetWightFromAvery@1(VAR Rec@1000 : Variant;VAR WeightArguments@1001 : Record 50098;VAR Handled@1002 : Boolean);
+    VAR
+      GetWeightFromScaleFacade@1003 : Codeunit 50012;
+    BEGIN
+      IF Handled THEN // Test Near
+        EXIT;
+
+      IF GetWeightFromScaleFacade.GetCodeunitIDFromScaleSetup <> CODEUNIT::"Get Weight From Avery" THEN // Test Far
+        EXIT;
+
+      WITH WeightArguments DO // Do It
+        Weight := 123456;
+
+      Handled := TRUE; // Clean Up
+    END;
+
+    [EventSubscriber(Page,50025,OnOpenPageEvent,"",Skip,Skip)]
+    LOCAL PROCEDURE RegisterScale@2(VAR Rec@1000 : Record 50025);
+    VAR
+      Scale@1001 : Record 50025;
+    BEGIN
+      WITH Rec DO BEGIN
+        IF GET('AVERY') THEN
+          EXIT;
+        INIT;
+        Code := 'AVERY';
+        Description := 'Avery Scale';
+        "Codeunit ID" := CODEUNIT::"Get Weight From Avery";
+        INSERT;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

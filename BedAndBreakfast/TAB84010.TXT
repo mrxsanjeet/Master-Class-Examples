@@ -1,0 +1,84 @@
+OBJECT Table 84010 Bed and Breakfast Room
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15-06-15;
+    Time=13:57:35;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10         }
+    { 2   ;   ;Description         ;Text30         }
+    { 10  ;   ;Blocked             ;Boolean        }
+    { 20  ;   ;Status              ;Option        ;OptionString=Clean,Cleaning,To be Cleaned }
+    { 30  ;   ;Next Reservation Date;Date          }
+    { 40  ;   ;Vacant              ;Boolean        }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE OccupiedOrHasNotBeenCleanedForAWeek@2() : Boolean;
+    VAR
+      BedandBreakfastRoom@1000 : Record 84010;
+      Functions@1001 : Codeunit 84001;
+    BEGIN
+      IF NOT Vacant THEN
+        EXIT(TRUE);
+
+      IF FindLastCleaningEntry < Functions.LastWeek THEN
+        EXIT(TRUE);
+
+      EXIT(FALSE);
+    END;
+
+    PROCEDURE FindLastCleaningEntry@4() : Date;
+    VAR
+      CleanEntry@1001 : Record 84015;
+    BEGIN
+      WITH CleanEntry DO BEGIN
+        SETCURRENTKEY(Date);
+        SETRANGE("Room Code", Code);
+        IF FINDLAST THEN
+          EXIT(Date);
+      END;
+
+      EXIT(0D);
+    END;
+
+    PROCEDURE CreateCleaningEntryForRoom@3();
+    VAR
+      CleanEntry@1001 : Record 84015;
+    BEGIN
+      WITH CleanEntry DO BEGIN
+        "Entry No." := 0;
+        Date := WORKDATE;
+        Status := Status::"To be Cleaned";
+        "Room Code" := Code;
+        INSERT;
+      END;
+    END;
+
+    PROCEDURE GetPrice@1(SeasonCode@1000 : Code[10];GuestNo@1001 : Code[20]) : Decimal;
+    VAR
+      RoomCalculatePrice@1002 : Codeunit 84013;
+    BEGIN
+      EXIT(RoomCalculatePrice.GetRoomPrice(Rec, SeasonCode, GuestNo));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

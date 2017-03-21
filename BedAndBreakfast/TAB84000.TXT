@@ -1,0 +1,32 @@
+OBJECT Table 84000 Bed and Breakfast Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-10-15;
+    Time=11:42:03;
+    Modified=Yes;
+    Version List=B&B1.00;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10         }
+    { 2   ;   ;Stay Nos.           ;Code10        ;TableRelation="No. Series" }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+
