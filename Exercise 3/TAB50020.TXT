@@ -2,8 +2,8 @@ OBJECT Table 50020 Example Product
 {
   OBJECT-PROPERTIES
   {
-    Date=26-05-15;
-    Time=15:42:29;
+    Date=26-02-17;
+    Time=18:23:23;
     Modified=Yes;
     Version List=Exercise 2;
   }
@@ -71,8 +71,19 @@ OBJECT Table 50020 Example Product
     VAR
       ExampleProductPriceMgt@1001 : Codeunit 50020;
     BEGIN
-      WITH ExampleProductPriceMgt DO
-        EXIT(GetSalesPrice(Rec, PersonNo));
+      //WITH ExampleProductPriceMgt DO
+      //  EXIT(GetSalesPrice(Rec, PersonNo));
+    END;
+
+    PROCEDURE TryGetNoOpenCard@43(VAR ReturnValue@1007 : Text[50];Text@1000 : Text;DefaultCreate@1006 : Boolean;ShowCard@1008 : Boolean) : Boolean;
+    VAR
+      SelectProductTxt@1000000001 : TextConst 'ENU=Select an existing product.';
+      SelectProductErr@1000000004 : TextConst 'ENU=You must select an existing product.';
+      CreateNewProductTxt@1000000003 : TextConst 'ENU=Create a new product card for %1.';
+      ProductNotRegisteredTxt@1000000002 : TextConst 'ENU=This product is not registered. To continue, choose one of the following options:';
+      FindorCreateExampleProduct@1000000005 : Codeunit 50020;
+    BEGIN
+      EXIT(FindorCreateExampleProduct.TryGetNoOpenCard(Rec, ReturnValue, Text, DefaultCreate, ShowCard));
     END;
 
     BEGIN

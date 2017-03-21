@@ -2,8 +2,8 @@ OBJECT Table 50013 Ex. Journal Line
 {
   OBJECT-PROPERTIES
   {
-    Date=10-10-15;
-    Time=19:23:16;
+    Date=15-04-16;
+    Time=12:15:21;
     Modified=Yes;
     Version List=Exercise 3;
   }
@@ -251,6 +251,13 @@ OBJECT Table 50013 Ex. Journal Line
       "Dimension Set ID" :=
         DimMgt.EditDimensionSet("Dimension Set ID",STRSUBSTNO('%1 %2 %3',"Journal Template Name","Journal Batch Name","Line No."));
       DimMgt.UpdateGlobalDimFromDimSetID("Dimension Set ID","Shortcut Dimension 1 Code","Shortcut Dimension 2 Code");
+    END;
+
+    PROCEDURE PostSingle@1();
+    VAR
+      ExampleJnlPostLine@1000 : Codeunit 60003;
+    BEGIN
+      ExampleJnlPostLine.RUN(Rec);
     END;
 
     BEGIN

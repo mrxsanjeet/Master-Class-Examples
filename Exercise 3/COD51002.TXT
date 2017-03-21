@@ -1,0 +1,31 @@
+OBJECT Codeunit 51002 Example Company-Initialize
+{
+  OBJECT-PROPERTIES
+  {
+    Date=26-01-17;
+    Time=14:37:43;
+    Modified=Yes;
+    Version List=Exercise 1;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    [EventSubscriber(Codeunit,2,OnCompanyInitialize)]
+    LOCAL PROCEDURE OnCompanyInitialize@1000000001();
+    VAR
+      ExampleSetup@1000000000 : Record 50000;
+    BEGIN
+      ExampleSetup.InitSetupRecord;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

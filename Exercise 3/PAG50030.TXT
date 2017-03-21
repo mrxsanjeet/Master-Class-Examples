@@ -1,0 +1,41 @@
+OBJECT Page 50030 Example Product Prices
+{
+  OBJECT-PROPERTIES
+  {
+    Date=14-02-17;
+    Time=08:55:05;
+    Modified=Yes;
+    Version List=Exercise 2;
+  }
+  PROPERTIES
+  {
+    SourceTable=Table50030;
+    PageType=List;
+  }
+  CONTROLS
+  {
+    { 1000000000;0;Container;
+                ContainerType=ContentArea }
+
+    { 1000000001;1;Group  ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 1000000002;2;Field  ;
+                SourceExpr="Product No." }
+
+    { 1000000003;2;Field  ;
+                SourceExpr="Person No." }
+
+    { 1000000004;2;Field  ;
+                SourceExpr="Sales Price" }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

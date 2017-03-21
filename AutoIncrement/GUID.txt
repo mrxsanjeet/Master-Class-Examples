@@ -1,0 +1,36 @@
+OBJECT Table 76454 GUID
+{
+  OBJECT-PROPERTIES
+  {
+    Date=10-03-17;
+    Time=13:47:44;
+    Modified=Yes;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               Key := CREATEGUID;
+             END;
+
+  }
+  FIELDS
+  {
+    { 1   ;   ;Key                 ;GUID           }
+    { 2   ;   ;Description         ;Text30         }
+  }
+  KEYS
+  {
+    {    ;Key                                     ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

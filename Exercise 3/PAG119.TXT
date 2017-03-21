@@ -2,16 +2,21 @@ OBJECT Page 119 User Setup
 {
   OBJECT-PROPERTIES
   {
-    Date=04-11-15;
-    Time=19:49:27;
+    Date=26-01-17;
+    Time=14:36:28;
     Modified=Yes;
-    Version List=NAVW17.00,Exercise 1;
+    Version List=NAVW110.00,Exercise 1;
   }
   PROPERTIES
   {
-    CaptionML=ENU=User Setup;
+    CaptionML=[ENU=User Setup;
+               NLD=Gebruikersinstellingen];
     SourceTable=Table91;
     PageType=List;
+    OnOpenPage=BEGIN
+                 HideExternalUsers;
+               END;
+
   }
   CONTROLS
   {
@@ -22,31 +27,52 @@ OBJECT Page 119 User Setup
                 GroupType=Repeater }
 
     { 2   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies a user ID.;
+                           NLD=Hiermee wordt een gebruikers-id opgegeven.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="User ID" }
 
+    { 1000000000;2;Field  ;
+                SourceExpr="Example Enabled" }
+
     { 4   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the earliest date on which the user is allowed to post to the company.;
+                           NLD=Hiermee wordt de vroegste datum opgegeven waarop de gebruiker naar het bedrijf mag boeken.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Allow Posting From" }
 
     { 6   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the last date on which the user is allowed to post to the company.;
+                           NLD=Hiermee wordt de laatste datum opgegeven waarop de gebruiker naar het bedrijf mag boeken.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Allow Posting To" }
 
     { 8   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies whether to register the user's time usage defined as the time spent from when the user logs in to when the user logs out.;
+                           NLD=Hiermee wordt opgegeven of het tijdsgebruik van de gebruiker moeten worden geregistreerd, gedefinieerd als tijd die is besteed vanaf het aanmelden door de gebruiker tot het afmelden door de gebruiker.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Register Time" }
 
     { 15  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code for the responsibility center to which you want to assign the user.;
+                           NLD=Hiermee wordt de code opgegeven voor de divisie waaraan u de gebruiker wilt toewijzen.];
                 SourceExpr="Sales Resp. Ctr. Filter" }
 
     { 17  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code for the responsibility center to which you want to assign the user.;
+                           NLD=Hiermee wordt de code opgegeven voor de divisie waaraan u de gebruiker wilt toewijzen.];
                 SourceExpr="Purchase Resp. Ctr. Filter" }
 
     { 21  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code for the responsibility center you want to assign to the user. The user will only be able to see service documents for the responsibility center specified in the field. This responsibility center will also be the default responsibility center when the user creates new service documents.;
+                           NLD=Hiermee wordt de code opgegeven voor de divisie waaraan u de gebruiker wilt toewijzen. De gebruiker kan alleen de servicedocumenten bekijken voor de divisie die in het veld is opgegeven. Deze divisie is ook de standaarddivisie wanneer de gebruiker nieuwe servicedocumenten maakt.];
                 SourceExpr="Service Resp. Ctr. Filter" }
 
     { 3   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies if a user is a time sheet administrator. A time sheet administrator can access any time sheet and then edit, change, or delete it.;
+                           NLD=Hiermee wordt opgegeven of een gebruiker een beheerder van urenstaten is. Een beheerder van urenstaten heeft toegang tot elke urenstaat en kan deze bewerken, wijzigen of verwijderen.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Time Sheet Admin." }
-
-    { 50000;2  ;Field     ;
-                SourceExpr="Example Enabled" }
 
     { 1900000007;0;Container;
                 ContainerType=FactBoxArea }

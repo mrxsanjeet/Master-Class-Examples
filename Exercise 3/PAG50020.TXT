@@ -2,8 +2,8 @@ OBJECT Page 50020 Example Product Card
 {
   OBJECT-PROPERTIES
   {
-    Date=26-05-15;
-    Time=15:48:11;
+    Date=21-03-17;
+    Time=10:08:42;
     Modified=Yes;
     Version List=Exercise 2;
   }
@@ -11,6 +11,32 @@ OBJECT Page 50020 Example Product Card
   {
     SourceTable=Table50020;
     PageType=Card;
+    OnAfterGetRecord=VAR
+                       MyNotification@1000000000 : Notification;
+                       MyNotifications@1000000001 : Record 1518;
+                       ExampleProductPrice@1000000002 : Record 50030;
+                       ExampleProduct@1000000003 : Record 50020;
+                     BEGIN
+                       IF NOT MyNotifications.IsEnabled('ce50e6d7-ca3c-496d-8352-2f6cce9a4178') THEN
+                         EXIT;
+
+                       ExampleProductPrice.SETRANGE("Product No.", Rec."No.");
+                       IF NOT ExampleProductPrice.ISEMPTY THEN
+                         EXIT;
+
+                       ExampleProduct := Rec;
+                       ExampleProduct.SETRECFILTER;
+
+                       MyNotification.ID := 'ce50e6d7-ca3c-496d-8352-2f6cce9a4178';
+                       MyNotification.MESSAGE := 'There are no prices setup for this product, do you want to do this now?';
+                       MyNotification.SCOPE := NOTIFICATIONSCOPE::LocalScope;
+                       MyNotification.SETDATA('Rec', ExampleProduct.GETVIEW);
+
+                       MyNotification.ADDACTION('Yes', CODEUNIT::"Example Notification Actions", 'SetupPrices');
+                       MyNotification.ADDACTION('Do no show again', CODEUNIT::"Example Notification Actions", 'HideSetupPrices');
+                       MyNotification.SEND;
+                     END;
+
   }
   CONTROLS
   {
@@ -64,6 +90,30 @@ OBJECT Page 50020 Example Product Card
   }
   CODE
   {
+
+    PROCEDURE SetupPrices@1000000003(VAR MyNotification@1000000000 : Notification);
+    VAR
+      ExampleProduct@1000000001 : Record 50020;
+      ExampleProductPrice@1000000002 : Record 50030;
+    BEGIN
+      ExampleProduct.SETVIEW(MyNotification.GETDATA('Rec'));
+      ExampleProduct.FINDFIRST;
+      ExampleProductPrice.SETRANGE("Product No.", ExampleProduct."No.");
+      PAGE.RUN(0, ExampleProductPrice);
+    END;
+
+    PROCEDURE HideSetupPrices@1000000004(VAR MyNotification@1000000000 : Notification);
+    VAR
+      MyNotifications@1000000001 : Record 1518;
+      NotificationID@1000000002 : GUID;
+    BEGIN
+      MyNotifications.LOCKTABLE;
+      NotificationID := MyNotification.ID;
+      IF MyNotifications.GET(USERID, NotificationID) THEN BEGIN
+        MyNotifications.Enabled := FALSE;
+        MyNotifications.MODIFY;
+      END;
+    END;
 
     BEGIN
     END.

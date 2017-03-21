@@ -1,0 +1,47 @@
+OBJECT Codeunit 50111 Example Notification Actions
+{
+  OBJECT-PROPERTIES
+  {
+    Date=26-02-17;
+    Time=18:35:19;
+    Modified=Yes;
+    Version List=Exercise 1;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    PROCEDURE SetupPrices@1000000003(VAR MyNotification@1000000000 : Notification);
+    VAR
+      ExampleProduct@1000000001 : Record 50020;
+      ExampleProductPrice@1000000002 : Record 50030;
+    BEGIN
+      ExampleProduct.SETVIEW(MyNotification.GETDATA('Rec'));
+      ExampleProduct.FINDFIRST;
+      ExampleProductPrice.SETRANGE("Product No.", ExampleProduct."No.");
+      PAGE.RUN(0, ExampleProductPrice);
+    END;
+
+    PROCEDURE HideSetupPrices@1000000004(VAR MyNotification@1000000000 : Notification);
+    VAR
+      MyNotifications@1000000001 : Record 1518;
+      NotificationID@1000000002 : GUID;
+    BEGIN
+      MyNotifications.LOCKTABLE;
+      NotificationID := MyNotification.ID;
+      IF MyNotifications.GET(USERID, NotificationID) THEN BEGIN
+        MyNotifications.Enabled := FALSE;
+        MyNotifications.MODIFY;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

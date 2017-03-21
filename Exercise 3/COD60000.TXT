@@ -1,0 +1,35 @@
+OBJECT Codeunit 60000 Example Upgrade Extension
+{
+  OBJECT-PROPERTIES
+  {
+    Date=21-03-17;
+    Time=12:54:03;
+    Modified=Yes;
+    Version List=Exercise 2;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+
+    PROCEDURE OnNavAppUpgradePerDatabase@2();
+    BEGIN
+    END;
+
+    PROCEDURE OnNavAppUpgradePerCompany@3();
+    VAR
+      RecRef@1000000000 : RecordRef;
+    BEGIN
+      NAVAPP.RESTOREARCHIVEDATA(DATABASE::"User Setup", FALSE);
+      NAVAPP.RESTOREARCHIVEDATA(DATABASE::"Source Code Setup", FALSE);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

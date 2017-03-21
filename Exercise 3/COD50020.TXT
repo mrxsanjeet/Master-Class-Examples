@@ -1,9 +1,9 @@
-OBJECT Codeunit 50020 Example Product Price Mgt.
+OBJECT Codeunit 50020 Find or Create Example Product
 {
   OBJECT-PROPERTIES
   {
-    Date=26-05-15;
-    Time=15:41:18;
+    Date=26-02-17;
+    Time=18:14:24;
     Modified=Yes;
     Version List=Exercise 2;
   }
@@ -16,20 +16,191 @@ OBJECT Codeunit 50020 Example Product Price Mgt.
   CODE
   {
 
-    PROCEDURE GetSalesPrice@2(ExampleProduct@1001 : Record 50020;PersonNo@1000 : Code[20]) : Decimal;
+    PROCEDURE GetNo@10(VAR ExampleProduct@1000000000 : Record 50020;Text@1000 : Text) : Code[20];
     VAR
-      ExampleProductPrice@1002 : Record 50030;
+      No@1001 : Text[50];
     BEGIN
-      WITH ExampleProductPrice DO BEGIN
-        IF GET(ExampleProduct."No.", PersonNo) THEN
-          EXIT(ExampleProductPrice."Sales Price");
+      TryGetNo(ExampleProduct, No, Text, TRUE);
 
-        IF GET(ExampleProduct."No.") THEN
-          EXIT(ExampleProductPrice."Sales Price");
+      EXIT(COPYSTR(No, 1, MAXSTRLEN(ExampleProduct."No.")));
+    END;
+
+    PROCEDURE TryGetNo@9(VAR ExampleProduct@1000000000 : Record 50020;VAR ReturnValue@1007 : Text[50];Text@1000 : Text;DefaultCreate@1006 : Boolean) : Boolean;
+    BEGIN
+      EXIT(TryGetNoOpenCard(ExampleProduct, ReturnValue,Text,DefaultCreate,TRUE));
+    END;
+
+    PROCEDURE TryGetNoOpenCard@43(VAR ExampleProduct@1000000000 : Record 50020;VAR ReturnValue@1007 : Text[50];Text@1000 : Text;DefaultCreate@1006 : Boolean;ShowCard@1008 : Boolean) : Boolean;
+    VAR
+      ExampleProductSearch@1001 : Record 50020;
+      No@1002 : Code[20];
+      WithoutQuote@1005 : Text;
+      FilterFromStart@1004 : Text;
+      FilterContains@1003 : Text;
+      SelectProductTxt@1000000001 : TextConst 'ENU=Select an existing product.';
+      SelectProductErr@1000000004 : TextConst 'ENU=You must select an existing product.';
+      CreateNewProductTxt@1000000003 : TextConst 'ENU=Create a new product card for %1.';
+      ProductNotRegisteredTxt@1000000002 : TextConst 'ENU=This product is not registered. To continue, choose one of the following options:';
+    BEGIN
+      WITH ExampleProduct DO BEGIN
+        ReturnValue := COPYSTR(Text,1,MAXSTRLEN(ReturnValue));
+        IF Text = '' THEN
+          EXIT(DefaultCreate);
+
+        IF STRLEN(Text) <= MAXSTRLEN(ExampleProductSearch."No.") THEN
+          IF ExampleProductSearch.GET(COPYSTR(Text,1,MAXSTRLEN(ExampleProductSearch."No."))) THEN BEGIN
+            ReturnValue := ExampleProductSearch."No.";
+            EXIT(TRUE);
+          END;
+
+        WithoutQuote := CONVERTSTR(Text,'''','?');
+
+        ExampleProductSearch.SETFILTER(Description,'''@' + WithoutQuote + '''');
+        IF ExampleProductSearch.FINDFIRST THEN BEGIN
+          ReturnValue := ExampleProductSearch."No.";
+          EXIT(TRUE);
+        END;
+        ExampleProductSearch.SETRANGE(Description);
+
+        FilterFromStart := '''@' + WithoutQuote + '*''';
+
+        ExampleProductSearch.FILTERGROUP := -1;
+        ExampleProductSearch.SETFILTER("No.",FilterFromStart);
+        ExampleProductSearch.SETFILTER(Description,FilterFromStart);
+        IF ExampleProductSearch.FINDFIRST THEN BEGIN
+          ReturnValue := ExampleProductSearch."No.";
+          EXIT(TRUE);
+        END;
+
+        FilterContains := '''@*' + WithoutQuote + '*''';
+
+        ExampleProductSearch.SETFILTER("No.", FilterContains);
+        ExampleProductSearch.SETFILTER(Description, FilterContains);
+
+        IF ExampleProductSearch.COUNT = 0 THEN
+          MarkWithSimilarName(ExampleProductSearch, Text);
+
+        IF ExampleProductSearch.COUNT = 1 THEN BEGIN
+          ExampleProductSearch.FINDFIRST;
+          ReturnValue := ExampleProductSearch."No.";
+          EXIT(TRUE);
+        END;
+
+        IF ExampleProductSearch.COUNT = 0 THEN BEGIN
+          IF NOT DefaultCreate THEN
+            EXIT(FALSE);
+
+          IF NOT GUIALLOWED THEN
+            ERROR(SelectProductTxt);
+
+          IF ExampleProductSearch.WRITEPERMISSION THEN
+            CASE STRMENU(
+                   STRSUBSTNO('%1,%2',STRSUBSTNO(CreateNewProductTxt,CONVERTSTR(Text,',','.')),SelectProductTxt),1,ProductNotRegisteredTxt)
+            OF
+              0:
+                ERROR(SelectProductErr);
+              1:
+                BEGIN
+                  ReturnValue := CreateNew(COPYSTR(Text,1,MAXSTRLEN(ExampleProductSearch.Description)),ShowCard);
+                  EXIT(TRUE);
+                END;
+            END;
+          ExampleProductSearch.RESET;
+        END;
+
+        IF NOT GUIALLOWED THEN
+          ERROR(SelectProductErr);
+
+        IF ShowCard THEN
+          No := Pick(ExampleProduct)
+        ELSE BEGIN
+          ReturnValue := '';
+          EXIT(TRUE);
+        END;
+
+        IF No <> '' THEN BEGIN
+          ReturnValue := No;
+          EXIT(TRUE);
+        END;
+
+        IF NOT DefaultCreate THEN
+          EXIT(FALSE);
       END;
 
-      WITH ExampleProduct DO
-        EXIT("Sales Price");
+      ERROR(SelectProductErr);
+    END;
+
+    LOCAL PROCEDURE MarkWithSimilarName@13(VAR ExampleProduct@1001 : Record 50020;Text@1000 : Text);
+    VAR
+      TypeHelper@1002 : Codeunit 10;
+      RecordCount@1003 : Integer;
+      TextLenght@1004 : Integer;
+      Treshold@1005 : Integer;
+    BEGIN
+      IF Text = '' THEN
+        EXIT;
+      IF STRLEN(Text) > MAXSTRLEN(ExampleProduct.Description) THEN
+        EXIT;
+      TextLenght := STRLEN(Text);
+      Treshold := TextLenght DIV 5;
+      IF Treshold = 0 THEN
+        EXIT;
+
+      ExampleProduct.RESET;
+      ExampleProduct.ASCENDING(FALSE); // most likely to search for newest records
+      IF ExampleProduct.FINDSET THEN
+        REPEAT
+          RecordCount += 1;
+          IF ABS(TextLenght - STRLEN(ExampleProduct.Description)) <= Treshold THEN
+            IF TypeHelper.TextDistance(UPPERCASE(Text),UPPERCASE(ExampleProduct.Description)) <= Treshold THEN
+              ExampleProduct.MARK(TRUE);
+        UNTIL ExampleProduct.MARK OR (ExampleProduct.NEXT = 0) OR (RecordCount > 1000);
+      ExampleProduct.MARKEDONLY(TRUE);
+    END;
+
+    LOCAL PROCEDURE CreateNew@3(Name@1000 : Text[50];ShowCard@1001 : Boolean) : Code[20];
+    VAR
+      ExampleProduct@1005 : Record 50020;
+      Template@1006 : Record 1301;
+      ExampleProductCard@1002 : Page 50020;
+      SelectProductErr@1000000000 : TextConst 'ENU=You must select an existing product.';
+    BEGIN
+      // IF NOT ItemTemplate.NewItemFromTemplate(Item) THEN
+      //  ERROR(SelectProductErr);
+
+      ExampleProduct.Description := Name;
+      ExampleProduct.MODIFY(TRUE);
+      COMMIT;
+      IF NOT ShowCard THEN
+        EXIT(ExampleProduct."No.");
+      ExampleProduct.SETRANGE("No.",ExampleProduct."No.");
+      ExampleProductCard.SETTABLEVIEW(ExampleProduct);
+      IF NOT (ExampleProductCard.RUNMODAL = ACTION::OK) THEN
+        ERROR(SelectProductErr);
+
+      EXIT(ExampleProduct."No.");
+    END;
+
+    LOCAL PROCEDURE Pick@51(VAR ExampleProduct@1000 : Record 50020) : Code[20];
+    VAR
+      ExampleProductList@1001 : Page 50021;
+    BEGIN
+      IF ExampleProduct.FINDSET THEN
+        REPEAT
+          ExampleProduct.MARK(TRUE);
+        UNTIL ExampleProduct.NEXT = 0;
+      IF ExampleProduct.FINDFIRST THEN;
+      ExampleProduct.MARKEDONLY := TRUE;
+
+      ExampleProductList.SETTABLEVIEW(ExampleProduct);
+      ExampleProductList.SETRECORD(ExampleProduct);
+      ExampleProductList.LOOKUPMODE := TRUE;
+      IF ExampleProductList.RUNMODAL = ACTION::LookupOK THEN
+        ExampleProductList.GETRECORD(ExampleProduct)
+      ELSE
+        CLEAR(ExampleProduct);
+
+      EXIT(ExampleProduct."No.");
     END;
 
     BEGIN

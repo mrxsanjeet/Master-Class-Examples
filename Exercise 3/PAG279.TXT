@@ -2,14 +2,15 @@ OBJECT Page 279 Source Code Setup
 {
   OBJECT-PROPERTIES
   {
-    Date=15-11-15;
-    Time=12:31:07;
+    Date=27-01-17;
+    Time=12:06:29;
     Modified=Yes;
-    Version List=NAVW17.00;
+    Version List=NAVW110.00,NAVNL10.00,Exercise 3;
   }
   PROPERTIES
   {
-    CaptionML=ENU=Source Code Setup;
+    CaptionML=[ENU=Source Code Setup;
+               NLD=Broncode-instelling];
     InsertAllowed=No;
     DeleteAllowed=No;
     SourceTable=Table242;
@@ -29,247 +30,466 @@ OBJECT Page 279 Source Code Setup
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=ENU=General }
+                CaptionML=[ENU=General;
+                           NLD=Algemeen] }
 
     { 2   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a general journal of the general type.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een dagboek van het type Algemeen.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="General Journal" }
 
     { 113 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from an intercompany general journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een IC-dagboek.];
                 SourceExpr="IC General Journal" }
 
     { 4   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted when you run the Close Income Statement batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt wanneer u de batchverwerking Afsluiten WenV-rekening uitvoert.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Close Income Statement" }
 
     { 8   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Calc. and Post VAT Settlement batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Btw-vereff. berek. en boeken.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="VAT Settlement" }
 
     { 12  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted when you run the Adjust Exchange Rates batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt wanneer u de batchverwerking Wisselkoers herwaarderen uitvoert.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Exchange Rate Adjmt." }
 
     { 20  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted in connection with the deletion of a document.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt in verband met de verwijdering van een document.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Deleted Document" }
 
     { 83  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted when you change the additional reporting currency in the General Ledger Setup table.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt wanneer u de extra rapportagevaluta wijzigt in de tabel Grootboekinstellingen.];
+                ApplicationArea=#Suite;
                 SourceExpr="Adjust Add. Reporting Currency" }
 
     { 6   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress General Ledger batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Grootboekposten comprimeren.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress G/L" }
 
     { 10  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress VAT Entries batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Btw-posten comprimeren.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress VAT Entries" }
 
     { 53  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress Bank Acc. Ledger batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Bankposten comprimeren.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Bank Acc. Ledger" }
 
     { 63  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Delete Check Ledger Entries batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Chequeposten verwijderen.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Check Ledger" }
 
     { 65  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to check ledger entries with the entry status Financially Voided.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan chequeposten met de status Nietig verklaard.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Financially Voided Check" }
 
     { 93  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries posted after being transferred from a bank reconciliation by the Trans. Bank Rec. to Gen. Jnl. batch job.;
+                           NLD=Hiermee wordt de code opgegeven van posten die zijn geboekt nadat ze door de batchverwerking Bankreconciliatie naar dagboek vanuit een bankreconciliatie zijn overgebracht.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Trans. Bank Rec. to Gen. Jnl." }
 
     { 119 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code assigned to entries that are posted from the Reverse Entries window.;
+                           NLD=Hiermee wordt de code opgegeven die is toegewezen aan posten die worden geboekt vanuit het venster Posten tegenboeken.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr=Reversal }
 
     { 5   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the source code assigned to entries that are posted from the cash flow worksheet.;
+                           NLD=Hiermee wordt de broncode opgegeven die is toegewezen aan posten die worden geboekt vanuit het cashflowvoorstel.];
                 SourceExpr="Cash Flow Worksheet" }
 
+    { 1000000;2;Field     ;
+                ToolTipML=[ENU=Specifies the source code that is linked to entries that are posted from a cash journal.;
+                           NLD=Hiermee wordt de broncode opgegeven die is gekoppeld aan posten die worden geboekt vanuit een kasboek.];
+                ApplicationArea=#Basic,#Suite;
+                SourceExpr="Cash Journal" }
+
+    { 1000002;2;Field     ;
+                ToolTipML=[ENU=Specifies the source code that is linked to entries that are posted from a bank journal.;
+                           NLD=Hiermee wordt de broncode opgegeven die is gekoppeld aan posten die worden geboekt vanuit een bankboek.];
+                ApplicationArea=#Basic,#Suite;
+                SourceExpr="Bank Journal" }
+
+    { 17  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a payment reconciliation journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een betalingsreconciliatiedagboek.];
+                ApplicationArea=#Basic,#Suite;
+                SourceExpr="Payment Reconciliation Journal" }
+
     { 1904305601;1;Group  ;
-                CaptionML=ENU=Sales }
+                CaptionML=[ENU=Sales;
+                           NLD=Verkoop] }
 
     { 14  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted in connection with sales, such as orders, invoices, and credit memos.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt in verband met verkopen, zoals orders, facturen en creditnota's.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr=Sales }
 
     { 16  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries posted from a general journal of the sales type.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een dagboek van het type Verkoop.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Sales Journal" }
 
     { 18  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a general journal of the cash receipts type.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een dagboek van het type Ontvangsten.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Cash Receipt Journal" }
 
     { 22  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from the Apply Customer Entries window.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit het venster Klantenposten vereffenen.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Sales Entry Application" }
 
     { 121 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code assigned to entries that are posted from the Unapply Customer Entries window.;
+                           NLD=Hiermee wordt de code opgegeven die is toegewezen aan posten die worden geboekt vanuit het venster Vereffening klantenposten ongedaan maken.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Unapplied Sales Entry Appln." }
 
     { 69  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a Reminder.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een aanmaning.];
                 SourceExpr=Reminder }
 
     { 67  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a Finance Charge Memo.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een rentefactuur.];
                 SourceExpr="Finance Charge Memo" }
 
     { 24  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress Customer Ledger batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Klantenposten comprimeren.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Cust. Ledger" }
 
     { 1907458401;1;Group  ;
-                CaptionML=ENU=Purchases }
+                CaptionML=[ENU=Purchases;
+                           NLD=Inkoop] }
 
     { 26  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted in connection with purchases, such as orders, invoices, and credit memos.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt in verband met inkopen, zoals orders, facturen en creditnota's.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr=Purchases }
 
     { 28  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a general journal of the purchase type.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een dagboek van het type Inkoop.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Purchase Journal" }
 
     { 30  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a general journal of the payments type.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een dagboek van het type Betalingen.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Payment Journal" }
 
     { 32  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from the Apply Vendor Entries window.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit het venster Leveranciersposten vereffenen.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Purchase Entry Application" }
 
     { 123 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code assigned to entries that are posted from the Unapply Vendor Entries window.;
+                           NLD=Hiermee wordt de code opgegeven die is toegewezen aan posten die worden geboekt vanuit het venster Vereffening leveranciersposten ongedaan maken.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Unapplied Purch. Entry Appln." }
 
     { 34  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress Vendor Ledger batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Leverancierspost comprimeren.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Vend. Ledger" }
 
     { 1904162201;1;Group  ;
-                CaptionML=ENU=Inventory }
+                CaptionML=[ENU=Inventory;
+                           NLD=Voorraad] }
 
     { 103 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted in connection with transfer orders.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt in verband met transferorders.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr=Transfer }
 
     { 36  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from an item journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een artikeldagboek.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Item Journal" }
 
     { 49  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from an Item Reclass. Journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een artikelherindelingsdagboek.];
                 SourceExpr="Item Reclass. Journal" }
 
     { 51  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a Physical Inventory Journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een inventarisatiedagboek.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Phys. Inventory Journal" }
 
     { 107 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a Revaluation Journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een herwaarderingsdagboek.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Revaluation Journal" }
 
     { 40  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted when you run the Post Inventory Cost to G/L batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt wanneer u de batchverwerking Voorraadwaarde boeken uitvoert.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Inventory Post Cost" }
 
     { 42  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress Item Ledger batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Artikelposten comprimeren.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Item Ledger" }
 
     { 131 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code that is linked to the compressed item budget entries.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan de gecomprimeerde artikelbudgetposten.];
+                ApplicationArea=#Suite;
                 SourceExpr="Compress Item Budget" }
 
     { 109 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are the result of a cost adjustment.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die het resultaat zijn van een kostenherwaardering.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Adjust Cost" }
 
     { 3   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code that is linked to entries that are posted with assembly orders.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met assemblageorders.];
                 SourceExpr=Assembly }
 
     { 1903030901;1;Group  ;
-                CaptionML=ENU=Resources }
+                CaptionML=[ENU=Resources;
+                           NLD=Resources] }
 
     { 55  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a Resource Journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een resourcedagboek.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Resource Journal" }
 
     { 57  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress Resource Ledger batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Resourceposten comprimeren.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Res. Ledger" }
 
     { 1903715801;1;Group  ;
-                CaptionML=ENU=Jobs }
+                CaptionML=[ENU=Jobs;
+                           NLD=Projecten] }
 
     { 61  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a job journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een projectdagboek.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Job Journal" }
 
     { 127 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code assigned to entries that are posted from a general journal of the Job G/L Journal type.;
+                           NLD=Hiermee wordt de code opgegeven die is toegewezen aan posten die worden geboekt vanuit een dagboek van het soort GB-dagboek project.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Job G/L Journal" }
 
     { 129 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code assigned to entries that are posted from the Job Post WIP to G/L batch job in the Jobs module.;
+                           NLD=Hiermee wordt de code opgegeven die is toegewezen aan posten die worden geboekt vanuit de batchverwerking Project-OHW naar GB boeken in de module Projecten.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Job G/L WIP" }
 
     { 59  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress Job Ledger batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Projectposten comprimeren.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Job Ledger" }
 
     { 1906780401;1;Group  ;
-                CaptionML=ENU=Fixed Assets }
+                CaptionML=[ENU=Fixed Assets;
+                           NLD=Vaste activa] }
 
     { 77  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a fixed asset G/L journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een VA-financieel dagboek.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Fixed Asset G/L Journal" }
 
     { 78  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a fixed asset journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een VA-dagboek.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Fixed Asset Journal" }
 
     { 79  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from an insurance journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een verzekeringsdagboek.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Insurance Journal" }
 
     { 73  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress FA Ledger batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking VA-posten comprimeren.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress FA Ledger" }
 
     { 72  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress Maint. Ledger batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Onderhoudsposten comprimeren.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Maintenance Ledger" }
 
     { 71  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress Insurance Ledger batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Verzekeringsposten comprimeren.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Compress Insurance Ledger" }
 
     { 1904591101;1;Group  ;
-                CaptionML=ENU=Manufacturing }
+                CaptionML=[ENU=Manufacturing;
+                           NLD=Productie] }
 
     { 85  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a consumption journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een verbruiksdagboek.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Consumption Journal" }
 
     { 87  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from an output journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een outputdagboek.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Output Journal" }
 
     { 89  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to consumption entries that are posted when you change the status of a released production order to Finished.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan verbruiksposten die worden geboekt wanneer u de status van een vrijgegeven productieorder wijzigt in Gereedgemeld.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr=Flushing }
 
     { 91  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from a capacity journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit een capaciteitsdagboek.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Capacity Journal" }
 
     { 125 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code that is linked to the entries that are posted from a production journal.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan de posten die worden geboekt vanuit een productiedagboek.];
                 SourceExpr="Production Journal" }
 
     { 1902138501;1;Group  ;
-                CaptionML=ENU=Service }
+                CaptionML=[ENU=Service;
+                           NLD=Service] }
 
     { 105 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted from the Service Management application area.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt vanuit het toepassingsgebied Servicebeheer.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Service Management" }
 
     { 1907509201;1;Group  ;
-                CaptionML=ENU=Warehouse }
+                CaptionML=[ENU=Warehouse;
+                           NLD=Magazijn] }
 
     { 111 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code for the Warehouse Item Journal.;
+                           NLD=Hiermee wordt de code opgegeven voor het magazijnartikeldagboek.];
                 SourceExpr="Whse. Item Journal" }
 
     { 97  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code for the Whse. Reclassification Journal.;
+                           NLD=Hiermee wordt de code opgegeven voor het magazijnherindelingsdagboek.];
                 SourceExpr="Whse. Reclassification Journal" }
 
     { 115 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code for the Whse. Phys. Invt. Journal.;
+                           NLD=Hiermee wordt de code opgegeven voor het magazijninventarisatiedagboek.];
                 SourceExpr="Whse. Phys. Invt. Journal" }
 
     { 95  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code for the Warehouse Put-away.;
+                           NLD=Hiermee wordt de code opgegeven voor de magazijnopslag.];
                 SourceExpr="Whse. Put-away" }
 
     { 99  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code for the Warehouse Pick.;
+                           NLD=Hiermee wordt de code opgegeven voor de magazijnpick.];
                 SourceExpr="Whse. Pick" }
 
     { 101 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code for the Warehouse movement.;
+                           NLD=Hiermee wordt de code opgegeven voor de magazijnverplaatsing.];
                 SourceExpr="Whse. Movement" }
 
     { 117 ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted using the Date Compress Whse. Entries batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt met de batchverwerking Magazijnposten comprimeren.];
                 SourceExpr="Compress Whse. Entries" }
 
     { 7   ;1   ;Group     ;
-                CaptionML=ENU=Cost Accounting }
+                CaptionML=[ENU=Cost Accounting;
+                           NLD=Kostprijsboekhouding] }
 
     { 9   ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code assigned to entries that are posted from transferring general ledger entries to cost entries.;
+                           NLD=Hiermee wordt de code opgegeven die is toegewezen aan posten die worden geboekt vanuit het overbrengen van grootboekposten naar kostenposten.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="G/L Entry to CA" }
 
     { 11  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code assigned to entries that are posted from a cost journal.;
+                           NLD=Hiermee wordt de code opgegeven die is toegewezen aan posten die worden geboekt vanuit een kostenjournaal.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Cost Journal" }
 
     { 13  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code assigned to entries that are posted from cost allocations.;
+                           NLD=Hiermee wordt de code opgegeven die is toegewezen aan posten die worden geboekt vanuit kostenverdelingen.];
+                ApplicationArea=#Basic,#Suite;
                 SourceExpr="Cost Allocation" }
 
     { 15  ;2   ;Field     ;
+                ToolTipML=[ENU=Specifies the code linked to entries that are posted by running the Transfer Budget to Actual batch job.;
+                           NLD=Hiermee wordt de code opgegeven die is gekoppeld aan posten die worden geboekt door de batchverwerking Budget overdragen naar werkelijk uit te voeren.];
+                ApplicationArea=#Suite;
                 SourceExpr="Transfer Budget to Actual" }
 
-    { 19  ;1   ;Group     ;
+    { 1000000001;1;Group  ;
                 CaptionML=ENU=Example;
                 GroupType=Group }
 
-    { 17  ;2   ;Field     ;
+    { 1000000000;2;Field  ;
                 SourceExpr="Example Journal" }
 
     { 1900000007;0;Container;
